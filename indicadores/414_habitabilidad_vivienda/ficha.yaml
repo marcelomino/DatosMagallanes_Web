@@ -1,0 +1,36 @@
+# ── Identidad ────────────────────────────────────────────────────────────
+# El id manda: debe coincidir con el prefijo de la carpeta que contiene
+# este archivo. R/00_data.R lo verifica al arrancar y aborta si no calza.
+id: 414
+nombre: "Índice de habitabilidad de la vivienda"
+seccion: Bienestar
+
+# ── Ficha publicada ──────────────────────────────────────────────────────
+# Lo que se publica en el capitulo VI, mas el titulo y el pie de los cuadros
+# que cuelgan de esta ficha.
+definicion: >
+  Distribución de la tenencia de vivienda en la región según categorías de
+  propiedad (propia pagada, propia pagando, arrendada, cedida, otras).
+  Indicador de acceso y seguridad habitacional.
+unidad: "Porcentaje (%)"
+tipo_dato: "Dato censal y de encuesta de hogares."
+calculo: "(Hogares en categoría de tenencia / Total hogares) x 100"
+fuente: "INE — Censo de Población y Vivienda; MIDESO — Encuesta CASEN"
+fuente_id: casen   # clave en indicadores/fuentes.yaml
+desagregaciones: "Tipo de tenencia, zona"
+disponibilidad: "Censal; bienal (CASEN)"
+comentario: >
+  Los datos de prototipo muestran la distribución por tipo de tenencia. La
+  proporción de vivienda propia (pagada + pagando) indica el grado de acceso
+  a la propiedad habitacional en la región.
+
+# ── Aparato interno ──────────────────────────────────────────────────────
+# No se publica: es la bitacora de quien mantiene el indicador.
+procesamiento:
+  script: "pendiente (proyecto hermano DATOS_MAG_MMO)"
+  ultimo: "datos de prototipo, migracion inicial"
+notas_calidad:
+  - "Datos de prototipo, pendientes de validacion con fuente primaria"
+historial:
+  - fecha: 2026-08-04
+    nota: "Creacion de carpeta en reestructuracion indicadores/"

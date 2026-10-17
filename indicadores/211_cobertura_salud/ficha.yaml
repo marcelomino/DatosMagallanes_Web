@@ -1,0 +1,23 @@
+# ── Identidad ────────────────────────────────────────────────────────────
+# El id manda: debe coincidir con el prefijo de la carpeta que contiene
+# este archivo. R/00_data.R lo verifica al arrancar y aborta si no calza.
+id: 211
+nombre: "Tasa de cobertura de salud entre ocupados"
+seccion: Economia
+
+# ── Ficha publicada ──────────────────────────────────────────────────────
+# Lo que se publica en el capitulo VI, mas el titulo y el pie de los cuadros
+# que cuelgan de esta ficha.
+definicion: >
+  Proporción de trabajadores ocupados que cuentan con cobertura de seguro de
+  salud (FONASA, Isapre u otro sistema).
+unidad: "Porcentaje (%)"
+tipo_dato: "Dato de encuesta de hogares."
+calculo: "(Ocupados con cobertura de salud / Total ocupados) x 100"
+fuente: "INE — Encuesta Nacional de Empleo (ENE)"
+fuente_id: ine_ene   # clave en indicadores/fuentes.yaml
+desagregaciones: "Sexo, tipo de seguro (FONASA, Isapre)"
+disponibilidad: "Trimestral"
+comentario: >
+  La proporción de afiliados a FONASA vs Isapre es un indicador
+  complementario de la estructura socioeconómica del empleo regional.

@@ -1,0 +1,36 @@
+# ── Identidad ────────────────────────────────────────────────────────────
+# El id manda: debe coincidir con el prefijo de la carpeta que contiene
+# este archivo. R/00_data.R lo verifica al arrancar y aborta si no calza.
+id: 511
+nombre: "Tasa de delitos de mayor connotación social"
+seccion: Cohesion Social
+
+# ── Ficha publicada ──────────────────────────────────────────────────────
+# Lo que se publica en el capitulo VI, mas el titulo y el pie de los cuadros
+# que cuelgan de esta ficha.
+definicion: >
+  Número de delitos de mayor connotación social (DMCS) denunciados por cada
+  100.000 habitantes. Incluye robos con violencia, robos con fuerza, hurtos,
+  lesiones, homicidios y violaciones.
+unidad: "Por 100.000 habitantes"
+tipo_dato: "Registro administrativo policial."
+calculo: "(Delitos DMCS denunciados / Población) x 100.000"
+fuente: "Subsecretaría de Prevención del Delito — Centro de Estudios y Análisis del Delito (CEAD)"
+fuente_id: cead   # clave en indicadores/fuentes.yaml
+desagregaciones: "Tipo de delito, comuna"
+disponibilidad: "Anual (trimestral con rezago)"
+comentario: >
+  Mide delitos denunciados, no ocurridos (cifra negra). Magallanes presenta
+  tasas de DMCS inferiores al promedio nacional. Los datos de prototipo
+  corresponden a la tasa agregada de DMCS.
+
+# ── Aparato interno ──────────────────────────────────────────────────────
+# No se publica: es la bitacora de quien mantiene el indicador.
+procesamiento:
+  script: "pendiente (proyecto hermano DATOS_MAG_MMO)"
+  ultimo: "datos de prototipo, migracion inicial"
+notas_calidad:
+  - "Datos de prototipo, pendientes de validacion con fuente primaria"
+historial:
+  - fecha: 2026-08-04
+    nota: "Creacion de carpeta en reestructuracion indicadores/"

@@ -1,0 +1,41 @@
+# ── Identidad ────────────────────────────────────────────────────────────
+# El id manda: debe coincidir con el prefijo de la carpeta que contiene
+# este archivo. R/00_data.R lo verifica al arrancar y aborta si no calza.
+id: 404
+nombre: "Promedio de años de escolaridad de la población adulta"
+seccion: Bienestar
+
+# ── Ficha publicada ──────────────────────────────────────────────────────
+# Lo que se publica en el capitulo VI, mas el titulo y el pie de los cuadros
+# que cuelgan de esta ficha.
+definicion: >
+  Promedio de años de educación formal aprobados por las personas de 18
+  años o más. Un valor mayor indica que la población adulta ha completado,
+  en promedio, una mayor cantidad de años de estudio; no mide la calidad de
+  la educación ni equivale necesariamente al nivel educativo alcanzado por
+  cada persona.
+unidad: "Años de escolaridad"
+tipo_dato: "Dato de encuesta de hogares (Encuesta Casen)."
+calculo: "Promedio de años de escolaridad aprobados en la población de 18 años o más"
+fuente: "Ministerio de Desarrollo Social y Familia — Encuesta Casen 2024"
+fuente_id: casen   # clave en indicadores/fuentes.yaml
+desagregaciones: "Sin desagregación en esta serie; la fuente publica además error estándar y casos muestrales por año"
+disponibilidad: "2006, 2009, 2011, 2013, 2015, 2017, 2020, 2022 y 2024 (según levantamiento Casen)"
+comentario: >
+  La fuente no establece categorías oficiales de escolaridad baja, media o
+  alta. El encabezado de la hoja de origen usa por error la expresión
+  "Porcentaje"; el título, los valores y la naturaleza del indicador
+  corresponden a años de escolaridad, que es la unidad que se publica aquí.
+  El dato de 2020 corresponde a la Casen en Pandemia, con cambios
+  metodológicos que exigen cautela al compararlo con el resto de la serie.
+
+# ── Aparato interno ──────────────────────────────────────────────────────
+# No se publica: es la bitácora de quien mantiene el indicador.
+procesamiento:
+  script: "pendiente (proyecto hermano DATOS_MAG_MMO)"
+  ultimo: "Transcripción directa de Educación_Casen_2024.xlsx, hoja 9, fila Magallanes. Sin cálculos, estimaciones ni interpolaciones."
+historial:
+  - fecha: 2026-08-04
+    nota: "Creación de la ficha en reestructuración indicadores/"
+  - fecha: 2026-09-17
+    nota: "Compilada con la serie oficial Casen 2024 (hoja 9); datos.csv y grafico.R IV.5 creados."

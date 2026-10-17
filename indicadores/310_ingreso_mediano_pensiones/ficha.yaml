@@ -1,0 +1,24 @@
+# ── Identidad ────────────────────────────────────────────────────────────
+# El id manda: debe coincidir con el prefijo de la carpeta que contiene
+# este archivo. R/00_data.R lo verifica al arrancar y aborta si no calza.
+id: 310
+nombre: "Ingreso mediano por pensiones"
+seccion: Pobreza e Ingresos
+
+# ── Ficha publicada ──────────────────────────────────────────────────────
+# Lo que se publica en el capitulo VI, mas el titulo y el pie de los cuadros
+# que cuelgan de esta ficha.
+definicion: >
+  Valor mediano de las pensiones recibidas por los jubilados de la región,
+  incluyendo pensiones contributivas (AFP), pensión básica solidaria y
+  aportes previsionales solidarios.
+unidad: "Pesos chilenos (CLP)"
+tipo_dato: "Dato de encuesta de hogares y registros administrativos."
+calculo: "Mediana de pensiones totales de los jubilados de la región"
+fuente: "MIDESO — Encuesta CASEN; Superintendencia de Pensiones"
+fuente_id: casen   # clave en indicadores/fuentes.yaml
+desagregaciones: "Sexo, tipo de pensión"
+disponibilidad: "Bienal (CASEN); mensual (Sup. Pensiones)"
+comentario: >
+  Relevante en el contexto de envejecimiento demográfico de la región. Las
+  pensiones de Magallanes incluyen bonificaciones por zona extrema.

@@ -1,0 +1,25 @@
+# ── Identidad ────────────────────────────────────────────────────────────
+# El id manda: debe coincidir con el prefijo de la carpeta que contiene
+# este archivo. R/00_data.R lo verifica al arrancar y aborta si no calza.
+id: 408
+nombre: "Prevalencia de discapacidad"
+seccion: Bienestar
+
+# ── Ficha publicada ──────────────────────────────────────────────────────
+# Lo que se publica en el capitulo VI, mas el titulo y el pie de los cuadros
+# que cuelgan de esta ficha.
+definicion: >
+  Proporción de la población que presenta algún grado de discapacidad según
+  los criterios de la Clasificación Internacional del Funcionamiento (CIF)
+  de la OMS.
+unidad: "Porcentaje (%)"
+tipo_dato: "Dato de encuesta de hogares."
+calculo: "(Personas con discapacidad / Población total) x 100"
+fuente: "MIDESO — Encuesta CASEN; SENADIS — Estudio Nacional de Discapacidad (ENDISC)"
+fuente_id: casen   # clave en indicadores/fuentes.yaml
+desagregaciones: "Grado de discapacidad, sexo, grupo etario"
+disponibilidad: "Bienal (CASEN); según ENDISC"
+comentario: >
+  La prevalencia aumenta con la edad, lo que es relevante en el contexto de
+  envejecimiento de Magallanes. El ENDISC ofrece mayor detalle pero tiene
+  menor frecuencia.

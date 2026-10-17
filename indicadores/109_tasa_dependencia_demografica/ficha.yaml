@@ -1,0 +1,25 @@
+# ── Identidad ────────────────────────────────────────────────────────────
+# El id manda: debe coincidir con el prefijo de la carpeta que contiene
+# este archivo. R/00_data.R lo verifica al arrancar y aborta si no calza.
+id: 109
+nombre: "Tasa de dependencia demográfica"
+seccion: Poblacion
+
+# ── Ficha publicada ──────────────────────────────────────────────────────
+# Lo que se publica en el capitulo VI, mas el titulo y el pie de los cuadros
+# que cuelgan de esta ficha.
+definicion: >
+  Razón entre la población en edades dependientes (menores de 15 años más
+  personas de 65 años y más) y la población en edad de trabajar (15 a 64
+  años).
+unidad: "Por cada 100 personas en edad de trabajar"
+tipo_dato: "Cálculo derivado de estructura etaria censal o estimada."
+calculo: "((Población 0-14 + Población 65+) / Población 15-64) x 100"
+fuente: "INE — Censos de Población; Estimaciones y proyecciones"
+fuente_id: ine_proyecciones   # clave en indicadores/fuentes.yaml
+desagregaciones: "Dependencia juvenil, dependencia senil"
+disponibilidad: "Censal; estimaciones anuales"
+comentario: >
+  En Magallanes la dependencia senil crece mientras la dependencia juvenil
+  disminuye, reflejando el proceso de envejecimiento. El indicador es
+  relevante para planificación de servicios sociales y salud.

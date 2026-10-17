@@ -1,0 +1,36 @@
+# ── Identidad ────────────────────────────────────────────────────────────
+# El id manda: debe coincidir con el prefijo de la carpeta que contiene
+# este archivo. R/00_data.R lo verifica al arrancar y aborta si no calza.
+id: 305
+nombre: "Ingreso autónomo per cápita del hogar"
+seccion: Pobreza e Ingresos
+
+# ── Ficha publicada ──────────────────────────────────────────────────────
+# Lo que se publica en el capitulo VI, mas el titulo y el pie de los cuadros
+# que cuelgan de esta ficha.
+definicion: >
+  Promedio del ingreso autónomo del hogar dividido por el número de
+  integrantes. El ingreso autónomo incluye ingresos del trabajo, rentas de
+  la propiedad y jubilaciones, excluyendo transferencias monetarias del
+  Estado.
+unidad: "Pesos chilenos (CLP)"
+tipo_dato: "Dato de encuesta de hogares."
+calculo: "Suma de ingresos autónomos del hogar / Número de integrantes"
+fuente: "MIDESO — Encuesta CASEN"
+fuente_id: casen   # clave en indicadores/fuentes.yaml
+desagregaciones: "Quintil, zona, sexo del jefe de hogar"
+disponibilidad: "Bienal (años CASEN)"
+comentario: >
+  Se expresa en pesos nominales del año de la encuesta. Para comparaciones
+  temporales, deflactar por IPC.
+
+# ── Aparato interno ──────────────────────────────────────────────────────
+# No se publica: es la bitacora de quien mantiene el indicador.
+procesamiento:
+  script: "pendiente (proyecto hermano DATOS_MAG_MMO)"
+  ultimo: "datos de prototipo, migracion inicial"
+notas_calidad:
+  - "Datos de prototipo, pendientes de validacion con fuente primaria"
+historial:
+  - fecha: 2026-08-04
+    nota: "Creacion de carpeta en reestructuracion indicadores/"

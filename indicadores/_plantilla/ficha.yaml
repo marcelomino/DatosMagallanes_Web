@@ -1,0 +1,64 @@
+# ═════════════════════════════════════════════════════════════════════════════
+# PLANTILLA — indicadores/{id}_{slug}/ficha.yaml
+#
+# Copia este archivo a la carpeta de tu indicador y completalo. Es la pieza
+# central del catalogo: de aqui salen el asiento del capitulo VI, el titulo de
+# cada cuadro que cuelga de este indicador y la fuente al pie.
+#
+# LA REGLA
+#   Una carpeta, un indicador, una ficha, un id. El `id` de abajo debe ser el
+#   prefijo del nombre de la carpeta: la ficha con id 307 vive en
+#   indicadores/307_hacinamiento/. R/00_data.R lo verifica al arrancar y ABORTA si
+#   no calzan, porque un desajuste no produce un error visible sino una cifra
+#   correcta publicada con el nombre de otra pieza.
+#
+# EL SLUG
+#   ASCII, minusculas, de una a tres palabras significativas unidas por guion
+#   bajo. Es identidad permanente: se cita y se versiona por el, asi que conviene
+#   elegirlo corto y estable antes que descriptivo y largo.
+#
+# QUE NO SE DECLARA AQUI
+#   El estado del indicador. Que tenga datos compilados o no se deriva de si la
+#   carpeta trae datos.csv, para que no pueda quedar desactualizado. No escribas
+#   "pendiente de compilar" en el comentario: el catalogo ya lo marca solo.
+#
+# DESPUES DE CREARLA
+#   Rscript _dev/agregar_fichas.R    regenera la vista agregada del catalogo
+# ═════════════════════════════════════════════════════════════════════════════
+
+# ── Identidad ────────────────────────────────────────────────────────────
+id: 999
+nombre: "Nombre de la pieza, tal como se publica"
+# Una de las cinco dimensiones, escrita exactamente asi (sin tildes):
+#   Poblacion · Economia · Pobreza e Ingresos · Bienestar · Cohesion Social
+seccion: Poblacion
+
+# ── Ficha publicada ──────────────────────────────────────────────────────
+# Los ocho campos del asiento del capitulo VI. Ninguno se omite: si un campo no
+# aplica o aun no se sabe, el catalogo lo publica como "Sin dato", que le dice
+# al lector algo distinto que una fila ausente.
+definicion: >
+  Que mide el indicador, en prosa y sin formulas. Dos o tres frases.
+unidad: "Numero de personas / Porcentaje / Pesos chilenos (CLP) / ..."
+tipo_dato: "Censo, encuesta de hogares, registro administrativo, estimacion."
+calculo: "La formula o el procedimiento, en una linea"
+fuente: "INSTITUCION — Operacion estadistica"
+fuente_id: casen   # clave de indicadores/fuentes.yaml; agregala ahi si no esta
+desagregaciones: "Comuna, sexo, tramo de edad... o 'No aplica'"
+disponibilidad: "Anual / Bienal (anos CASEN) / Por eleccion..."
+comentario: >
+  Lo que hay que saber para leer la cifra sin equivocarse: rupturas de serie,
+  advertencias de comparabilidad, que incluye y que deja fuera.
+
+# ── Aparato interno ──────────────────────────────────────────────────────
+# Opcional y no se publica: es la bitacora de quien mantiene el indicador.
+# Borra los bloques que no uses.
+procesamiento:
+  script: "ruta del script que produce el datos.csv, o 'pendiente'"
+  ultimo: "que se proceso la ultima vez y cuando"
+notas_calidad:
+  - "Advertencias sobre el dato que NO son para el lector del dashboard:
+     validaciones pendientes, campos heredados de otra ficha, etc."
+historial:
+  - fecha: 2026-09-17
+    nota: "Creacion de la ficha."

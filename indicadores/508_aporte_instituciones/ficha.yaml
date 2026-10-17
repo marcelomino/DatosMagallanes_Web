@@ -1,0 +1,24 @@
+# ── Identidad ────────────────────────────────────────────────────────────
+# El id manda: debe coincidir con el prefijo de la carpeta que contiene
+# este archivo. R/00_data.R lo verifica al arrancar y aborta si no calza.
+id: 508
+nombre: "Percepción del aporte de instituciones y autoridades al desarrollo regional"
+seccion: Cohesion Social
+
+# ── Ficha publicada ──────────────────────────────────────────────────────
+# Lo que se publica en el capitulo VI, mas el titulo y el pie de los cuadros
+# que cuelgan de esta ficha.
+definicion: >
+  Evaluación ciudadana sobre la contribución de distintas instituciones
+  públicas y autoridades al desarrollo de la región.
+unidad: "Porcentaje (%)"
+tipo_dato: "Dato de encuesta de opinión."
+calculo: "% que evalúa positivamente el aporte de cada institución al desarrollo"
+fuente: "UER-UMAG — Encuesta Regional"
+fuente_id: uer_encuesta   # clave en indicadores/fuentes.yaml
+desagregaciones: "Institución/autoridad evaluada, sexo"
+disponibilidad: "Según aplicación de encuesta"
+comentario: >
+  Permite evaluar la legitimidad de la gestión pública a nivel regional.
+  Complementa la confianza institucional con una dimensión evaluativa del
+  desempeño.

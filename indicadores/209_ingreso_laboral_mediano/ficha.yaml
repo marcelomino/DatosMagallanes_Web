@@ -1,0 +1,25 @@
+# ── Identidad ────────────────────────────────────────────────────────────
+# El id manda: debe coincidir con el prefijo de la carpeta que contiene
+# este archivo. R/00_data.R lo verifica al arrancar y aborta si no calza.
+id: 209
+nombre: "Ingreso laboral mediano"
+seccion: Economia
+
+# ── Ficha publicada ──────────────────────────────────────────────────────
+# Lo que se publica en el capitulo VI, mas el titulo y el pie de los cuadros
+# que cuelgan de esta ficha.
+definicion: >
+  Valor central de la distribución de ingresos laborales de los ocupados en
+  la región. El ingreso mediano divide la distribución en dos mitades
+  iguales, siendo menos sensible a valores extremos que el promedio.
+unidad: "Pesos chilenos (CLP)"
+tipo_dato: "Dato de encuesta de hogares."
+calculo: "Mediana de ingresos de la ocupación principal de los ocupados"
+fuente: "INE — Encuesta Suplementaria de Ingresos (ESI)"
+fuente_id: ine_ene   # clave en indicadores/fuentes.yaml
+desagregaciones: "Sexo, nivel educacional, sector económico"
+disponibilidad: "Anual (ESI, cuarto trimestre)"
+comentario: >
+  Se prefiere la mediana sobre el promedio por ser más representativa del
+  ingreso típico. Los ingresos se expresan en pesos nominales del año de
+  referencia.

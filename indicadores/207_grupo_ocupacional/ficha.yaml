@@ -1,0 +1,25 @@
+# ── Identidad ────────────────────────────────────────────────────────────
+# El id manda: debe coincidir con el prefijo de la carpeta que contiene
+# este archivo. R/00_data.R lo verifica al arrancar y aborta si no calza.
+id: 207
+nombre: "Estructura de ocupación por grupo ocupacional"
+seccion: Economia
+
+# ── Ficha publicada ──────────────────────────────────────────────────────
+# Lo que se publica en el capitulo VI, mas el titulo y el pie de los cuadros
+# que cuelgan de esta ficha.
+definicion: >
+  Distribución porcentual de las personas ocupadas según su grupo
+  ocupacional (clasificación CIUO-08). Permite caracterizar el tipo de
+  empleo predominante en la región.
+unidad: "Porcentaje (%)"
+tipo_dato: "Dato de encuesta de hogares."
+calculo: "(Ocupados en grupo / Total ocupados) x 100"
+fuente: "INE — Encuesta Nacional de Empleo (ENE)"
+fuente_id: ine_ene   # clave en indicadores/fuentes.yaml
+desagregaciones: "Grupo ocupacional (CIUO-08), sexo"
+disponibilidad: "Trimestral"
+comentario: >
+  Incluye grupos como profesionales, técnicos, trabajadores de servicios,
+  operarios calificados, entre otros. Relevante para análisis de calidad del
+  empleo regional.

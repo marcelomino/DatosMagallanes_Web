@@ -1,0 +1,24 @@
+# ── Identidad ────────────────────────────────────────────────────────────
+# El id manda: debe coincidir con el prefijo de la carpeta que contiene
+# este archivo. R/00_data.R lo verifica al arrancar y aborta si no calza.
+id: 212
+nombre: "Tasa de cobertura de seguro de desempleo entre ocupados"
+seccion: Economia
+
+# ── Ficha publicada ──────────────────────────────────────────────────────
+# Lo que se publica en el capitulo VI, mas el titulo y el pie de los cuadros
+# que cuelgan de esta ficha.
+definicion: >
+  Proporción de trabajadores asalariados que cuentan con seguro de cesantía,
+  mecanismo de protección ante la pérdida involuntaria del empleo.
+unidad: "Porcentaje (%)"
+tipo_dato: "Dato de encuesta de hogares."
+calculo: "(Asalariados con seguro de cesantía / Total asalariados) x 100"
+fuente: "INE — Encuesta Nacional de Empleo (ENE)"
+fuente_id: ine_ene   # clave en indicadores/fuentes.yaml
+desagregaciones: "Sexo, tipo de contrato"
+disponibilidad: "Trimestral"
+comentario: >
+  El seguro de cesantía es obligatorio para trabajadores con contrato a
+  partir de octubre 2002 (Ley 19.728). Tasas bajas pueden indicar alta
+  informalidad o contratos anteriores a la ley.

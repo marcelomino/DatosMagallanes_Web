@@ -1,0 +1,24 @@
+# ── Identidad ────────────────────────────────────────────────────────────
+# El id manda: debe coincidir con el prefijo de la carpeta que contiene
+# este archivo. R/00_data.R lo verifica al arrancar y aborta si no calza.
+id: 504
+nombre: "Tasa de victimización y percepción de inseguridad"
+seccion: Cohesion Social
+
+# ── Ficha publicada ──────────────────────────────────────────────────────
+# Lo que se publica en el capitulo VI, mas el titulo y el pie de los cuadros
+# que cuelgan de esta ficha.
+definicion: >
+  Proporción de personas que declaran haber sido víctimas de algún delito en
+  los últimos 12 meses y/o que perciben inseguridad en su entorno cotidiano.
+unidad: "Porcentaje (%)"
+tipo_dato: "Dato de encuesta de opinión y seguridad."
+calculo: "% de personas que declara haber sido víctima de delito; % que se siente inseguro"
+fuente: "UER-UMAG — Encuesta Regional; Subsecretaría de Prevención del Delito — ENUSC"
+fuente_id: cead   # clave en indicadores/fuentes.yaml
+desagregaciones: "Sexo, tipo de delito, zona"
+disponibilidad: "Según aplicación de encuesta"
+comentario: >
+  La victimización objetiva y la percepción de inseguridad no siempre
+  coinciden. Magallanes presenta históricamente niveles de victimización
+  inferiores al promedio nacional.

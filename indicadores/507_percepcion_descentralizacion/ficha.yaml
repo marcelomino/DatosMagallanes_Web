@@ -1,0 +1,24 @@
+# ── Identidad ────────────────────────────────────────────────────────────
+# El id manda: debe coincidir con el prefijo de la carpeta que contiene
+# este archivo. R/00_data.R lo verifica al arrancar y aborta si no calza.
+id: 507
+nombre: "Percepción sobre descentralización"
+seccion: Cohesion Social
+
+# ── Ficha publicada ──────────────────────────────────────────────────────
+# Lo que se publica en el capitulo VI, mas el titulo y el pie de los cuadros
+# que cuelgan de esta ficha.
+definicion: >
+  Evaluación ciudadana del proceso de descentralización del país y su
+  impacto en la autonomía y desarrollo de la región.
+unidad: "Porcentaje (%)"
+tipo_dato: "Dato de encuesta de opinión."
+calculo: "% de personas que evalúa positiva/negativamente la descentralización"
+fuente: "UER-UMAG — Encuesta Regional"
+fuente_id: uer_encuesta   # clave en indicadores/fuentes.yaml
+desagregaciones: "Sexo, grupo etario"
+disponibilidad: "Según aplicación de encuesta"
+comentario: >
+  Tema particularmente sensible en regiones extremas como Magallanes, que
+  históricamente han demandado mayor autonomía y recursos para su
+  desarrollo.

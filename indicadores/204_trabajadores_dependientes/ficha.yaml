@@ -1,0 +1,23 @@
+# ── Identidad ────────────────────────────────────────────────────────────
+# El id manda: debe coincidir con el prefijo de la carpeta que contiene
+# este archivo. R/00_data.R lo verifica al arrancar y aborta si no calza.
+id: 204
+nombre: "Número de trabajadores dependientes por área de actividad económica"
+seccion: Economia
+
+# ── Ficha publicada ──────────────────────────────────────────────────────
+# Lo que se publica en el capitulo VI, mas el titulo y el pie de los cuadros
+# que cuelgan de esta ficha.
+definicion: >
+  Cantidad de trabajadores con contrato de trabajo dependiente en la región,
+  clasificados por la actividad económica principal del empleador.
+unidad: "Número de trabajadores"
+tipo_dato: "Registro administrativo tributario y previsional."
+calculo: "Conteo de trabajadores dependientes informados por empleadores al SII"
+fuente: "SII — Estadísticas de empresas y trabajadores"
+fuente_id: sii   # clave en indicadores/fuentes.yaml
+desagregaciones: "Actividad económica (CIIU), sexo"
+disponibilidad: "Anual"
+comentario: >
+  No incluye trabajadores independientes ni empleos informales. Complementa
+  la información de la ENE con datos de registro administrativo.

@@ -1,0 +1,62 @@
+# ── Identidad ────────────────────────────────────────────────────────────
+# El id manda: debe coincidir con el prefijo de la carpeta que contiene
+# este archivo. R/00_data.R lo verifica al arrancar y aborta si no calza.
+id: 203
+nombre: "Número de empresas por área de actividad económica"
+seccion: Economia
+
+# ── Ficha publicada ──────────────────────────────────────────────────────
+# Lo que se publica en el capitulo VI, mas el titulo y el pie de los cuadros
+# que cuelgan de esta ficha.
+definicion: >
+  Número de contribuyentes clasificados como empresas por el Servicio de
+  Impuestos Internos, distribuidos según actividad económica, año comercial
+  y comuna correspondiente al domicilio o casa matriz de la empresa.
+unidad: "Número de empresas"
+tipo_dato: "Registro administrativo tributario."
+calculo: >
+  Conteo de contribuyentes clasificados como empresa. Se usan directamente
+  los registros publicados por el SII, sin estimaciones, interpolaciones ni
+  recalculos; el total regional que publica esta pieza es la suma de las
+  empresas de las once comunas y de todas las actividades economicas para
+  cada año comercial (ver "comentario").
+fuente: "SII — Estadísticas de Empresas (base PUB_COMU_ACT, seleccion regional)"
+fuente_id: sii   # clave en indicadores/fuentes.yaml
+desagregaciones: "Actividad económica (CIIU), comuna, tamaño de empresa"
+disponibilidad: "Anual, 2005-2024"
+comentario: >
+  La ficha tecnica del SII trae la base completa desagregada por año
+  comercial, comuna y actividad economica (19.022 filas para la region). El
+  catalogo publica el TOTAL REGIONAL de empresas por año, que es la suma de
+  "Número de empresas" de todas las comunas y actividades de ese año — cada
+  empresa aporta una sola fila, la de su actividad principal, de modo que la
+  suma no duplica contribuyentes. Se opto por esta agregacion en vez de
+  desagregar por comuna (como hace 113_poblacion_comunas) porque mantiene el
+  cuadro II.4 simple y consistente con el resto de indicadores anuales del
+  capitulo de Economia; el desagregado completo queda disponible en la base
+  fuente si mas adelante se necesita un cuadro por comuna o por actividad.
+  Existen cambios en la determinacion de la actividad economica a lo largo
+  de la serie: para 2005-2014 se usa la actividad declarada en la Operacion
+  Renta; entre 2015 y 2017 se replica la actividad informada para 2014; y
+  desde 2018 se informa la actividad declarada por el contribuyente ante el
+  SII. Este cambio metodologico no afecta el total regional publicado aqui
+  (que no depende de la actividad), pero si a cualquier desagregacion futura
+  por rubro. La base trae valores marcados con "*" en variables
+  complementarias por reserva tributaria; no afectan a "Número de empresas".
+
+# ── Aparato interno ──────────────────────────────────────────────────────
+# No se publica: es la bitacora de quien mantiene el indicador.
+procesamiento:
+  script: "pendiente (proyecto hermano DATOS_MAG_MMO)"
+  ultimo: "Estadisticas de Empresas SII, seleccion regional PUB_COMU_ACT_MAGALLANES.xlsx"
+notas_calidad:
+  - "Serie oficial del SII, sin estimaciones ni recalculos de por medio."
+  - "El total regional agrega comuna y actividad economica; ver 'comentario' para la decision de agregacion."
+historial:
+  - fecha: 2026-08-04
+    nota: "Creacion de carpeta en reestructuracion indicadores/ (ficha sin datos compilados)"
+  - fecha: 2026-09-17
+    nota: >
+      Se compilo datos.csv y grafico.R (cuadro II.4) con la serie oficial del
+      SII 2005-2024, agregada al total regional. Se enriquecio la ficha con
+      la informacion real de la ficha tecnica de la fuente.

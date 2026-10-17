@@ -1,0 +1,25 @@
+# ── Identidad ────────────────────────────────────────────────────────────
+# El id manda: debe coincidir con el prefijo de la carpeta que contiene
+# este archivo. R/00_data.R lo verifica al arrancar y aborta si no calza.
+id: 412
+nombre: "Número de cuidadores formales e informales"
+seccion: Bienestar
+
+# ── Ficha publicada ──────────────────────────────────────────────────────
+# Lo que se publica en el capitulo VI, mas el titulo y el pie de los cuadros
+# que cuelgan de esta ficha.
+definicion: >
+  Estimación del número de personas que ejercen labores de cuidado de
+  personas dependientes, distinguiendo entre cuidadores formales
+  (remunerados, capacitados) e informales (familiares, voluntarios).
+unidad: "Número de personas"
+tipo_dato: "Dato de encuesta de hogares y registros administrativos."
+calculo: "Estimación de cuidadores formales (registros) + informales (encuesta)"
+fuente: "MIDESO — Encuesta CASEN; SENAMA — Registros de cuidadores"
+fuente_id: casen   # clave en indicadores/fuentes.yaml
+desagregaciones: "Tipo (formal/informal), sexo"
+disponibilidad: "Bienal (CASEN); según registros"
+comentario: >
+  La distinción formal/informal es relevante para la política pública de
+  cuidados. Chile avanza hacia un sistema nacional de cuidados que requiere
+  esta información base.

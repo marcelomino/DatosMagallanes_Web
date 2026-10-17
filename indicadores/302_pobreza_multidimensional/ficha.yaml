@@ -1,0 +1,40 @@
+# ── Identidad ────────────────────────────────────────────────────────────
+# El id manda: debe coincidir con el prefijo de la carpeta que contiene
+# este archivo. R/00_data.R lo verifica al arrancar y aborta si no calza.
+id: 302
+nombre: "Tasa de pobreza multidimensional"
+seccion: Pobreza e Ingresos
+
+# ── Ficha publicada ──────────────────────────────────────────────────────
+# Lo que se publica en el capitulo VI, mas el titulo y el pie de los cuadros
+# que cuelgan de esta ficha.
+definicion: >
+  Porcentaje de personas que presentan carencias en al menos un umbral
+  definido del índice de pobreza multidimensional, que considera dimensiones
+  de educación, salud, trabajo y seguridad social, vivienda y entorno, y
+  redes y cohesión social.
+unidad: "Porcentaje (%)"
+tipo_dato: "Dato de encuesta de hogares."
+calculo: "% de personas con 22,5% o más de carencias ponderadas en las 5 dimensiones"
+fuente: "MIDESO — Encuesta CASEN"
+fuente_id: casen   # clave en indicadores/fuentes.yaml
+desagregaciones: "Sexo, zona, grupo etario"
+disponibilidad: "Bienal (años CASEN)"
+comentario: >
+  La medición multidimensional de pobreza se implementa en Chile desde CASEN
+  2013. Complementa la medición por ingresos al capturar carencias no
+  monetarias. Los datos se presentan junto a la pobreza por ingresos para
+  facilitar la comparación.
+
+# ── Aparato interno ──────────────────────────────────────────────────────
+# No se publica: es la bitacora de quien mantiene el indicador.
+procesamiento:
+  script: "pendiente (proyecto hermano DATOS_MAG_MMO)"
+  ultimo: "datos de prototipo, migracion inicial"
+notas_calidad:
+  - "Datos de prototipo, pendientes de validacion con fuente primaria"
+historial:
+  - fecha: 2026-08-04
+    nota: "Creacion de carpeta en reestructuracion indicadores/ (como parte de 301_pobreza)"
+  - fecha: 2026-09-16
+    nota: "Separada de 301_pobreza. El CSV de 301 contenia las dos series que las fichas numeran por separado: pobreza por ingresos (301) y multidimensional (302). La ficha 302 figuraba como \"sin datos\" aunque sus datos estaban ahi."

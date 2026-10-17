@@ -1,0 +1,26 @@
+# ── Identidad ────────────────────────────────────────────────────────────
+# El id manda: debe coincidir con el prefijo de la carpeta que contiene
+# este archivo. R/00_data.R lo verifica al arrancar y aborta si no calza.
+id: 214
+nombre: "PIB regional per cápita"
+seccion: Economia
+
+# ── Ficha publicada ──────────────────────────────────────────────────────
+# Lo que se publica en el capitulo VI, mas el titulo y el pie de los cuadros
+# que cuelgan de esta ficha.
+definicion: >
+  Valor de la producción de bienes y servicios generada en la región
+  dividida por la población total. Aproximación al nivel de actividad
+  económica por habitante.
+unidad: "Miles de pesos corrientes (CLP)"
+tipo_dato: "Estimación de cuentas nacionales regionales."
+calculo: "PIB regional / Población total"
+fuente: "Banco Central de Chile — Cuentas Nacionales Regionales"
+fuente_id: banco_central   # clave en indicadores/fuentes.yaml
+desagregaciones: "Sin desagregación comunal disponible"
+disponibilidad: "Anual (rezago aproximado de 18 meses)"
+comentario: >
+  Expresado en pesos corrientes. Para comparaciones temporales se recomienda
+  deflactar por el IPC regional o nacional. Indicador adicional no incluido
+  en el listado original de 63, pero relevante para el análisis económico
+  regional y presente en el dashboard.

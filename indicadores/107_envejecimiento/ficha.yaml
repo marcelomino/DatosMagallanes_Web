@@ -1,0 +1,37 @@
+# ── Identidad ────────────────────────────────────────────────────────────
+# El id manda: debe coincidir con el prefijo de la carpeta que contiene
+# este archivo. R/00_data.R lo verifica al arrancar y aborta si no calza.
+id: 107
+nombre: "Tasa de envejecimiento demográfico"
+seccion: Poblacion
+
+# ── Ficha publicada ──────────────────────────────────────────────────────
+# Lo que se publica en el capitulo VI, mas el titulo y el pie de los cuadros
+# que cuelgan de esta ficha.
+definicion: >
+  Proporción de la población de 60 años y más respecto al total de la
+  población residente. Indicador del grado de envejecimiento demográfico de
+  la región.
+unidad: "Porcentaje (%)"
+tipo_dato: "Estimación a partir de censos y proyecciones de población."
+calculo: "(Población 60 años y más / Población total) x 100"
+fuente: "INE — Censos 2002 y 2017; Estimaciones y proyecciones de población"
+fuente_id: censo   # clave en indicadores/fuentes.yaml
+desagregaciones: "Sexo, zona, comuna"
+disponibilidad: "Censal (2002, 2017); estimaciones anuales"
+comentario: >
+  Umbral OMS para sociedad envejecida: 20%. Magallanes superó ese umbral
+  circa 2022. El índice de envejecimiento (razón entre población 60+ y
+  población menor de 15 años) complementa esta tasa y se presenta junto a
+  ella en el dashboard.
+
+# ── Aparato interno ──────────────────────────────────────────────────────
+# No se publica: es la bitacora de quien mantiene el indicador.
+procesamiento:
+  script: "pendiente (proyecto hermano DATOS_MAG_MMO)"
+  ultimo: "datos de prototipo, migracion inicial"
+notas_calidad:
+  - "Datos de prototipo, pendientes de validacion con fuente primaria"
+historial:
+  - fecha: 2026-08-04
+    nota: "Creacion de carpeta en reestructuracion indicadores/"

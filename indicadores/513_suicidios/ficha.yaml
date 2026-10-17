@@ -1,0 +1,48 @@
+# ── Identidad ────────────────────────────────────────────────────────────
+# El id manda: debe coincidir con el prefijo de la carpeta que contiene
+# este archivo. R/00_data.R lo verifica al arrancar y aborta si no calza.
+id: 513
+nombre: "Tasa de mortalidad por suicidios y lesiones autoinfligidas"
+seccion: Cohesion Social
+
+# ── Ficha publicada ──────────────────────────────────────────────────────
+# Lo que se publica en el capitulo VI, mas el titulo y el pie de los cuadros
+# que cuelgan de esta ficha.
+definicion: >
+  Número de defunciones por suicidio y lesiones autoinfligidas
+  intencionalmente ocurridas durante un año, expresado por cada 100.000
+  habitantes. Corresponde a las causas clasificadas bajo los códigos X60-X84
+  de la Clasificación Internacional de Enfermedades, décima revisión
+  (CIE-10).
+unidad: "Defunciones por 100.000 habitantes"
+tipo_dato: "Registro administrativo de estadísticas vitales (DEIS)."
+calculo: >
+  Se utilizan directamente los valores publicados por el SIIT (Biblioteca
+  del Congreso Nacional) para la Región de Magallanes y de la Antártica
+  Chilena, cuya fuente institucional corresponde al DEIS. No se realizaron
+  estimaciones, interpolaciones, imputaciones ni recálculos.
+fuente: "DEIS-MINSAL — Estadísticas Vitales, vía Sistema Integrado de Información Territorial (SIIT) de la Biblioteca del Congreso Nacional"
+fuente_id: ine_vitales   # clave en indicadores/fuentes.yaml
+desagregaciones: "Sin desagregacion en la serie regional publicada"
+disponibilidad: "Anual, 2000-2020"
+comentario: >
+  Chile presenta tasas de suicidio superiores al promedio OCDE. Magallanes
+  históricamente ha registrado tasas superiores al promedio nacional,
+  posiblemente asociado a factores climáticos y de aislamiento geográfico.
+  El portal SIIT publica un valor de 0,0 para Magallanes en 2010; ese valor
+  se conserva tal como aparece en la fuente y no se trata como dato faltante,
+  aunque se recomienda corroborarlo directamente con DEIS antes de realizar
+  interpretaciones específicas sobre ese año.
+
+# ── Aparato interno ──────────────────────────────────────────────────────
+# No se publica: es la bitacora de quien mantiene el indicador.
+procesamiento:
+  script: "pendiente (proyecto hermano DATOS_MAG_MMO)"
+  ultimo: "serie oficial 2000-2020, DEIS via SIIT-BCN"
+notas_calidad:
+  - "Serie oficial transcrita directamente del buscador estadistico SIIT-BCN. El valor 2010 (0,0) es el publicado por la fuente, no una imputacion."
+historial:
+  - fecha: 2026-08-04
+    nota: "Creacion de carpeta en reestructuracion indicadores/"
+  - fecha: 2026-09-17
+    nota: "Compilada la serie oficial 2000-2020 de DEIS via SIIT-BCN."

@@ -1,0 +1,25 @@
+# ── Identidad ────────────────────────────────────────────────────────────
+# El id manda: debe coincidir con el prefijo de la carpeta que contiene
+# este archivo. R/00_data.R lo verifica al arrancar y aborta si no calza.
+id: 509
+nombre: "Percepción de responsabilidad de autoridades respecto al cuidado del medio ambiente"
+seccion: Cohesion Social
+
+# ── Ficha publicada ──────────────────────────────────────────────────────
+# Lo que se publica en el capitulo VI, mas el titulo y el pie de los cuadros
+# que cuelgan de esta ficha.
+definicion: >
+  Evaluación ciudadana sobre el grado de responsabilidad que las autoridades
+  regionales y nacionales asumen respecto a la protección del medio ambiente
+  en la región.
+unidad: "Porcentaje (%)"
+tipo_dato: "Dato de encuesta de opinión."
+calculo: "% que evalúa positivamente la responsabilidad ambiental de las autoridades"
+fuente: "UER-UMAG — Encuesta Regional"
+fuente_id: uer_encuesta   # clave en indicadores/fuentes.yaml
+desagregaciones: "Nivel de autoridad evaluada, sexo"
+disponibilidad: "Según aplicación de encuesta"
+comentario: >
+  La Región de Magallanes alberga áreas naturales protegidas de importancia
+  global (Torres del Paine, Cabo de Hornos), lo que hace especialmente
+  relevante este indicador.

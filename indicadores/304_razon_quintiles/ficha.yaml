@@ -1,0 +1,25 @@
+# ── Identidad ────────────────────────────────────────────────────────────
+# El id manda: debe coincidir con el prefijo de la carpeta que contiene
+# este archivo. R/00_data.R lo verifica al arrancar y aborta si no calza.
+id: 304
+nombre: "Razón de ingresos entre quintiles (índice 20/20)"
+seccion: Pobreza e Ingresos
+
+# ── Ficha publicada ──────────────────────────────────────────────────────
+# Lo que se publica en el capitulo VI, mas el titulo y el pie de los cuadros
+# que cuelgan de esta ficha.
+definicion: >
+  Razón entre el ingreso promedio del quintil más rico (Q5) y el ingreso
+  promedio del quintil más pobre (Q1). Medida intuitiva de la distancia
+  entre extremos de la distribución del ingreso.
+unidad: "Veces"
+tipo_dato: "Cálculo derivado de datos de encuesta de hogares."
+calculo: "Ingreso promedio Q5 / Ingreso promedio Q1"
+fuente: "MIDESO — Encuesta CASEN"
+fuente_id: casen   # clave en indicadores/fuentes.yaml
+desagregaciones: "No aplica"
+disponibilidad: "Bienal (años CASEN)"
+comentario: >
+  Complementa el coeficiente de Gini con una medida más fácil de
+  interpretar. Los datos de quintiles se presentan también como distribución
+  de ingresos en el dashboard.

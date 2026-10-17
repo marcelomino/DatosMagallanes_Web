@@ -1,0 +1,76 @@
+# ── Identidad ────────────────────────────────────────────────────────────
+# El id manda: debe coincidir con el prefijo de la carpeta que contiene
+# este archivo. R/00_data.R lo verifica al arrancar y aborta si no calza.
+id: 308
+nombre: "Proporción de hogares con déficit habitacional cuantitativo"
+seccion: Pobreza e Ingresos
+
+# ── Ficha publicada ──────────────────────────────────────────────────────
+# Lo que se publica en el capitulo VI, mas el titulo y el pie de los cuadros
+# que cuelgan de esta ficha.
+definicion: >
+  Porcentaje de hogares que requieren una vivienda nueva por alguna de
+  cuatro condiciones: viviendas irrecuperables (no mejorables por su tipo o
+  materialidad), hogares allegados (comparten vivienda con otro hogar,
+  presupuesto independiente), núcleos allegados hacinados (comparten
+  vivienda y presentan 2,5 o más personas por dormitorio) y viviendas con
+  hacinamiento no ampliable (el problema de espacio no se resuelve
+  mediante una ampliación).
+unidad: "Porcentaje (%)"
+tipo_dato: "Estimación con base en encuesta de hogares (CASEN)."
+calculo: >
+  Total de hogares en déficit cuantitativo (suma de los cuatro componentes)
+  dividido por el total de hogares de la región, x 100. El Centro de
+  Estudios de Ciudad y Territorio del MINVU publica el número de hogares en
+  déficit y el total de hogares por región; Datos Magallanes usa ambas
+  cifras oficiales, sin recalcular ni interpolar los componentes, para
+  obtener el porcentaje regional.
+fuente: "MINVU — Centro de Estudios de Ciudad y Territorio, con base en Encuesta CASEN (MIDESO)"
+fuente_id: minvu_ceut   # clave en indicadores/fuentes.yaml
+desagregaciones: "Componente de déficit, quintil de ingreso, zona (no incluidas en esta serie regional total)"
+disponibilidad: "1996, 1998, 2000, 2003, 2006, 2009, 2011, 2013, 2015, 2017, 2020, 2022 y 2024 (según levantamientos CASEN)"
+comentario: >
+  Un porcentaje mayor representa una mayor proporción de hogares que
+  requieren una vivienda nueva. La fuente no establece categorías oficiales
+  de déficit bajo, medio o alto. La metodología vigente incorpora las
+  viviendas con hacinamiento no ampliable como cuarto componente desde la
+  base "Déficit Habitacional Cuantitativo por Región, Quintil y Zona, CASEN
+  1996–2024". El dato de 2020 corresponde a Casen en Pandemia y debe
+  interpretarse con cautela por los cambios metodológicos del levantamiento.
+  El déficit cuantitativo se distingue del déficit cualitativo (viviendas
+  con deficiencias de materialidad o saneamiento pero que no requieren
+  reemplazo); ambos son relevantes para la política habitacional regional,
+  pero esta ficha publica solo el cuantitativo, que es el que trae la base
+  de MINVU/CEUT disponible.
+
+# ── Aparato interno ──────────────────────────────────────────────────────
+# No se publica: es la bitacora de quien mantiene el indicador.
+procesamiento:
+  script: "pendiente (proyecto hermano DATOS_MAG_MMO)"
+  ultimo: >
+    Compilado desde DficitHabitacionalCuantitativoporReginQuintilyZonaCASEN1996-2024.xlsx
+    (hoja "Por Componente"), fila Región de Magallanes por cada corte CASEN.
+    El porcentaje se calculó como (Total Déficit Cuantitativo / Número de
+    Hogares) x 100 -- la fuente no publica el porcentaje ya calculado en
+    esta base, solo los recuentos absolutos de hogares y de déficit por
+    región; no se interpolaron ni estimaron valores adicionales.
+notas_calidad:
+  - >
+    El porcentaje regional se derivó de los recuentos absolutos (hogares en
+    déficit / hogares totales) que trae la base de MINVU/CEUT, porque esa
+    base no publica el porcentaje pre-calculado por región. No es una
+    transformación de un dato ya publicado como cifra: es el mismo cálculo
+    que define el indicador (ver `calculo`).
+historial:
+  - fecha: 2026-08-04
+    nota: "Creacion de carpeta en reestructuracion indicadores/"
+  - fecha: 2026-09-17
+    nota: >
+      Compilado con la serie oficial: datos.csv y grafico.R (cuadro III.5)
+      desde la ficha técnica y el xlsx de MINVU/CEUT entregados en Drive.
+      Se corrigió el nombre y la ficha, que hablaban de déficit
+      "cualitativo": la base disponible mide el déficit CUANTITATIVO. Se
+      agregó la fuente `minvu_ceut` a indicadores/fuentes.yaml y se
+      reemplazó `fuente_id` de `censo` a `minvu_ceut`, porque la fuente real
+      de esta serie es MINVU/CEUT con base CASEN, no el Censo. Ya no es dato
+      de prototipo.

@@ -1,0 +1,24 @@
+# ── Identidad ────────────────────────────────────────────────────────────
+# El id manda: debe coincidir con el prefijo de la carpeta que contiene
+# este archivo. R/00_data.R lo verifica al arrancar y aborta si no calza.
+id: 213
+nombre: "Expectativas de oportunidades de trabajo futuras"
+seccion: Economia
+
+# ── Ficha publicada ──────────────────────────────────────────────────────
+# Lo que se publica en el capitulo VI, mas el titulo y el pie de los cuadros
+# que cuelgan de esta ficha.
+definicion: >
+  Percepción de la población regional sobre las oportunidades laborales
+  futuras en la región. Indicador subjetivo de confianza en el mercado
+  laboral local.
+unidad: "Porcentaje (%)"
+tipo_dato: "Dato de encuesta de opinión."
+calculo: "% de personas que percibe oportunidades laborales positivas o en mejora"
+fuente: "UER-UMAG — Encuesta Regional"
+fuente_id: uer_encuesta   # clave en indicadores/fuentes.yaml
+desagregaciones: "Sexo, grupo etario, nivel educacional"
+disponibilidad: "Según aplicación de encuesta"
+comentario: >
+  Indicador subjetivo basado en la percepción ciudadana. Complementa los
+  indicadores objetivos de empleo con la dimensión de expectativas.

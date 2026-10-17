@@ -1,0 +1,133 @@
+# ═════════════════════════════════════════════════════════════════════════
+# REGISTRO DE FUENTES
+#
+# El vinculo entre un indicador y su fuente se declara en la ficha, con el
+# campo `fuente_id`, y apunta a uno de los `id` de este archivo. Antes iba al
+# reves —cada fuente listaba los ids que la usaban— y como nada lo validaba,
+# los arrays quedaron cubriendo 40 de 69 fichas. Ahora R/00_data.R avisa al
+# arrancar si una ficha apunta a una fuente que no esta aqui.
+#
+# `fuente_id` nombra la fuente PRIMARIA. Cuando un indicador se construye con
+# mas de una, las demas se nombran en el campo `fuente` de la ficha, que es el
+# texto que se publica al pie del cuadro.
+# ═════════════════════════════════════════════════════════════════════════
+
+fuentes:
+  - id: casen
+    nombre: "Encuesta de Caracterizacion Socioeconomica Nacional"
+    institucion: "Ministerio de Desarrollo Social y Familia (MIDESO)"
+    tipo: "Encuesta de hogares"
+    periodicidad: "Bienal"
+    url: "https://observatorio.ministeriodesarrollosocial.gob.cl/encuesta-casen"
+    ediciones_disponibles: [2013, 2015, 2017, 2022]
+    procesamiento: "03_Datos/DATOS_MAG_MMO/R/fn_casen.R"
+    docs: "03_Datos/DATOS_MAG_MMO/_docs_fuentes/casen/"
+
+  - id: censo
+    nombre: "Censo de Poblacion y Vivienda"
+    institucion: "INE"
+    tipo: "Censo"
+    periodicidad: "Decenal"
+    url: "https://www.ine.gob.cl/estadisticas/sociales/censos-de-poblacion-y-vivienda"
+    ediciones_disponibles: [2002, 2017]
+    procesamiento: "03_Datos/DATOS_MAG_MMO/R/fn_censo.R"
+    docs: "03_Datos/DATOS_MAG_MMO/_docs_fuentes/ine/"
+
+  - id: ine_proyecciones
+    nombre: "Estimaciones y Proyecciones de Poblacion"
+    institucion: "INE"
+    tipo: "Estimacion demografica"
+    periodicidad: "Anual"
+    url: "https://www.ine.gob.cl/estadisticas/sociales/demografia-y-vitales/proyecciones-de-poblacion"
+
+  - id: ine_vitales
+    nombre: "Estadisticas Vitales"
+    institucion: "INE / DEIS-MINSAL"
+    tipo: "Registro administrativo"
+    periodicidad: "Anual (rezago 1-2 anos)"
+    url: "https://www.ine.gob.cl/estadisticas/sociales/demografia-y-vitales"
+
+  - id: ine_ene
+    nombre: "Encuesta Nacional de Empleo (ENE)"
+    institucion: "INE"
+    tipo: "Encuesta de hogares"
+    periodicidad: "Trimestral"
+    url: "https://www.ine.gob.cl/estadisticas/sociales/mercado-laboral/ocupacion-y-desocupacion"
+
+  - id: banco_central
+    nombre: "Cuentas Nacionales / PIB Regional"
+    institucion: "Banco Central de Chile"
+    tipo: "Registro administrativo / estimacion"
+    periodicidad: "Anual"
+    url: "https://si3.bcentral.cl/siete"
+
+  - id: sii
+    nombre: "Estadisticas de Empresas"
+    institucion: "Servicio de Impuestos Internos (SII)"
+    tipo: "Registro administrativo"
+    periodicidad: "Anual"
+    url: "https://www.sii.cl/sobre_el_sii/estadisticas_de_empresas.html"
+
+  - id: servel
+    nombre: "Resultados Electorales"
+    institucion: "SERVEL"
+    tipo: "Registro administrativo"
+    periodicidad: "Por eleccion"
+    url: "https://www.servel.cl/resultados-electorales/"
+
+  - id: cead
+    nombre: "Estadisticas de Delitos -- DMCS"
+    institucion: "Subsecretaria de Prevencion del Delito -- CEAD"
+    tipo: "Registro administrativo"
+    periodicidad: "Anual / trimestral"
+    url: "http://cead.spd.gov.cl/"
+
+  - id: mineduc_sige
+    nombre: "Sistema de Informacion General de Estudiantes (SIGE)"
+    institucion: "Ministerio de Educacion (MINEDUC)"
+    tipo: "Registro administrativo"
+    periodicidad: "Anual"
+    url: "https://datosabiertos.mineduc.cl/"
+
+  - id: mineduc_sies
+    nombre: "Servicio de Informacion de Educacion Superior (SIES)"
+    institucion: "Ministerio de Educacion (MINEDUC)"
+    tipo: "Registro administrativo"
+    periodicidad: "Anual"
+    url: "https://www.mifuturo.cl/bases-de-datos/"
+
+  - id: ine_enut
+    nombre: "Encuesta Nacional sobre Uso del Tiempo (ENUT)"
+    institucion: "INE"
+    tipo: "Encuesta de hogares"
+    periodicidad: "Irregular"
+    url: "https://www.ine.gob.cl/enut"
+
+  - id: obs_homicidios
+    nombre: "Observatorio de Homicidios"
+    institucion: "Centro para la Prevencion de Homicidios y Delitos Violentos -- Subsecretaria de Prevencion del Delito"
+    tipo: "Registro administrativo consolidado"
+    periodicidad: "Anual"
+    url: "https://prevenciondehomicidios.cl/informe-de-homicidios-consumados/"
+
+  - id: uer_encuesta
+    nombre: "Encuesta Regional UER"
+    institucion: "Unidad de Estudios Regionales -- Universidad de Magallanes"
+    tipo: "Encuesta regional"
+    periodicidad: "Por levantamiento"
+    url: ""
+
+  - id: minvu_ceut
+    nombre: "Deficit Habitacional Cuantitativo"
+    institucion: "MINVU -- Centro de Estudios de Ciudad y Territorio"
+    tipo: "Estimacion con base CASEN"
+    periodicidad: "Segun levantamiento CASEN"
+    url: "https://centrodeestudios.minvu.gob.cl/deficit-habitacional/"
+    ediciones_disponibles: [1996, 1998, 2000, 2003, 2006, 2009, 2011, 2013, 2015, 2017, 2020, 2022, 2024]
+
+  - id: ine_medioambiente
+    nombre: "Informe Anual de Medio Ambiente / Estadisticas del Medio Ambiente"
+    institucion: "INE"
+    tipo: "Registro administrativo / estimacion"
+    periodicidad: "Anual"
+    url: "https://www.ine.gob.cl/estadisticas-por-tema/agricultura-y-medio-ambiente/medioambiente"

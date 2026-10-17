@@ -1,0 +1,48 @@
+# ── Identidad ────────────────────────────────────────────────────────────
+# El id manda: debe coincidir con el prefijo de la carpeta que contiene
+# este archivo. R/00_data.R lo verifica al arrancar y aborta si no calza.
+id: 512
+nombre: "Tasa de homicidios (por 100.000 habitantes)"
+seccion: Cohesion Social
+
+# ── Ficha publicada ──────────────────────────────────────────────────────
+# Lo que se publica en el capitulo VI, mas el titulo y el pie de los cuadros
+# que cuelgan de esta ficha.
+definicion: >
+  Número de víctimas de homicidios consumados registradas durante un año
+  por cada 100.000 habitantes. El indicador cuenta víctimas, no causas
+  judiciales ni hechos policiales.
+unidad: "Víctimas de homicidios consumados por 100.000 habitantes"
+tipo_dato: "Registro administrativo consolidado (Informe Nacional de Víctimas de Homicidios Consumados)."
+calculo: >
+  Se utilizan directamente las tasas regionales publicadas en el informe
+  oficial para la Región de Magallanes y de la Antártica Chilena. No se
+  calcularon tasas a partir del número de víctimas y la población, ni se
+  realizaron estimaciones, interpolaciones o imputaciones.
+fuente: "Centro para la Prevención de Homicidios y Delitos Violentos, Subsecretaría de Prevención del Delito — Informe Nacional de Víctimas de Homicidios Consumados 2025"
+fuente_id: obs_homicidios   # clave en indicadores/fuentes.yaml
+desagregaciones: "Región (serie nacional comparable en la fuente)"
+disponibilidad: "Anual, 2018-2025"
+comentario: >
+  Chile presenta tasas de homicidio bajas en contexto latinoamericano.
+  Magallanes tiene tasas aun menores, aunque el bajo número de casos hace
+  que pequeñas variaciones absolutas generen cambios porcentuales
+  significativos. La matriz original de Datos Magallanes identificaba a
+  MINSAL-DEIS como fuente; esta serie usa en cambio el Observatorio de
+  Homicidios, que publica la cifra oficial consolidada y validada
+  específicamente para víctimas de homicidios consumados. Las cifras pueden
+  presentar revisiones entre publicaciones como resultado de actualizaciones
+  de las investigaciones y del proceso de validación interinstitucional.
+
+# ── Aparato interno ──────────────────────────────────────────────────────
+# No se publica: es la bitacora de quien mantiene el indicador.
+procesamiento:
+  script: "pendiente (proyecto hermano DATOS_MAG_MMO)"
+  ultimo: "serie oficial 2018-2025, Observatorio de Homicidios"
+notas_calidad:
+  - "Serie oficial transcrita directamente del Informe Nacional de Víctimas de Homicidios Consumados 2025 (tabla regional de tasas)."
+historial:
+  - fecha: 2026-08-04
+    nota: "Creacion de carpeta en reestructuracion indicadores/"
+  - fecha: 2026-09-17
+    nota: "Compilada la serie oficial 2018-2025 del Observatorio de Homicidios; se corrige fuente_id de ine_vitales a obs_homicidios."

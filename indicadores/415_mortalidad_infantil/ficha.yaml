@@ -1,0 +1,42 @@
+# ── Identidad ────────────────────────────────────────────────────────────
+# El id manda: debe coincidir con el prefijo de la carpeta que contiene
+# este archivo. R/00_data.R lo verifica al arrancar y aborta si no calza.
+id: 415
+nombre: "Tasa de mortalidad infantil"
+seccion: Bienestar
+
+# ── Ficha publicada ──────────────────────────────────────────────────────
+# Lo que se publica en el capitulo VI, mas el titulo y el pie de los cuadros
+# que cuelgan de esta ficha.
+definicion: >
+  Número de defunciones de menores de un año por cada mil nacidos vivos en
+  un año dado.
+unidad: "Por mil nacidos vivos"
+tipo_dato: "Registro de estadísticas vitales."
+calculo: "(Defunciones de menores de 1 año / Nacidos vivos) x 1.000"
+fuente: "INE — Estadísticas Vitales; DEIS-MINSAL"
+fuente_id: ine_vitales   # clave en indicadores/fuentes.yaml
+desagregaciones: "Sin dato"
+disponibilidad: "Anual"
+comentario: >
+  Hasta septiembre de 2026 esta serie se publicaba en el cuadro IV.1 sin
+  ficha propia, es decir, fuera del catálogo: viajaba como una columna del
+  CSV de la esperanza de vida al nacer (401), cuyo comentario la mencionaba
+  como indicador complementario. Ficha redactada al separarla, a partir de
+  la 401 y del rótulo con que el dashboard ya publicaba la columna. Los
+  campos cálculo, disponibilidad y desagregaciones no estaban documentados
+  en ninguna parte y deben confirmarse contra la fuente primaria.
+
+# ── Aparato interno ──────────────────────────────────────────────────────
+# No se publica: es la bitacora de quien mantiene el indicador.
+procesamiento:
+  script: "pendiente (proyecto hermano DATOS_MAG_MMO)"
+  ultimo: "datos de prototipo, migracion inicial"
+notas_calidad:
+  - "Datos de prototipo, pendientes de validacion con fuente primaria"
+  - "PENDIENTE DE VALIDACION: la ficha 415 se redacto al separar esta serie, a partir de la ficha 401 y del rotulo con que el dashboard ya publicaba la columna (\"Mortalidad infantil\", \"por mil\"). Los campos `calculo`, `disponibilidad` y `desagregaciones` no estaban documentados en ninguna parte y deben confirmarse contra la fuente primaria."
+historial:
+  - fecha: 2026-08-04
+    nota: "Creacion de carpeta en reestructuracion indicadores/ (como parte de 401_esperanza_vida)"
+  - fecha: 2026-09-16
+    nota: "Separada de 401_esperanza_vida. La columna `mortalidad` se publicaba en el cuadro IV.1 sin tener ficha propia, es decir, fuera del catalogo. Ahora es el indicador 415."

@@ -1,0 +1,48 @@
+# ── Identidad ────────────────────────────────────────────────────────────
+# El id manda: debe coincidir con el prefijo de la carpeta que contiene
+# este archivo. R/00_data.R lo verifica al arrancar y aborta si no calza.
+id: 106
+nombre: "Tasa global de fecundidad"
+seccion: Poblacion
+
+# ── Ficha publicada ──────────────────────────────────────────────────────
+# Lo que se publica en el capitulo VI, mas el titulo y el pie de los cuadros
+# que cuelgan de esta ficha.
+definicion: >
+  Número promedio de hijos e hijas que tendría una mujer al finalizar su
+  vida fértil, entre los 15 y 49 años, si estuviera expuesta a las tasas de
+  fecundidad por edad observadas durante el año analizado. No corresponde
+  al número real de hijos de cada mujer.
+unidad: "Hijos/as por mujer"
+tipo_dato: "Estimación a partir de estadísticas vitales (INE)."
+calculo: >
+  Tasas regionales publicadas directamente por el INE en los anuarios,
+  tabulados y boletines de Estadísticas Vitales de cada año. No se
+  recalcularon tasas ni se realizaron estimaciones, interpolaciones o
+  imputaciones.
+fuente: "INE — Estadísticas Vitales, anuarios y boletines anuales"
+fuente_id: ine_vitales   # clave en indicadores/fuentes.yaml
+desagregaciones: "No aplica a nivel regional"
+disponibilidad: "Anual, 2010-2025 (sin dato regional para 2017)"
+comentario: >
+  El INE no establece categorías oficiales de fecundidad baja, media o alta
+  para esta serie. Los valores de 2010-2023 son definitivos; los de 2024 y
+  2025 son provisionales y pueden ser revisados. El año 2017 se mantiene sin
+  dato porque no se encontró una tasa oficial para Magallanes: el anuario
+  de ese año publica solo la TGF nacional. Para 2018 se conserva el valor
+  de 1,37 publicado en el gráfico regional, en lugar del valor redondeado
+  de 1,4 incluido en el texto del anuario.
+
+# ── Aparato interno ──────────────────────────────────────────────────────
+# No se publica: es la bitacora de quien mantiene el indicador.
+procesamiento:
+  script: "pendiente (proyecto hermano DATOS_MAG_MMO)"
+  ultimo: "compilado desde INE, anuarios y boletines de Estadisticas Vitales 2010-2025"
+notas_calidad:
+  - "Serie oficial 2010-2025, sin recalculo: se transcribe la tasa regional publicada por el INE."
+  - "2017 sin dato regional; 2024 y 2025 son cifras provisionales."
+historial:
+  - fecha: 2026-08-04
+    nota: "Creacion de carpeta en reestructuracion indicadores/"
+  - fecha: 2026-09-17
+    nota: "Compilada la serie oficial 2010-2025 (INE, Estadisticas Vitales) y enriquecida la ficha con la ficha tecnica de Drive."

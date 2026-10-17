@@ -1,0 +1,25 @@
+# ── Identidad ────────────────────────────────────────────────────────────
+# El id manda: debe coincidir con el prefijo de la carpeta que contiene
+# este archivo. R/00_data.R lo verifica al arrancar y aborta si no calza.
+id: 514
+nombre: "Tasa de participación en organizaciones sociales"
+seccion: Cohesion Social
+
+# ── Ficha publicada ──────────────────────────────────────────────────────
+# Lo que se publica en el capitulo VI, mas el titulo y el pie de los cuadros
+# que cuelgan de esta ficha.
+definicion: >
+  Proporción de la población que participa activamente en al menos una
+  organización social (junta de vecinos, club deportivo, organización
+  comunitaria, voluntariado, etc.).
+unidad: "Porcentaje (%)"
+tipo_dato: "Dato de encuesta de hogares."
+calculo: "(Personas que participan en organizaciones / Población 15+) x 100"
+fuente: "MIDESO — Encuesta CASEN; UER-UMAG — Encuesta Regional"
+fuente_id: casen   # clave en indicadores/fuentes.yaml
+desagregaciones: "Tipo de organización, sexo, grupo etario"
+disponibilidad: "Bienal (CASEN); según encuesta regional"
+comentario: >
+  La participación en organizaciones sociales es un indicador de capital
+  social comunitario. Chile presenta una tendencia declinante en
+  participación en organizaciones tradicionales.

@@ -1,0 +1,23 @@
+# ── Identidad ────────────────────────────────────────────────────────────
+# El id manda: debe coincidir con el prefijo de la carpeta que contiene
+# este archivo. R/00_data.R lo verifica al arrancar y aborta si no calza.
+id: 407
+nombre: "Nivel educacional de la población ocupada"
+seccion: Bienestar
+
+# ── Ficha publicada ──────────────────────────────────────────────────────
+# Lo que se publica en el capitulo VI, mas el titulo y el pie de los cuadros
+# que cuelgan de esta ficha.
+definicion: >
+  Distribución porcentual de los trabajadores ocupados según el máximo nivel
+  educacional alcanzado (básica, media, técnica superior, universitaria).
+unidad: "Porcentaje (%)"
+tipo_dato: "Dato de encuesta de hogares."
+calculo: "(Ocupados en nivel educacional / Total ocupados) x 100"
+fuente: "INE — Encuesta Nacional de Empleo (ENE)"
+fuente_id: ine_ene   # clave en indicadores/fuentes.yaml
+desagregaciones: "Sexo, sector económico"
+disponibilidad: "Trimestral"
+comentario: >
+  Indicador que vincula educación y mercado laboral. Permite evaluar si la
+  estructura productiva regional aprovecha el capital humano disponible.

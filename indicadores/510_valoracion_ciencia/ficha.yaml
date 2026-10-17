@@ -1,0 +1,24 @@
+# ── Identidad ────────────────────────────────────────────────────────────
+# El id manda: debe coincidir con el prefijo de la carpeta que contiene
+# este archivo. R/00_data.R lo verifica al arrancar y aborta si no calza.
+id: 510
+nombre: "Valoración de la ciencia y la tecnología"
+seccion: Cohesion Social
+
+# ── Ficha publicada ──────────────────────────────────────────────────────
+# Lo que se publica en el capitulo VI, mas el titulo y el pie de los cuadros
+# que cuelgan de esta ficha.
+definicion: >
+  Percepción ciudadana sobre la importancia y el aporte de la ciencia y la
+  tecnología al desarrollo de la región y al bienestar de la población.
+unidad: "Porcentaje (%)"
+tipo_dato: "Dato de encuesta de opinión."
+calculo: "% que valora positivamente el aporte de la ciencia y tecnología"
+fuente: "UER-UMAG — Encuesta Regional"
+fuente_id: uer_encuesta   # clave en indicadores/fuentes.yaml
+desagregaciones: "Sexo, grupo etario, nivel educacional"
+disponibilidad: "Según aplicación de encuesta"
+comentario: >
+  Indicador relevante para la UMAG como principal institución de
+  investigación de la región. Permite evaluar la vinculación entre la
+  academia y la sociedad regional.

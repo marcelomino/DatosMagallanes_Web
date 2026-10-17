@@ -1,0 +1,25 @@
+# ── Identidad ────────────────────────────────────────────────────────────
+# El id manda: debe coincidir con el prefijo de la carpeta que contiene
+# este archivo. R/00_data.R lo verifica al arrancar y aborta si no calza.
+id: 506
+nombre: "Identificación con el territorio"
+seccion: Cohesion Social
+
+# ── Ficha publicada ──────────────────────────────────────────────────────
+# Lo que se publica en el capitulo VI, mas el titulo y el pie de los cuadros
+# que cuelgan de esta ficha.
+definicion: >
+  Grado de identificación y sentido de pertenencia que la población declara
+  respecto a la Región de Magallanes. Indicador de arraigo territorial y
+  capital social comunitario.
+unidad: "Porcentaje (%)"
+tipo_dato: "Dato de encuesta de opinión."
+calculo: "% de personas que declara sentirse identificado con la región"
+fuente: "UER-UMAG — Encuesta Regional"
+fuente_id: uer_encuesta   # clave en indicadores/fuentes.yaml
+desagregaciones: "Sexo, grupo etario, tiempo de residencia"
+disponibilidad: "Según aplicación de encuesta"
+comentario: >
+  El aislamiento geográfico de Magallanes puede generar tanto un fuerte
+  sentido de identidad local como percepción de desconexión con el resto del
+  país.

@@ -1,0 +1,25 @@
+# ── Identidad ────────────────────────────────────────────────────────────
+# El id manda: debe coincidir con el prefijo de la carpeta que contiene
+# este archivo. R/00_data.R lo verifica al arrancar y aborta si no calza.
+id: 501
+nombre: "Nivel de confianza interpersonal"
+seccion: Cohesion Social
+
+# ── Ficha publicada ──────────────────────────────────────────────────────
+# Lo que se publica en el capitulo VI, mas el titulo y el pie de los cuadros
+# que cuelgan de esta ficha.
+definicion: >
+  Proporción de personas que declara que se puede confiar en la mayoría de
+  las personas. Indicador del capital social y la disposición a la
+  cooperación en la sociedad regional.
+unidad: "Porcentaje (%)"
+tipo_dato: "Dato de encuesta de opinión."
+calculo: "% que responde positivamente a la pregunta de confianza interpersonal"
+fuente: "UER-UMAG — Encuesta Regional; PNUD — Encuesta de Desarrollo Humano"
+fuente_id: casen   # clave en indicadores/fuentes.yaml
+desagregaciones: "Sexo, grupo etario, nivel educacional"
+disponibilidad: "Según aplicación de encuesta"
+comentario: >
+  Chile presenta niveles de confianza interpersonal estructuralmente bajos
+  en comparación con países OCDE. La pregunta estándar es: "¿Diría usted que
+  se puede confiar en la mayoría de las personas?"

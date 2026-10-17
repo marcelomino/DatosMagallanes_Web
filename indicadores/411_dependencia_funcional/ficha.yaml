@@ -1,0 +1,25 @@
+# ── Identidad ────────────────────────────────────────────────────────────
+# El id manda: debe coincidir con el prefijo de la carpeta que contiene
+# este archivo. R/00_data.R lo verifica al arrancar y aborta si no calza.
+id: 411
+nombre: "Tasa de dependencia funcional"
+seccion: Bienestar
+
+# ── Ficha publicada ──────────────────────────────────────────────────────
+# Lo que se publica en el capitulo VI, mas el titulo y el pie de los cuadros
+# que cuelgan de esta ficha.
+definicion: >
+  Proporción de la población que presenta dependencia funcional (dificultad
+  para realizar actividades de la vida diaria sin asistencia), sobre el
+  total de la población.
+unidad: "Porcentaje (%)"
+tipo_dato: "Dato de encuesta de hogares."
+calculo: "(Personas con dependencia funcional / Población total) x 100"
+fuente: "MIDESO — Encuesta CASEN (módulo de dependencia)"
+fuente_id: casen   # clave en indicadores/fuentes.yaml
+desagregaciones: "Grado de dependencia, sexo, grupo etario"
+disponibilidad: "Bienal (años CASEN con módulo de dependencia)"
+comentario: >
+  La dependencia funcional aumenta con la edad. Dada la estructura etaria de
+  Magallanes, esta tasa es particularmente relevante para la planificación
+  de servicios de cuidado.

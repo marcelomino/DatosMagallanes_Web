@@ -1,0 +1,54 @@
+# ── Identidad ────────────────────────────────────────────────────────────
+# El id manda: debe coincidir con el prefijo de la carpeta que contiene
+# este archivo. R/00_data.R lo verifica al arrancar y aborta si no calza.
+id: 307
+nombre: "Tasa de hacinamiento habitacional"
+seccion: Pobreza e Ingresos
+
+# ── Ficha publicada ──────────────────────────────────────────────────────
+# Lo que se publica en el capitulo VI, mas el titulo y el pie de los cuadros
+# que cuelgan de esta ficha.
+definicion: >
+  Porcentaje de hogares que presentan condición de hacinamiento. Sin
+  hacinamiento son los hogares con menos de 2,5 personas por dormitorio de
+  uso exclusivo; con hacinamiento medio, entre 2,5 y 3,49; con hacinamiento
+  alto, entre 3,5 y 4,99; y con hacinamiento crítico, 5 o más personas por
+  dormitorio, o cuando el hogar no dispone de un dormitorio de uso
+  exclusivo. La tasa publicada reúne las categorías medio, alto y crítico.
+unidad: "Porcentaje (%)"
+tipo_dato: "Dato de encuesta de hogares."
+calculo: >
+  Se usan directamente las estimaciones regionales de "Hogares en condición
+  de hacinamiento" que publica el Ministerio de Desarrollo Social y
+  Familia para la Región de Magallanes y de la Antártica Chilena; esa cifra
+  ya reúne las categorías medio, alto y crítico, sin que Datos Magallanes
+  recalcule ni interpole nada.
+fuente: "MIDESO — Encuesta CASEN"
+fuente_id: casen   # clave en indicadores/fuentes.yaml
+desagregaciones: "Zona, quintil de ingreso (no incluidas en esta serie regional)"
+disponibilidad: "2013, 2015, 2017, 2020 y 2022 (bienal, según levantamientos CASEN)"
+comentario: >
+  El hacinamiento es una dimensión de la pobreza multidimensional y afecta
+  la calidad de vida y salud de los hogares. El año 2020 corresponde a
+  Casen en Pandemia, con cambios metodológicos en el levantamiento: sus
+  comparaciones con otros períodos deben leerse con cautela. Desde 2024 la
+  metodología de medición de pobreza multidimensional cambió y el
+  hacinamiento dejó de publicarse como indicador separado bajo esta misma
+  estructura, pasando a integrar los indicadores de déficit habitacional
+  (ver 308_deficit_habitacional); por eso esta serie no incorpora un valor
+  2024, para no mezclar mediciones no equivalentes.
+
+# ── Aparato interno ──────────────────────────────────────────────────────
+# No se publica: es la bitacora de quien mantiene el indicador.
+procesamiento:
+  script: "pendiente (proyecto hermano DATOS_MAG_MMO)"
+  ultimo: "Compilado desde Tasa_hacinamiento_habitacional_Magallanes_2013_2022.xlsx (MIDESO, hoja Serie), filtrado a la Región de Magallanes y de la Antártica Chilena."
+historial:
+  - fecha: 2026-08-04
+    nota: "Creacion de carpeta en reestructuracion indicadores/"
+  - fecha: 2026-09-17
+    nota: >
+      Compilado con la serie oficial: datos.csv y grafico.R (cuadro III.4)
+      desde la ficha técnica y el xlsx de MIDESO/MDSF entregados en Drive.
+      Ficha enriquecida con definición, cálculo, disponibilidad y
+      observaciones metodológicas reales; ya no es dato de prototipo.

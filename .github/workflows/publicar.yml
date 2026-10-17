@@ -1,0 +1,64 @@
+# Construye el sitio con R y lo publica en GitHub Pages en cada push a master.
+# Es el mismo `Rscript construir.R` que se corre en local; _site/ no se versiona.
+name: Publicar el sitio
+
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Un despliegue a la vez; si llega otro push, el que corre termina.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  construir:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          use-public-rspm: true
+
+      # Sin DESCRIPTION: los paquetes se declaran aqui. igraph y chromote son de
+      # taller (_dev/) y no hacen falta para construir.
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::bslib
+            any::htmltools
+            any::echarts4r
+            any::dplyr
+            any::purrr
+            any::stringr
+            any::tidyr
+            any::yaml
+            any::jsonlite
+            any::glue
+            any::cli
+            any::sass
+            any::htmlwidgets
+
+      - name: Construir
+        run: Rscript construir.R
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  desplegar:
+    needs: construir
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.despliegue.outputs.page_url }}
+    steps:
+      - id: despliegue
+        uses: actions/deploy-pages@v4

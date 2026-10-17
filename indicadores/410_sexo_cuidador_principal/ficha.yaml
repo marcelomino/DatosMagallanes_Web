@@ -1,0 +1,24 @@
+# ── Identidad ────────────────────────────────────────────────────────────
+# El id manda: debe coincidir con el prefijo de la carpeta que contiene
+# este archivo. R/00_data.R lo verifica al arrancar y aborta si no calza.
+id: 410
+nombre: "Sexo del cuidador principal de personas en situación de dependencia"
+seccion: Bienestar
+
+# ── Ficha publicada ──────────────────────────────────────────────────────
+# Lo que se publica en el capitulo VI, mas el titulo y el pie de los cuadros
+# que cuelgan de esta ficha.
+definicion: >
+  Distribución por sexo de las personas que ejercen como cuidador principal
+  de personas en situación de dependencia funcional.
+unidad: "Porcentaje (%)"
+tipo_dato: "Dato de encuesta de hogares."
+calculo: "(Cuidadores por sexo / Total cuidadores) x 100"
+fuente: "MIDESO — Encuesta CASEN (módulo de dependencia)"
+fuente_id: casen   # clave en indicadores/fuentes.yaml
+desagregaciones: "Sexo"
+disponibilidad: "Bienal (años CASEN con módulo de dependencia)"
+comentario: >
+  Evidencia la feminización del cuidado: la gran mayoría de cuidadores
+  principales son mujeres, lo que tiene implicancias en su participación
+  laboral e ingresos.

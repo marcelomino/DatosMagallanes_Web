@@ -1,0 +1,41 @@
+# ── Identidad ────────────────────────────────────────────────────────────
+# El id manda: debe coincidir con el prefijo de la carpeta que contiene
+# este archivo. R/00_data.R lo verifica al arrancar y aborta si no calza.
+id: 215
+nombre: "Producto interno bruto regional"
+seccion: Economia
+
+# ── Ficha publicada ──────────────────────────────────────────────────────
+# Lo que se publica en el capitulo VI, mas el titulo y el pie de los cuadros
+# que cuelgan de esta ficha.
+definicion: >
+  Valor total de los bienes y servicios finales producidos en la Región de
+  Magallanes y de la Antártica Chilena en un año, a precios corrientes.
+unidad: "Millones de pesos chilenos"
+tipo_dato: "Cuentas nacionales regionalizadas."
+calculo: "Suma del valor agregado de las actividades económicas de la región, a precios corrientes"
+fuente: "Banco Central de Chile — Cuentas Nacionales, PIB regional"
+fuente_id: banco_central   # clave en indicadores/fuentes.yaml
+desagregaciones: "Actividad económica"
+disponibilidad: "Anual, con rezago"
+comentario: >
+  Hasta septiembre de 2026 esta serie se publicaba en el cuadro II.1 sin
+  ficha propia: viajaba como una columna del CSV de la variación anual del
+  PIB (201), que es una medida distinta. El nivel y su variación son ahora
+  dos piezas separadas. A precios corrientes, de modo que la serie mezcla
+  variación real y variación de precios; la pieza 201 publica la variación
+  que calcula el Banco Central.
+
+# ── Aparato interno ──────────────────────────────────────────────────────
+# No se publica: es la bitacora de quien mantiene el indicador.
+procesamiento:
+  script: "pendiente (proyecto hermano DATOS_MAG_MMO)"
+  ultimo: "datos de prototipo, migracion inicial"
+notas_calidad:
+  - "Datos de prototipo, pendientes de validacion con fuente primaria"
+  - "Serie a precios corrientes: mezcla variacion real y variacion de precios. La variacion que publica el Banco Central es la pieza 201."
+historial:
+  - fecha: 2026-08-04
+    nota: "Creacion de carpeta en reestructuracion indicadores/ (como parte de 201_pib_regional)"
+  - fecha: 2026-09-16
+    nota: "Separada de 201. El CSV de 201 contenia el nivel del PIB y su variacion anual, que son dos medidas distintas; la ficha 201 describe la variacion, de modo que el nivel se publicaba fuera del catalogo."

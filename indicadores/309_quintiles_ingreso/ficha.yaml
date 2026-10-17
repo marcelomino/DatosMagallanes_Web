@@ -1,0 +1,25 @@
+# ── Identidad ────────────────────────────────────────────────────────────
+# El id manda: debe coincidir con el prefijo de la carpeta que contiene
+# este archivo. R/00_data.R lo verifica al arrancar y aborta si no calza.
+id: 309
+nombre: "Distribución socioeconómica de los hogares (quintiles de ingreso)"
+seccion: Pobreza e Ingresos
+
+# ── Ficha publicada ──────────────────────────────────────────────────────
+# Lo que se publica en el capitulo VI, mas el titulo y el pie de los cuadros
+# que cuelgan de esta ficha.
+definicion: >
+  Distribución porcentual de los hogares de la región según quintiles de
+  ingreso autónomo per cápita nacional. Permite evaluar la posición relativa
+  de los hogares regionales en la distribución nacional del ingreso.
+unidad: "Porcentaje (%)"
+tipo_dato: "Dato de encuesta de hogares."
+calculo: "% de hogares regionales en cada quintil nacional de ingreso"
+fuente: "MIDESO — Encuesta CASEN"
+fuente_id: casen   # clave en indicadores/fuentes.yaml
+desagregaciones: "Zona urbana/rural"
+disponibilidad: "Bienal (años CASEN)"
+comentario: >
+  Los quintiles se definen a nivel nacional. Una región donde los hogares se
+  concentran en quintiles superiores indica ingresos relativamente más altos
+  que el promedio del país.

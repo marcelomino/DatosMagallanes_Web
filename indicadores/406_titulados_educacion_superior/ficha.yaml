@@ -1,0 +1,47 @@
+# ── Identidad ────────────────────────────────────────────────────────────
+# El id manda: debe coincidir con el prefijo de la carpeta que contiene
+# este archivo. R/00_data.R lo verifica al arrancar y aborta si no calza.
+id: 406
+nombre: "Titulación total en educación superior"
+seccion: Bienestar
+
+# ── Ficha publicada ──────────────────────────────────────────────────────
+# Lo que se publica en el capitulo VI, mas el titulo y el pie de los cuadros
+# que cuelgan de esta ficha.
+definicion: >
+  Número total de titulaciones — títulos, grados y certificaciones —
+  otorgadas durante el año por programas de educación superior de la
+  región: pregrado (carreras técnicas y profesionales), posgrado (magíster
+  y doctorado) y postítulo (diplomas, postítulos y especialidades médicas u
+  odontológicas).
+unidad: "Titulaciones otorgadas"
+tipo_dato: "Registro administrativo (SIES)."
+calculo: "Conteo de titulaciones otorgadas en el año, fila 'XII Región'"
+fuente: "Ministerio de Educación, Subsecretaría de Educación Superior — SIES, Compendio Histórico de Titulación e Informe de Titulación"
+fuente_id: mineduc_sies   # clave en indicadores/fuentes.yaml
+desagregaciones: "Sin desagregación en esta serie regional; el compendio SIES permite desagregar por institución, nivel y área del conocimiento"
+disponibilidad: "Anual, 1999-2025"
+comentario: >
+  El indicador contabiliza titulaciones otorgadas, no personas tituladas
+  únicas: una misma persona puede obtener más de una. La región corresponde
+  a la que informa la institución, sede o programa, y no necesariamente a
+  la ubicación física de la persona titulada (relevante en programas a
+  distancia). La serie tiene dos tramos de origen distinto: 1999-2006
+  proviene de bases agregadas de la antigua División de Educación Superior
+  (DIVESUP), previa a la creación de SIES; desde 2007 la información es
+  recopilada directamente por SIES desde las instituciones. El año
+  académico 2025 comprende titulaciones entre el 1 de marzo de 2025 y el 28
+  de febrero de 2026, y SIES puede rectificar años anteriores al cerrar
+  cada proceso anual. En 2025 se registraron 1.284 titulaciones, un 3,3%
+  menos que en 2024, según el informe oficial de SIES.
+
+# ── Aparato interno ──────────────────────────────────────────────────────
+# No se publica: es la bitácora de quien mantiene el indicador.
+procesamiento:
+  script: "pendiente (proyecto hermano DATOS_MAG_MMO)"
+  ultimo: "Transcripción directa de Compendio_Histórico_Titulación_2026_SIES_31072026.xlsx, hoja 'Titulacion Total', fila 'XII Región'. Sin cálculos, interpolaciones, imputaciones ni redondeos adicionales."
+historial:
+  - fecha: 2026-08-04
+    nota: "Creación de la ficha en reestructuración indicadores/"
+  - fecha: 2026-09-17
+    nota: "Compilada con la serie oficial SIES (Compendio Histórico de Titulación 2026, Informe de Titulación 2025); datos.csv y grafico.R IV.7 creados."

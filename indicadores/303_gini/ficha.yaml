@@ -1,0 +1,25 @@
+# ── Identidad ────────────────────────────────────────────────────────────
+# El id manda: debe coincidir con el prefijo de la carpeta que contiene
+# este archivo. R/00_data.R lo verifica al arrancar y aborta si no calza.
+id: 303
+nombre: "Índice de Gini de ingresos autónomos"
+seccion: Pobreza e Ingresos
+
+# ── Ficha publicada ──────────────────────────────────────────────────────
+# Lo que se publica en el capitulo VI, mas el titulo y el pie de los cuadros
+# que cuelgan de esta ficha.
+definicion: >
+  Medida de desigualdad en la distribución del ingreso autónomo per cápita
+  del hogar. Varía entre 0 (igualdad perfecta) y 1 (desigualdad máxima).
+unidad: "Índice (0 a 1)"
+tipo_dato: "Coeficiente calculado sobre datos de encuesta de hogares."
+calculo: "Coeficiente de Gini sobre ingreso autónomo per cápita del hogar"
+fuente: "MIDESO — Encuesta CASEN"
+fuente_id: casen   # clave en indicadores/fuentes.yaml
+desagregaciones: "Zona urbana/rural"
+disponibilidad: "Bienal (años CASEN)"
+comentario: >
+  Chile presenta niveles medios-altos de desigualdad en contexto OCDE. Un
+  valor de 0,43 indica desigualdad moderada-alta. El ingreso autónomo
+  excluye transferencias del Estado, lo que permite medir la desigualdad de
+  mercado.

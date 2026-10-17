@@ -1,0 +1,25 @@
+# ── Identidad ────────────────────────────────────────────────────────────
+# El id manda: debe coincidir con el prefijo de la carpeta que contiene
+# este archivo. R/00_data.R lo verifica al arrancar y aborta si no calza.
+id: 413
+nombre: "Distribución del uso del tiempo"
+seccion: Bienestar
+
+# ── Ficha publicada ──────────────────────────────────────────────────────
+# Lo que se publica en el capitulo VI, mas el titulo y el pie de los cuadros
+# que cuelgan de esta ficha.
+definicion: >
+  Distribución de las horas del día entre trabajo remunerado, trabajo
+  doméstico y de cuidados no remunerado, tiempo libre y otras actividades,
+  con desagregación por sexo.
+unidad: "Horas/día"
+tipo_dato: "Dato de encuesta especializada."
+calculo: "Promedio de horas diarias dedicadas a cada tipo de actividad"
+fuente: "INE — Encuesta Nacional de Uso del Tiempo (ENUT)"
+fuente_id: ine_enut   # clave en indicadores/fuentes.yaml
+desagregaciones: "Sexo, tipo de actividad"
+disponibilidad: "Según aplicación de la ENUT (2015)"
+comentario: >
+  La ENUT 2015 es la única encuesta nacional de uso del tiempo en Chile.
+  Evidencia brechas de género significativas en trabajo no remunerado. No
+  hay datos regionales desagregados públicamente.

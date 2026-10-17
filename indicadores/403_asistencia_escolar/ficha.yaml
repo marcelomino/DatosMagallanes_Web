@@ -1,0 +1,41 @@
+# ── Identidad ────────────────────────────────────────────────────────────
+# El id manda: debe coincidir con el prefijo de la carpeta que contiene
+# este archivo. R/00_data.R lo verifica al arrancar y aborta si no calza.
+id: 403
+nombre: "Tasa neta de asistencia escolar"
+seccion: Bienestar
+
+# ── Ficha publicada ──────────────────────────────────────────────────────
+# Lo que se publica en el capitulo VI, mas el titulo y el pie de los cuadros
+# que cuelgan de esta ficha.
+definicion: >
+  Porcentaje de personas que se encuentran en la edad teórica de cursar un
+  nivel educativo y que asisten efectivamente a ese mismo nivel. La
+  educación básica considera a la población de 6 a 13 años que asiste a
+  enseñanza básica; la educación media considera a la población de 14 a 17
+  años que asiste a enseñanza media. Se llama "neta" porque relaciona la
+  asistencia con la edad oficialmente correspondiente a cada nivel.
+unidad: "Porcentaje (%)"
+tipo_dato: "Dato de encuesta de hogares (Encuesta Casen)."
+calculo: "(Población en edad teórica que asiste al nivel correspondiente / Población en esa edad teórica) x 100"
+fuente: "Ministerio de Desarrollo Social y Familia — Encuesta Casen 2024"
+fuente_id: casen   # clave en indicadores/fuentes.yaml
+desagregaciones: "Nivel (básica, media); la fuente publica además error estándar y casos muestrales por nivel"
+disponibilidad: "2006, 2009, 2011, 2013, 2015, 2017, 2020, 2022 y 2024 (según levantamiento Casen)"
+comentario: >
+  No incluye en el numerador a quienes asisten a un nivel distinto del
+  correspondiente a su edad: por eso difiere de una tasa de matrícula. La
+  fuente no establece categorías oficiales de asistencia baja, media o alta.
+  El dato de 2020 corresponde a la Casen en Pandemia, con cambios
+  metodológicos que exigen cautela al compararlo con el resto de la serie.
+
+# ── Aparato interno ──────────────────────────────────────────────────────
+# No se publica: es la bitácora de quien mantiene el indicador.
+procesamiento:
+  script: "pendiente (proyecto hermano DATOS_MAG_MMO)"
+  ultimo: "Transcripción directa de Educación_Casen_2024.xlsx, hojas 46 (básica) y 68 (media), fila Magallanes. Sin cálculos, estimaciones ni interpolaciones."
+historial:
+  - fecha: 2026-08-04
+    nota: "Creación de la ficha en reestructuración indicadores/"
+  - fecha: 2026-09-17
+    nota: "Compilada con la serie oficial Casen 2024 (hojas 46 y 68); datos.csv y grafico.R IV.4 creados."

@@ -1,0 +1,24 @@
+# ── Identidad ────────────────────────────────────────────────────────────
+# El id manda: debe coincidir con el prefijo de la carpeta que contiene
+# este archivo. R/00_data.R lo verifica al arrancar y aborta si no calza.
+id: 505
+nombre: "Percepción de progreso regional"
+seccion: Cohesion Social
+
+# ── Ficha publicada ──────────────────────────────────────────────────────
+# Lo que se publica en el capitulo VI, mas el titulo y el pie de los cuadros
+# que cuelgan de esta ficha.
+definicion: >
+  Proporción de personas que considera que la región ha progresado o está
+  progresando en aspectos sociales, económicos y de calidad de vida.
+unidad: "Porcentaje (%)"
+tipo_dato: "Dato de encuesta de opinión."
+calculo: "% de personas que percibe progreso en la región"
+fuente: "UER-UMAG — Encuesta Regional"
+fuente_id: uer_encuesta   # clave en indicadores/fuentes.yaml
+desagregaciones: "Sexo, grupo etario, ámbito de progreso"
+disponibilidad: "Según aplicación de encuesta"
+comentario: >
+  Indicador subjetivo que complementa los indicadores objetivos de
+  desarrollo. Permite evaluar si las mejoras medibles se traducen en
+  percepción positiva de la población.

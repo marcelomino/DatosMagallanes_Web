@@ -1,0 +1,59 @@
+# ── Identidad ────────────────────────────────────────────────────────────
+# El id manda: debe coincidir con el prefijo de la carpeta que contiene
+# este archivo. R/00_data.R lo verifica al arrancar y aborta si no calza.
+id: 208
+nombre: "Tasa de informalidad laboral"
+seccion: Economia
+
+# ── Ficha publicada ──────────────────────────────────────────────────────
+# Lo que se publica en el capitulo VI, mas el titulo y el pie de los cuadros
+# que cuelgan de esta ficha.
+definicion: >
+  Porcentaje de personas ocupadas clasificadas como informales por la
+  Encuesta CASEN. Incluye, entre otros casos, a trabajadores dependientes
+  sin cotizaciones previsionales y de salud asociadas a su empleo, personas
+  que trabajan a honorarios, familiares no remunerados e independientes sin
+  registro en el SII o que desempeñan ocupaciones de menor calificacion.
+unidad: "Porcentaje (%)"
+tipo_dato: "Dato de encuesta de hogares."
+calculo: >
+  Estimacion regional publicada directamente por MIDESO (encuesta CASEN
+  2024, archivo trabajo_casen_2024.xlsx, hoja 141: "Porcentaje de ocupacion
+  informal por region, 2006-2024"). No se realizaron estimaciones,
+  interpolaciones ni recalculos: se transcribe el nivel que publica la
+  fuente para la Region de Magallanes y de la Antartica Chilena.
+fuente: "MIDESO — Encuesta de Caracterización Socioeconómica (CASEN)"
+fuente_id: casen   # clave en indicadores/fuentes.yaml
+desagregaciones: "Región (la ficha no trae desagregación por sexo, zona ni grupo etario para esta serie)"
+disponibilidad: "Según años de levantamiento CASEN: 2006, 2009, 2011, 2013, 2015, 2017, 2020, 2022 y 2024"
+comentario: >
+  Serie bienal/irregular, no anual continua: sigue el calendario de
+  levantamiento de la encuesta CASEN. Un porcentaje mayor indica que una
+  proporcion mas alta de las personas ocupadas trabaja en condiciones
+  clasificadas como informales; la fuente no establece rangos oficiales de
+  informalidad baja, media o alta. Existe un quiebre metodologico entre
+  2006-2017 y 2020-2024, especialmente en la clasificacion de trabajadores
+  independientes, por lo que ambos periodos no son estrictamente
+  comparables. El dato de 2020 ademas debe leerse considerando las
+  condiciones especiales de la CASEN en Pandemia. Magallanes presenta tasas
+  de informalidad consistentemente menores al promedio nacional en toda la
+  serie.
+
+# ── Aparato interno ──────────────────────────────────────────────────────
+# No se publica: es la bitacora de quien mantiene el indicador.
+procesamiento:
+  script: "pendiente (proyecto hermano DATOS_MAG_MMO)"
+  ultimo: "CASEN 2024, hoja 141 (Informalidad_laboral_CASEN_pagina_141_completa.xlsx)"
+notas_calidad:
+  - "Serie oficial CASEN, sin estimaciones ni recalculos de por medio."
+  - "Quiebre metodologico entre 2006-2017 y 2020-2024; 2020 ademas se ve afectado por las condiciones especiales de CASEN en Pandemia."
+historial:
+  - fecha: 2026-08-04
+    nota: "Creacion de carpeta en reestructuracion indicadores/ (ficha sin datos compilados)"
+  - fecha: 2026-09-17
+    nota: >
+      Se compilo datos.csv y grafico.R (cuadro II.5) con la serie oficial de
+      CASEN 2006-2024 para Magallanes. Se corrigio fuente_id de ine_ene a
+      casen (la fuente especifica es la encuesta CASEN, no la ENE) y se
+      enriquecio la ficha con la informacion real de la ficha tecnica de la
+      fuente.

@@ -1,0 +1,25 @@
+# ── Identidad ────────────────────────────────────────────────────────────
+# El id manda: debe coincidir con el prefijo de la carpeta que contiene
+# este archivo. R/00_data.R lo verifica al arrancar y aborta si no calza.
+id: 503
+nombre: "Actitud hacia la democracia"
+seccion: Cohesion Social
+
+# ── Ficha publicada ──────────────────────────────────────────────────────
+# Lo que se publica en el capitulo VI, mas el titulo y el pie de los cuadros
+# que cuelgan de esta ficha.
+definicion: >
+  Proporción de personas que considera que la democracia es preferible a
+  cualquier otra forma de gobierno. Indicador de apoyo al régimen
+  democrático en la población regional.
+unidad: "Porcentaje (%)"
+tipo_dato: "Dato de encuesta de opinión."
+calculo: "% que prefiere la democracia sobre otras formas de gobierno"
+fuente: "UER-UMAG — Encuesta Regional"
+fuente_id: uer_encuesta   # clave en indicadores/fuentes.yaml
+desagregaciones: "Sexo, grupo etario, nivel educacional"
+disponibilidad: "Según aplicación de encuesta"
+comentario: >
+  Pregunta comparable con Latinobarómetro. Permite evaluar la legitimidad
+  democrática a nivel regional y comparar con tendencias nacionales y
+  latinoamericanas.

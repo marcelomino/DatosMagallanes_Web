@@ -1,0 +1,1409 @@
+/* =============================================================================
+   DATOS MAGALLANES — El Boletin de campo
+
+   El catalogo vestido como el Boletin de Estudios Regionales N.2 (UER-UMAG,
+   marzo 2026) y leido como una hoja de campo patagonica. Del Boletin: papel
+   blanco, tinta violeta-negra, Asap liviana con tracking positivo, la banda
+   magenta de imprenta y una foto banada en un solo color por capitulo. De la
+   hoja de campo (el tema «austral» de la presentacion de brechas): curvas de
+   nivel, el perfil del Paine, coordenadas, el marco de instrumento del cuadro y
+   la mono en todo lo que se cita o se mide.
+
+   CADA COLOR TIENE UN TRABAJO Y NO HACE OTRO
+     magenta        la banda (una palabra por titular; la cobertura de la
+                    portadilla) y la serie protagonista de todo grafico
+     magenta-prof   toda numeracion en texto chico: numero de acceso,
+                    direccion de cuadro, numeral de capitulo
+     azul           SOLO lo accionable: enlace, pestana activa, foco, control
+     violeta        segunda serie de grafico
+     teal           SOLO la pestana de edicion, y el trazo del paisaje
+     bano-*         el fondo bajo la foto de cada portadilla
+
+   LA MONO NO ES DISFRAZ
+   JetBrains Mono va SOLO en identificadores y medidas: numero de acceso,
+   direccion de cuadro, numeral, periodo, rango, coordenadas, edicion, ejes de
+   grafico. Nombres, prosa, rotulos y cifras van en Asap.
+
+   LEY DURA: cero sombras salvo el anillo de foco; sin radios; filete de 1px,
+   y el filete de 2px en tinta solo como regla de apertura de una tabla o lista.
+   ============================================================================= */
+
+:root {
+  /* ── Papel y tinta del Boletin ────────────────────────────────────────── */
+  --papel:      #ffffff;
+  --lamina:     #ffffff;
+  --campo:      #f5f3f7;   /* el unico escalon tonal: pie de cuadro, cimiento */
+  --fila:       #efecf2;   /* hover sobre lamina */
+  --tinta:      #1D1320;   /* 17,6:1 sobre papel */
+  --tinta-2:    #5A4E60;   /*  7,9:1 */
+  --tinta-3:    #6c6272;   /*  6,0:1 */
+  --regla:      #dcd6e0;
+  --regla-fina: #ece8ef;
+
+  /* ── Manual UMAG y Boletin ────────────────────────────────────────────── */
+  --azul:         #4A5CAB;   /* Pantone 2728 C — lo accionable */
+  --violeta:      #593D80;   /* Pantone 268 C  — segunda serie */
+  --magenta:      #E82D88;   /* banda y serie protagonista (4,1:1: solo grande) */
+  --magenta-prof: #C2186B;   /* numeracion en texto chico (5,8:1) */
+  --teal:         #037686;   /* la pestana de edicion (5,3:1 con blanco) */
+  --curva:        #037686;   /* el trazo del paisaje: curvas y horizonte */
+
+  /* Banos de portadilla: la sombra del duotono de cada foto (PAL$bano). */
+  --bano-azul:    #0B1230;
+  --bano-violeta: #1A0A2A;
+  --bano-rojo:    #1E0504;
+
+  /* ── Reservados a significado ─────────────────────────────────────────── */
+  --conforme: #1c6b52;
+  --atencion: #a32a22;
+
+  /* ── Tipografia ───────────────────────────────────────────────────────── */
+  --f: "Asap", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --m: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  /* La rampa cerrada: todo tamano sale de aqui. */
+  --t-credito:    0.59375rem; /* credito fotografico y fecha de la pestana (9,5px) */
+  --t-rotulo:     0.6875rem;  /* versalita de campo, cabecera de tabla */
+  --t-menor:      0.75rem;    /* pies, fuentes, glosas, mono de periodo */
+  --t-dato:       0.8125rem;  /* celdas, controles */
+  --t-base:       0.9375rem;  /* cuerpo */
+  --t-mayor:      1.125rem;   /* bajada, numeral de sala */
+  --t-sala:       1.375rem;   /* nombre de sala en el indice */
+  --t-cifra:      1.625rem;   /* valor del inventario y del pulso */
+  --t-titulo:     clamp(1.6rem, 2.5vw, 2.125rem);   /* titulo de bloque */
+  --t-portal:     clamp(2.1rem, 3.8vw, 3.3rem);     /* la frase del portal */
+  --t-portadilla: clamp(2.3rem, 4.8vw, 3.75rem);    /* nombre de capitulo */
+  --t-indice:     clamp(3.6rem, 7.4vw, 6rem);       /* In / di / ce */
+  --t-numeral:    clamp(2.25rem, 3.6vw, 3.25rem);   /* numeral de portadilla */
+  --t-portadilla-movil: 2.75rem;  /* nombre de capitulo en telefono: manda sobre la cobertura de 24px */
+  --t-cobertura:  1.5rem;     /* la cobertura en banda: 24px, texto grande (4,1:1 lo admite) */
+
+  /* ── Medida y movimiento ──────────────────────────────────────────────── */
+  --ancho: 1440px;
+  --canal: 32px;
+  --radio: 0;
+  --pie-seccion: 72px;
+  --curva-mov: cubic-bezier(0.65, 0, 0.35, 1);   /* la de la banda del Boletin */
+  --salida:    cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ── Base ────────────────────────────────────────────────────────────────── */
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  background: var(--papel) !important;
+  color: var(--tinta) !important;
+  font-family: var(--f) !important;
+  font-size: var(--t-base);
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  /* Cifras tabulares en todo el documento: en un catalogo las columnas de
+     digitos tienen que alinearse hacia abajo y entre cuadros. */
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+}
+h1, h2, h3 { text-wrap: balance; }
+
+/* ── Superficies que dibuja el navegador ─────────────────────────────────── */
+::selection { background: color-mix(in srgb, var(--magenta) 24%, transparent); color: var(--tinta); }
+body, input, select, textarea { caret-color: var(--magenta); }
+
+* { scrollbar-width: thin; scrollbar-color: var(--regla) transparent; }
+::-webkit-scrollbar       { width: 11px; height: 11px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--regla); border: 3px solid transparent; background-clip: padding-box; }
+::-webkit-scrollbar-thumb:hover { background: var(--tinta-3); background-clip: padding-box; }
+
+:focus-visible { outline: 2px solid var(--azul); outline-offset: 2px; }
+/* Sobre una foto banada el azul pleno se pierde: el foco va en blanco. */
+.portadilla :focus-visible { outline-color: #fff; }
+
+a { color: var(--azul); text-underline-offset: 0.2em; text-decoration-thickness: 1px; }
+a:hover { color: var(--tinta); }
+
+/* ── La banda del Boletin ────────────────────────────────────────────────── */
+/* La palabra clave sobre magenta con texto blanco. Una por titular: si hay
+   dos palabras en banda en el mismo titulo, una sobra. box-decoration-break
+   hace que la banda se corte limpia si la palabra pasa de linea. */
+.banda {
+  background-color: var(--magenta);
+  color: #fff;
+  font-weight: 400;
+  padding: 0 0.16em 0.05em;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+/* ── El credito fotografico, vertical, pegado al borde de la foto ─────────── */
+.credito {
+  position: absolute;
+  right: 10px;
+  bottom: 18px;
+  z-index: 3;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  font-family: var(--f);
+  font-size: var(--t-credito);
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: rgba(255, 255, 255, 0.82);
+  pointer-events: none;
+}
+
+/* ── El horizonte: el perfil del Paine de borde a borde ──────────────────── */
+.horizonte {
+  height: 64px;
+  background: url(img/horizonte.svg) bottom / 100% 100% no-repeat;
+  pointer-events: none;
+}
+
+/* ── Pliego: la columna de lectura ───────────────────────────────────────── */
+/* bslib envuelve el contenido en un .container-fluid con 12px de canal. Aqui
+   se anula: los campos (umbral, portadilla, cimiento, horizonte) van a sangre y
+   cada bloque de lectura se clampea a si mismo dentro de un .pliego. */
+body.bslib-page-navbar > .container-fluid { padding-left: 0 !important; padding-right: 0 !important; }
+.contenedor { padding-bottom: var(--pie-seccion); }
+.pliego {
+  max-width: var(--ancho);
+  margin: 0 auto;
+  padding: 0 var(--canal);
+  min-width: 0;
+}
+.prosa { max-width: 68ch; }
+
+/* ═════════════════════════════════════════════════════════════════════════
+   EL CHASIS — barra de marca, navegacion, colofon
+   ═════════════════════════════════════════════════════════════════════════ */
+.navbar {
+  background: var(--papel) !important;
+  border-bottom: 1px solid var(--regla) !important;
+  padding: 0 !important;
+  box-shadow: none !important;
+}
+.navbar .container-fluid {
+  display: grid !important;
+  grid-template-columns: 1fr auto !important;
+  grid-template-rows: auto auto !important;
+  align-items: center !important;
+  max-width: var(--ancho);
+  margin: 0 auto;
+  padding: 0 var(--canal) !important;
+  gap: 0 !important;
+}
+.navbar-toggle, .navbar-toggler { display: none !important; }
+.navbar-brand { margin: 0 !important; padding: 0 !important; grid-column: 1 / -1; width: 100%; }
+
+.barra-marca { display: flex; align-items: stretch; justify-content: space-between; gap: 24px; }
+.marca { display: flex; align-items: stretch; gap: 16px; }
+
+/* La pestana de edicion: el teal vertical de la portada del Boletin. Baja
+   desde el borde superior de la ventana, como en el impreso, y es el unico
+   teal del sistema. */
+.marca-edicion-pestana {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 1px;
+  background: var(--teal);
+  color: #fff;
+  padding: 16px 10px 8px;
+  font-family: var(--m);
+  line-height: 1.15;
+  white-space: nowrap;
+}
+.pestana-version { font-size: var(--t-menor); font-weight: 600; letter-spacing: 0.02em; }
+.pestana-fecha   { font-size: var(--t-credito); letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.88; }
+
+.marca-plataforma { height: 34px; width: auto; display: block; align-self: center; }
+.marca-institucion { height: 32px; width: auto; display: block; flex-shrink: 0; align-self: center; }
+.marca-regla { width: 1px; align-self: stretch; margin: 12px 0; background: var(--regla); }
+.marca-lockup { display: flex; flex-direction: column; justify-content: center; gap: 2px; padding: 12px 0 10px; }
+.marca-titulo {
+  font-size: var(--t-mayor);
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  line-height: 1.15;
+  color: var(--tinta);
+  white-space: nowrap;
+}
+/* El descriptor en versalita tracked, como el sumario de la portada del
+   Boletin ("UNIVERSIDAD VINCULADA / GENERO Y FORMACION / ..."). */
+.marca-edicion {
+  font-size: var(--t-rotulo);
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--tinta-3);
+  white-space: nowrap;
+}
+
+/* ── Navegacion ──────────────────────────────────────────────────────────── */
+/* Las ocho secciones se mantienen accesibles en todo tamano. Si falta espacio
+   se desplazan; nunca se esconden tras un menu. */
+.navbar-collapse, .collapse.navbar-collapse {
+  display: block !important;
+  grid-column: 1 / -1;
+  width: 100%;
+  border-top: 1px solid var(--regla-fina);
+}
+.navbar-nav {
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  overflow-x: auto;
+  gap: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  width: 100% !important;
+  scroll-snap-type: x proximate;
+  /* La barra se queda visible: es la unica senal de que el catalogo sigue a
+     la derecha en pantalla angosta (ver la regla de navegacion). */
+  scrollbar-width: auto;
+}
+.navbar-nav::-webkit-scrollbar { height: 3px; }
+.navbar-nav::-webkit-scrollbar-thumb { background: var(--regla); }
+.navbar-nav:hover::-webkit-scrollbar-thumb { background: var(--tinta-3); }
+.nav-item { scroll-snap-align: start; margin: 0 !important; }
+
+.nav-link {
+  display: block !important;
+  font-family: var(--f) !important;
+  font-size: var(--t-dato) !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.01em;
+  color: var(--tinta-2) !important;
+  background: none !important;
+  border: none !important;
+  border-radius: 0 !important;
+  padding: 11px 0 9px !important;
+  margin-right: 28px !important;
+  white-space: nowrap !important;
+  border-bottom: 2px solid transparent !important;
+  transition: color 0.12s ease, border-color 0.12s ease !important;
+}
+.nav-link:hover { color: var(--tinta) !important; }
+.nav-link.active {
+  color: var(--tinta) !important;
+  border-bottom-color: var(--azul) !important;
+  font-weight: 600 !important;
+}
+.nav-link:focus-visible { outline-offset: -2px; }
+
+/* ── El indice de cada capitulo, colgado de su pestana ───────────────────── */
+.indice {
+  position: absolute;
+  display: none;
+  z-index: 1040;
+  min-width: 360px;
+  max-width: 480px;
+  max-height: 70vh;
+  overflow-y: auto;
+  padding: 4px 0;
+  background: var(--lamina);
+  border: 1px solid var(--regla);
+  border-top: 2px solid var(--tinta);
+}
+.indice.es-visible { display: block; }
+.indice-item {
+  display: grid;
+  grid-template-columns: 3.6em 2.8em 1fr;
+  align-items: baseline;
+  gap: 0 10px;
+  padding: 7px 14px;
+  text-decoration: none;
+  line-height: 1.35;
+}
+.indice-item:hover, .indice-item:focus-visible { background: var(--fila); }
+.indice-cuadro {
+  font-family: var(--m);
+  font-size: var(--t-menor);
+  font-weight: 500;
+  color: var(--magenta-prof);
+  white-space: nowrap;
+}
+.indice-id {
+  font-family: var(--m);
+  font-size: var(--t-menor);
+  color: var(--tinta-3);
+  text-align: right;
+}
+.indice-nombre { font-size: var(--t-dato); color: var(--tinta); }
+.indice-item:hover .indice-nombre { color: var(--azul); }
+
+/* ── Colofon ─────────────────────────────────────────────────────────────── */
+/* Lo abre el horizonte del Paine; debajo, la firma. Papel, como el resto. */
+.colofon { background: var(--papel); }
+.colofon .horizonte { height: 56px; }
+.colofon-interior {
+  max-width: var(--ancho);
+  margin: 0 auto;
+  padding: 18px var(--canal) 30px;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 8px 24px;
+  border-top: 1px solid var(--regla);
+}
+.colofon-logo { height: 34px; width: auto; display: block; }
+.colofon-texto { display: flex; flex-direction: column; gap: 2px; }
+.colofon-institucion { font-size: var(--t-dato); font-weight: 500; color: var(--tinta); }
+.colofon-lugar {
+  font-family: var(--m);
+  font-size: var(--t-menor);
+  letter-spacing: 0.02em;
+  color: var(--tinta-3);
+}
+.colofon-meta { font-size: var(--t-menor); color: var(--tinta-3); text-align: right; }
+.colofon-edicion { font-family: var(--m); color: var(--tinta-2); }
+
+/* ═════════════════════════════════════════════════════════════════════════
+   LA PORTADILLA — cada capitulo abre como un articulo del Boletin
+   ═════════════════════════════════════════════════════════════════════════ */
+.portadilla {
+  --bano: var(--bano-violeta);
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  align-items: flex-end;
+  min-height: clamp(280px, 27vw, 400px);
+  background: var(--bano);
+  color: #fff;
+  overflow: hidden;
+  margin-bottom: 34px;
+}
+.portadilla.bano-azul    { --bano: var(--bano-azul); }
+.portadilla.bano-violeta { --bano: var(--bano-violeta); }
+.portadilla.bano-rojo    { --bano: var(--bano-rojo); }
+
+/* La foto va al 78%: el bano de abajo la oscurece de manera pareja, como en el
+   divisor del Boletin. */
+.portadilla-foto {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.92;
+}
+/* Veladura al pie para que el texto no dependa de donde cae la foto, y la
+   reticula de instrumento cada 80px, en el blanco al 6%: la hoja de campo
+   sobre el articulo. */
+.portadilla::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(0deg, color-mix(in srgb, var(--bano) 82%, transparent) 0%,
+                          color-mix(in srgb, var(--bano) 20%, transparent) 45%,
+                          transparent 70%),
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.06) 0 1px, transparent 1px 80px),
+    repeating-linear-gradient(0deg,  rgba(255, 255, 255, 0.06) 0 1px, transparent 1px 80px);
+  pointer-events: none;
+}
+.portadilla-interior {
+  width: 100%;
+  max-width: var(--ancho);
+  margin: 0 auto;
+  padding: 40px var(--canal) 30px;
+}
+/* El numeral liviano sobre un filete blanco: "CAP II / 7". Es la primera
+   mitad de la direccion de cita de todo cuadro del capitulo. */
+.portadilla-numero {
+  display: block;
+  width: max-content;
+  min-width: 3.2em;
+  font-family: var(--m);
+  font-size: var(--t-numeral);
+  font-weight: 200;
+  letter-spacing: 0.02em;
+  line-height: 1;
+  padding-bottom: 10px;
+  margin-bottom: 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.6);
+}
+.portadilla-titulo {
+  font-size: var(--t-portadilla);
+  font-weight: 300;
+  letter-spacing: 0.01em;
+  line-height: 1.02;
+  margin: 0 0 16px;
+  color: #fff;
+}
+.portadilla-pie {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px 32px;
+  flex-wrap: wrap;
+}
+/* Blanco sobre #E82D88 mide 4,1:1: solo alcanza para texto grande. Por eso la
+   cobertura va a 24px, que es la escala a la que el Boletin pone su banda. */
+.portadilla-cobertura {
+  margin: 0;
+  max-width: 46ch;
+  font-size: var(--t-cobertura);
+  font-weight: 400;
+  line-height: 1.5;
+}
+.portadilla-rango {
+  font-family: var(--m);
+  font-size: var(--t-menor);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.86);
+  white-space: nowrap;
+}
+
+/* La firma del sistema: la banda que se dibuja de izquierda a derecha al
+   entrar al capitulo. La pestana de Bootstrap pasa de display:none a visible
+   al abrirse, y eso reinicia la animacion: se dibuja CADA vez que se entra.
+   El texto es blanco sobre la foto oscura desde el primer cuadro, asi que
+   nada queda invisible mientras la banda crece. */
+.portadilla .banda {
+  background-color: transparent;
+  background-image: linear-gradient(var(--magenta), var(--magenta));
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  animation: dibujar-banda 0.9s var(--curva-mov) 0.3s both;
+}
+@keyframes dibujar-banda { from { background-size: 0% 100%; } to { background-size: 100% 100%; } }
+
+/* ═════════════════════════════════════════════════════════════════════════
+   EL INVENTARIO DEL CAPITULO
+   ═════════════════════════════════════════════════════════════════════════ */
+.inventario { margin-bottom: 40px; }
+.inv-cabecera {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 13px;
+  flex-wrap: wrap;
+  padding: 0 0 10px;
+}
+.inv-caption {
+  font-size: var(--t-rotulo);
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--tinta-2);
+}
+/* Tabla de impreso: regla de apertura de 2px en tinta, filetes finos entre
+   filas, sin marco lateral. */
+.inv-tabla {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--lamina);
+  border-top: 2px solid var(--tinta);
+  border-bottom: 1px solid var(--regla);
+}
+.inv-tabla thead th {
+  font-size: var(--t-rotulo);
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--tinta-3);
+  text-align: left;
+  padding: 11px 14px 9px;
+  border-bottom: 1px solid var(--regla);
+  white-space: nowrap;
+}
+.inv-tabla thead th.es-num { text-align: right; }
+.inv-tabla tbody tr { border-bottom: 1px solid var(--regla-fina); transition: background 0.12s ease; }
+.inv-tabla tbody tr:last-child { border-bottom: none; }
+.inv-tabla tbody tr:hover { background: var(--fila); }
+.inv-tabla td, .inv-tabla tbody th {
+  padding: 14px;
+  vertical-align: baseline;
+  text-align: left;
+  font-weight: 400;
+}
+/* Con la especificidad de la regla de arriba: sin el prefijo .inv-tabla, el
+   text-align: left de las celdas ganaba y las cifras quedaban a la izquierda,
+   lejos de su cabecera VALOR. Las cifras tabulares alineadas a la derecha
+   quedan alineadas por la coma. */
+.inv-tabla .inv-id, .inv-tabla .inv-valor { text-align: right; }
+.inv-id {
+  font-family: var(--m);
+  font-size: var(--t-dato);
+  font-weight: 500;
+  color: var(--magenta-prof);
+  text-align: right;
+  white-space: nowrap;
+  width: 1%;
+}
+.inv-pieza { font-size: var(--t-base); font-weight: 500; color: var(--tinta); min-width: 200px; }
+.inv-glosa {
+  display: block;
+  font-size: var(--t-menor);
+  font-weight: 400;
+  color: var(--tinta-3);
+  margin-top: 3px;
+}
+.inv-valor {
+  font-size: var(--t-cifra);
+  font-weight: 300;
+  letter-spacing: -0.01em;
+  line-height: 1.1;
+  color: var(--tinta);
+  text-align: right;
+  white-space: nowrap;
+}
+.inv-unidad  { font-size: var(--t-dato); color: var(--tinta-2); white-space: nowrap; }
+.inv-periodo { font-family: var(--m); font-size: var(--t-menor); color: var(--tinta-2); white-space: nowrap; }
+.inv-fuente  { font-size: var(--t-menor); color: var(--tinta-3); }
+.inv-medida  { white-space: nowrap; }
+.inv-tabla .inv-sigla { text-align: left; }   /* la sigla de fuente es texto, no un numero */
+
+/* La medida que publica la fuente: una cifra con procedencia, no un delta
+   calculado en la interfaz. */
+.medida { display: inline-flex; flex-direction: column; gap: 2px; }
+.medida-cifra { font-size: var(--t-dato); font-weight: 600; color: var(--tinta-2); }
+.medida-glosa { font-size: var(--t-menor); color: var(--tinta-3); }
+.medida.es-alza .medida-cifra { color: var(--conforme); }
+.medida.es-baja .medida-cifra { color: var(--atencion); }
+
+/* ═════════════════════════════════════════════════════════════════════════
+   LAS PIEZAS PLEGADAS (capitulos) Y LOS ASIENTOS (Metodologia)
+   Las dos son acordeones de bslib y se leen igual: una lista de registro con
+   regla de apertura, la direccion o el numero en mono magenta, y un chevron
+   dibujado en el trazo de 1,5px del sistema.
+   ═════════════════════════════════════════════════════════════════════════ */
+.piezas-acc, .fichas .accordion {
+  --bs-accordion-border-width: 0;
+  --bs-accordion-border-radius: 0;
+  --bs-accordion-inner-border-radius: 0;
+  --bs-accordion-bg: transparent;
+  --bs-accordion-btn-focus-box-shadow: none;
+  border-top: 2px solid var(--tinta);
+}
+.piezas-acc .accordion-item, .fichas .accordion-item {
+  background: transparent !important;
+  border: none !important;
+  border-bottom: 1px solid var(--regla) !important;
+  border-radius: 0 !important;
+  margin: 0;
+}
+.piezas-acc .accordion-button, .fichas .accordion-button {
+  background: transparent !important;
+  color: var(--tinta) !important;
+  font-family: var(--f) !important;
+  padding: 15px 6px !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  transition: background 0.12s ease;
+}
+.piezas-acc .accordion-button:hover, .fichas .accordion-button:hover,
+.piezas-acc .accordion-button:not(.collapsed), .fichas .accordion-button:not(.collapsed) {
+  background: var(--campo) !important;
+}
+.piezas-acc .accordion-button:focus-visible, .fichas .accordion-button:focus-visible {
+  outline: 2px solid var(--azul); outline-offset: -2px;
+}
+.piezas-acc .accordion-button::after, .fichas .accordion-button::after {
+  content: "";
+  width: 8px; height: 8px;
+  border-right: 1.5px solid var(--tinta-2);
+  border-bottom: 1.5px solid var(--tinta-2);
+  transform: rotate(45deg);
+  background: none !important;
+  margin: -4px 6px 0 auto;
+  transition: transform 0.34s var(--salida);
+}
+.piezas-acc .accordion-button:not(.collapsed)::after,
+.fichas .accordion-button:not(.collapsed)::after { transform: rotate(-135deg); margin-top: 4px; }
+.piezas-acc .accordion-body { padding: 6px 0 26px !important; }
+.fichas .accordion-body { padding: 0 6px 22px !important; background: transparent; }
+
+.pieza-cabeza { display: flex; align-items: baseline; gap: 16px; min-width: 0; }
+.pieza-lockup, .cuadro-lockup { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.pieza-numero {
+  font-family: var(--m);
+  font-size: var(--t-dato);
+  font-weight: 500;
+  color: var(--magenta-prof);
+  white-space: nowrap;
+  flex-shrink: 0;
+  min-width: 3.4em;
+}
+.pieza-nombre { font-size: var(--t-base); font-weight: 500; color: var(--tinta); }
+/* La unidad de medida, bajo el nombre y entre parentesis. */
+.rotulo-unidad {
+  font-size: var(--t-menor);
+  font-weight: 400;
+  color: var(--tinta-3);
+  line-height: 1.35;
+}
+.piezas-acc .cuadro { margin-bottom: 0; }
+.piezas-acc .cuadro:not(:last-child) { margin-bottom: 22px; }
+
+/* ── El asiento ──────────────────────────────────────────────────────────── */
+.ficha-cabeza { display: flex; align-items: baseline; gap: 16px; flex: 1; min-width: 0; }
+.ficha-id {
+  font-family: var(--m);
+  font-size: var(--t-mayor);
+  font-weight: 500;
+  color: var(--magenta-prof);
+  flex-shrink: 0;
+}
+.ficha-seccion {
+  font-size: var(--t-rotulo);
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--tinta-3);
+  flex-shrink: 0;
+}
+.ficha-nombre { font-size: var(--t-base); font-weight: 500; color: var(--tinta); }
+.ficha-tabla { width: 100%; border-collapse: collapse; }
+.ficha-campo {
+  font-size: var(--t-rotulo);
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--tinta-3);
+  text-align: left;
+  vertical-align: baseline;
+  white-space: nowrap;
+  padding: 10px 24px 10px 0;
+  width: 1%;
+  border-top: 1px solid var(--regla-fina);
+}
+.ficha-valor {
+  font-size: var(--t-dato);
+  line-height: 1.6;
+  color: var(--tinta);
+  padding: 10px 0;
+  border-top: 1px solid var(--regla-fina);
+  max-width: 78ch;
+}
+.ficha-tabla tr:first-child .ficha-campo,
+.ficha-tabla tr:first-child .ficha-valor { border-top: none; }
+.ficha-descarga { margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--regla-fina); }
+
+/* ═════════════════════════════════════════════════════════════════════════
+   EL CUADRO — la lamina numerada, con marco de instrumento
+   ═════════════════════════════════════════════════════════════════════════ */
+.cuadro {
+  position: relative;
+  background: var(--lamina);
+  border: 1px solid var(--regla);
+  margin-bottom: 22px;
+  scroll-margin-top: 22px;
+}
+/* Las dos esquinas del marco de instrumento del tema «austral»: arriba a la
+   izquierda y abajo a la derecha, en tinta y en el trazo de 1,5px. Dicen
+   "esto es una lectura" sin agregar un color ni un rotulo. */
+.cuadro::before, .cuadro::after {
+  content: "";
+  position: absolute;
+  width: 12px; height: 12px;
+  border: 0 solid var(--tinta);
+  pointer-events: none;
+}
+.cuadro::before { top: -1px; left: -1px; border-top-width: 1.5px; border-left-width: 1.5px; }
+.cuadro::after  { bottom: -1px; right: -1px; border-bottom-width: 1.5px; border-right-width: 1.5px; }
+
+.cuadro-cabecera {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--regla-fina);
+}
+.cuadro-identidad { display: flex; align-items: baseline; gap: 12px; min-width: 0; }
+.cuadro-numero {
+  font-family: var(--m);
+  font-size: var(--t-dato);
+  font-weight: 500;
+  color: var(--magenta-prof);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.cuadro-titulo { font-size: var(--t-base); font-weight: 500; color: var(--tinta); line-height: 1.3; }
+.cuadro-controles { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.cuadro-controles-solos { justify-content: flex-end; padding: 10px 16px 0; }
+.cuadro-controles .form-group, .cuadro-controles .checkbox { margin: 0; }
+.cuadro-controles .checkbox label {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: var(--t-menor);
+  color: var(--tinta-2);
+  cursor: pointer;
+  margin: 0;
+}
+.cuadro-controles .checkbox input[type="checkbox"] {
+  accent-color: var(--azul);
+  width: 14px; height: 14px;
+  margin: 0;
+  cursor: pointer;
+}
+.cuadro-cuerpo { padding: 8px 8px 2px; }
+.cuadro-pie {
+  border-top: 1px solid var(--regla-fina);
+  padding: 10px 16px 11px;
+  font-size: var(--t-menor);
+  line-height: 1.55;
+  color: var(--tinta-3);
+  background: var(--campo);
+  display: grid;
+  gap: 3px;
+}
+.cuadro-pie .llamada {
+  color: var(--tinta-2);
+  font-weight: 600;
+  font-size: var(--t-rotulo);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-right: 8px;
+}
+.cuadro-acciones {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin-top: 6px;
+}
+.enlace-ficha {
+  font-size: var(--t-menor);
+  font-weight: 600;
+  color: var(--azul);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.25em;
+}
+.enlace-ficha:hover { color: var(--tinta); }
+
+/* ── Controles ───────────────────────────────────────────────────────────── */
+.grupo-series { display: flex; gap: 6px; flex-wrap: wrap; }
+.btn-serie {
+  font-family: var(--f);
+  font-size: var(--t-menor);
+  font-weight: 500;
+  color: var(--tinta-2);
+  background: var(--lamina);
+  border: 1px solid var(--regla);
+  border-radius: 0;
+  padding: 4px 11px;
+  cursor: pointer;
+  transition: background 0.12s ease, color 0.12s ease, border-color 0.12s ease;
+}
+.btn-serie:hover { color: var(--tinta); border-color: var(--tinta-3); }
+.btn-serie.active-btn { background: var(--azul); border-color: var(--azul); color: #fff; font-weight: 600; }
+.btn-serie:disabled { color: var(--tinta-3); border-color: var(--regla-fina); cursor: not-allowed; }
+
+a.btn-descarga {
+  font-family: var(--m);
+  font-size: var(--t-menor);
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: var(--azul) !important;
+  background: var(--lamina) !important;
+  border: 1px solid var(--regla) !important;
+  border-radius: 0 !important;
+  padding: 3px 10px !important;
+  box-shadow: none !important;
+  text-decoration: none !important;
+  line-height: 1.5;
+}
+a.btn-descarga:hover { color: #fff !important; background: var(--azul) !important; border-color: var(--azul) !important; }
+/* El icono de descarga que trae Shiny es un glifo de Font Awesome: fuera. */
+a.btn-descarga .fa, a.btn-descarga i, a.btn-descarga svg { display: none; }
+
+.form-control, .form-select {
+  font-family: var(--f) !important;
+  font-size: var(--t-dato) !important;
+  color: var(--tinta) !important;
+  background: var(--lamina) !important;
+  border: 1px solid var(--regla) !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+.form-control:focus, .form-select:focus {
+  border-color: var(--azul) !important;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--azul) 18%, transparent) !important;
+}
+.form-control::placeholder { color: var(--tinta-3) !important; }
+.cuadro-controles .form-control { padding: 3px 8px; height: auto; }
+.shiny-input-container { margin-bottom: 0; }
+.cuadro-controles .shiny-input-container > label,
+.filtros label {
+  font-size: var(--t-rotulo);
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--tinta-3);
+  margin-bottom: 4px;
+}
+.irs--shiny .irs-bar    { background: var(--azul); border-color: var(--azul); height: 2px; top: 28px; }
+.irs--shiny .irs-line   { background: var(--regla); height: 2px; top: 28px; border-radius: 0; }
+.irs--shiny .irs-handle { background: var(--lamina); border: 1.5px solid var(--azul); border-radius: 0;
+                          box-shadow: none; width: 13px; height: 13px; top: 22px; }
+.irs--shiny .irs-from, .irs--shiny .irs-to, .irs--shiny .irs-single {
+  background: var(--azul); color: #fff; font-family: var(--m); font-size: var(--t-rotulo);
+  border-radius: 0; padding: 1px 5px;
+}
+.irs--shiny .irs-from:before, .irs--shiny .irs-to:before, .irs--shiny .irs-single:before { display: none; }
+.irs--shiny .irs-min, .irs--shiny .irs-max { display: none; }
+.irs--shiny .irs-grid-text { color: var(--tinta-3); font-family: var(--m); font-size: var(--t-rotulo); }
+.irs--shiny .irs-grid-pol  { background: var(--regla); }
+
+/* ── El estado del dato es una marca dibujada, nunca solo un color ───────── */
+.marca-estado {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: var(--t-rotulo);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--tinta-2);
+  border: 1px solid var(--regla);
+  padding: 3px 9px 3px 7px;
+  background: var(--lamina);
+  white-space: nowrap;
+}
+.marca-estado::before {
+  content: "";
+  width: 10px; height: 10px;
+  flex-shrink: 0;
+  border: 1px solid var(--tinta-2);
+}
+.marca-estado.es-compilado::before   { background: var(--tinta-2); }
+.marca-estado.es-preliminar::before {
+  background: repeating-linear-gradient(45deg, var(--tinta-2) 0 1.5px, transparent 1.5px 3.5px);
+}
+.marca-estado.es-interrumpida::before {
+  background: linear-gradient(to bottom, transparent 45%, var(--tinta-2) 45% 55%, transparent 55%);
+}
+.marca-estado.es-nodisponible::before {
+  background: linear-gradient(to top right, transparent 46%, var(--tinta-2) 46% 54%, transparent 54%);
+}
+.marca-estado.es-ilustrativo {
+  color: var(--atencion);
+  border-color: color-mix(in srgb, var(--atencion) 40%, var(--regla));
+}
+.marca-estado.es-ilustrativo::before {
+  border-color: var(--atencion);
+  background: repeating-linear-gradient(-45deg, var(--atencion) 0 1.5px, transparent 1.5px 4px);
+}
+
+.nota-aparato {
+  border-top: 1px solid var(--regla);
+  margin-top: 34px;
+  padding-top: 16px;
+  font-size: var(--t-dato);
+  line-height: 1.6;
+  color: var(--tinta-2);
+  max-width: 68ch;
+}
+.nota-aparato dt { font-weight: 600; color: var(--tinta); margin-top: 10px; }
+.nota-aparato dd { margin: 2px 0 0; }
+
+/* ── Titulos de bloque ───────────────────────────────────────────────────── */
+/* Asap liviana con tracking positivo, como los titulares del Boletin, y a lo
+   sumo una palabra en banda. Nada rotula un titulo. */
+.bloque-titulo {
+  font-size: var(--t-titulo);
+  font-weight: 300;
+  letter-spacing: 0.01em;
+  line-height: 1.12;
+  color: var(--tinta);
+  margin: 72px 0 12px;
+}
+.bloque-glosa {
+  font-size: var(--t-dato);
+  color: var(--tinta-3);
+  line-height: 1.55;
+  margin: 0 0 22px;
+}
+
+/* ═════════════════════════════════════════════════════════════════════════
+   EL PORTAL
+   ═════════════════════════════════════════════════════════════════════════ */
+
+/* ── El umbral: la portada del Boletin, en papel ─────────────────────────── */
+.umbral {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  min-height: clamp(560px, calc(100vh - 96px), 720px);
+  background: var(--papel);
+  overflow: hidden;
+}
+/* Las curvas de nivel: detras del texto, mas presentes hacia el borde derecho
+   y ausentes bajo el titular, de modo que el terreno se ve y la frase se lee. */
+.umbral::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 0 40%;
+  z-index: -1;
+  background: url(img/topo.svg) center / cover no-repeat;
+  opacity: 0.5;
+  -webkit-mask-image: radial-gradient(ellipse 60% 70% at 30% 45%, transparent 25%, #000 85%);
+          mask-image: radial-gradient(ellipse 60% 70% at 30% 45%, transparent 25%, #000 85%);
+  pointer-events: none;
+}
+.umbral-foto { position: relative; min-height: 100%; background: var(--bano-azul); }
+.umbral-foto img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 35%;
+  display: block;
+}
+.umbral-texto {
+  align-self: center;
+  max-width: 50rem;
+  padding: 56px var(--canal) 104px clamp(32px, 4.5vw, 72px);
+}
+.umbral-titulo {
+  font-size: var(--t-portal);
+  font-weight: 300;
+  letter-spacing: 0.005em;
+  line-height: 1.1;
+  margin: 0 0 24px;
+  color: var(--tinta);
+}
+/* La banda del titular del portal se dibuja una vez al cargar. Sobre papel el
+   texto de la palabra arranca en magenta profundo (legible sin banda) y pasa a
+   blanco cuando la banda ya lo cubre. */
+.umbral-titulo .banda {
+  background-color: transparent;
+  background-image: linear-gradient(var(--magenta), var(--magenta));
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  animation: dibujar-banda-papel 0.9s var(--curva-mov) 0.35s both;
+}
+@keyframes dibujar-banda-papel {
+  0%   { background-size: 0% 100%;   color: var(--magenta-prof); }
+  55%  { color: var(--magenta-prof); }
+  100% { background-size: 100% 100%; color: #fff; }
+}
+.umbral-bajada {
+  font-size: var(--t-mayor);
+  line-height: 1.62;
+  color: var(--tinta-2);
+  max-width: 56ch;
+  margin: 0 0 30px;
+}
+.umbral-bajada strong { color: var(--tinta); font-weight: 600; }
+
+/* La linea de estado: lectura corrida separada por filetes, no una parrilla de
+   cifras destacadas. Las cuatro se leen del disco al arrancar. */
+.umbral-estado {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 0;
+  border-top: 1px solid var(--regla);
+  padding-top: 16px;
+  margin-bottom: 20px;
+}
+.estado-dato {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  padding: 0 18px;
+  border-left: 1px solid var(--regla);
+  min-width: 0;
+}
+.estado-dato:first-child { padding-left: 0; border-left: none; }
+.estado-cifra {
+  font-size: var(--t-cifra);
+  font-weight: 300;
+  letter-spacing: -0.01em;
+  line-height: 1;
+  color: var(--tinta);
+}
+.estado-rotulo { font-size: var(--t-menor); line-height: 1.3; color: var(--tinta-3); }
+.umbral-aviso { margin-top: 2px; }
+
+/* El horizonte cierra el umbral de borde a borde, cruzando la foto. */
+.umbral > .horizonte {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 76px;
+  z-index: 2;
+}
+
+/* ── El indice ───────────────────────────────────────────────────────────── */
+.indice-portal {
+  display: grid;
+  grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+  gap: 0 var(--canal);
+  margin-top: 64px;
+}
+/* ÍN / DI / CE: la palabra partida en tres, como en el indice del Boletin. */
+.indice-rotulo {
+  margin: -0.12em 0 0;
+  font-size: var(--t-indice);
+  font-weight: 200;
+  letter-spacing: 0.01em;
+  line-height: 0.88;
+  color: var(--tinta);
+}
+.indice-rotulo span { display: block; }
+.salas { border-top: 2px solid var(--tinta); }
+.sala {
+  display: grid;
+  grid-template-columns: 3.4em minmax(0, 1fr) 11em 7.5em 16px;
+  align-items: baseline;
+  gap: 0 18px;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  border-bottom: 1px solid var(--regla);
+  padding: 17px 6px 16px;
+  cursor: pointer;
+  font-family: inherit;
+  color: var(--tinta);
+  transition: background 0.14s ease;
+}
+.sala:hover, .sala:focus-visible { background: var(--campo); }
+/* La sala y el panel del pulso son enlaces a la pagina de su capitulo (en el
+   dashboard eran <button>): sin subrayado y con la tinta de su pieza, no el
+   azul de enlace. El azul queda para el hover de la sala, como antes. */
+a.sala, a.pulso-pieza { text-decoration: none; }
+a.sala, a.sala:hover, a.pulso-pieza, a.pulso-pieza:hover { color: var(--tinta); }
+.sala:focus-visible { outline-offset: -2px; }
+.sala-num {
+  font-family: var(--m);
+  font-size: var(--t-mayor);
+  font-weight: 400;
+  color: var(--magenta-prof);
+}
+.sala-cuerpo { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.sala-nombre {
+  font-size: var(--t-sala);
+  font-weight: 400;
+  letter-spacing: 0.005em;
+  line-height: 1.2;
+  transition: color 0.14s ease;
+}
+.sala:hover .sala-nombre { color: var(--azul); }
+.sala-glosa { font-size: var(--t-dato); color: var(--tinta-3); line-height: 1.45; }
+.sala-cuenta { font-size: var(--t-menor); color: var(--tinta-3); white-space: nowrap; }
+.sala-cuenta b { font-family: var(--m); font-weight: 500; color: var(--tinta); font-size: var(--t-dato); }
+.sala-rango {
+  font-family: var(--m);
+  font-size: var(--t-menor);
+  color: var(--tinta-3);
+  white-space: nowrap;
+  text-align: right;
+}
+.sala-flecha {
+  align-self: center;
+  color: var(--tinta-3);
+  transition: transform 0.14s ease, color 0.14s ease;
+}
+.sala:hover .sala-flecha { transform: translateX(4px); color: var(--azul); }
+
+/* ── El pulso de la region ───────────────────────────────────────────────── */
+.pulso {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--regla);
+  border-top: 2px solid var(--tinta);
+  border-bottom: 1px solid var(--regla);
+  margin-bottom: 72px;
+}
+.pulso-pieza {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: var(--lamina);
+  border: none;
+  padding: 18px 20px 16px;
+  cursor: pointer;
+  font-family: inherit;
+  color: var(--tinta);
+  transition: background 0.14s ease;
+}
+.pulso-pieza:hover { background: var(--campo); }
+.pulso-pieza:focus-visible { outline-offset: -2px; }
+.pulso-cabeza { display: flex; align-items: baseline; gap: 10px; margin-bottom: 3px; }
+.pulso-id {
+  font-family: var(--m);
+  font-size: var(--t-menor);
+  font-weight: 500;
+  color: var(--magenta-prof);
+}
+.pulso-nombre { font-size: var(--t-base); font-weight: 500; line-height: 1.3; }
+.pulso-pieza:hover .pulso-nombre { color: var(--azul); }
+.pulso-unidad { font-size: var(--t-menor); color: var(--tinta-3); display: block; margin-bottom: 14px; }
+.pulso-cuerpo { display: flex; align-items: flex-end; gap: 16px; }
+.pulso-svg { flex: 1 1 auto; min-width: 0; display: block; overflow: visible; }
+.pulso-trazo {
+  fill: none;
+  stroke: var(--magenta);
+  stroke-width: 1.75;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
+}
+/* El remate: la vertical que ata el extremo de la serie con su cifra. */
+.pulso-remate { stroke: color-mix(in srgb, var(--magenta) 45%, transparent); stroke-width: 1; }
+.pulso-base   { stroke: var(--regla); stroke-width: 1; }
+.pulso-cierre { flex: 0 0 auto; text-align: right; }
+.pulso-valor {
+  font-size: var(--t-cifra);
+  font-weight: 300;
+  letter-spacing: -0.01em;
+  line-height: 1.05;
+  display: block;
+}
+.pulso-anio { font-family: var(--m); font-size: var(--t-menor); color: var(--tinta-3); display: block; margin-top: 3px; }
+.pulso-pie {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 12px;
+  padding-top: 9px;
+  border-top: 1px solid var(--regla-fina);
+  font-size: var(--t-menor);
+  color: var(--tinta-3);
+}
+.pulso-rango  { font-family: var(--m); white-space: nowrap; }
+.pulso-fuente { text-align: right; }
+
+/* La entrada dibuja cada serie de izquierda a derecha, una vez, escalonada
+   por panel, cuando la rejilla entra en pantalla (www/portal.js). */
+/* Se descubre con un recorte y no con stroke-dasharray: el trazo es
+   non-scaling-stroke dentro de un viewBox estirado, y ahi la longitud del
+   guion se mide en pixeles de pantalla y no en unidades del viewBox, de modo
+   que el guion se acababa antes que la linea y los ultimos anos no se
+   dibujaban nunca. El recorte descubre el SVG entero, remate incluido. */
+@keyframes trazar { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
+.pulso .pulso-svg { clip-path: inset(0 100% 0 0); }
+.pulso.es-trazado .pulso-svg {
+  animation: trazar 1100ms var(--salida) both;
+  animation-delay: var(--retardo, 0ms);
+}
+
+/* ── El cimiento ─────────────────────────────────────────────────────────── */
+/* El campo tenue sobre las curvas de nivel: el terreno desde el que se habla.
+   El margen negativo anula el aire del contenedor para que el cimiento toque
+   el horizonte del colofon. */
+.cimiento {
+  position: relative;
+  isolation: isolate;
+  background: var(--campo);
+  margin-bottom: calc(var(--pie-seccion) * -1);
+  overflow: hidden;
+}
+.cimiento::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: url(img/topo.svg) center / cover no-repeat;
+  opacity: 0.32;
+  pointer-events: none;
+}
+.cimiento-interior {
+  max-width: var(--ancho);
+  margin: 0 auto;
+  padding: 72px var(--canal) 56px;
+}
+.cimiento-cabeza {
+  display: grid;
+  grid-template-columns: 188px minmax(0, 1fr);
+  gap: 0 44px;
+  align-items: start;
+  margin-bottom: 44px;
+}
+.cimiento-emblema { width: 100%; height: auto; display: block; }
+.cimiento-titulo {
+  font-size: var(--t-titulo);
+  font-weight: 300;
+  letter-spacing: 0.01em;
+  line-height: 1.14;
+  max-width: 26ch;
+  margin: 0 0 16px;
+  color: var(--tinta);
+}
+.cimiento-entrada {
+  font-size: var(--t-base);
+  line-height: 1.65;
+  color: var(--tinta-2);
+  max-width: 68ch;
+  margin: 0;
+}
+.compromisos {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0 var(--canal);
+}
+.compromiso { border-top: 2px solid var(--tinta); padding-top: 18px; }
+.compromiso-titulo {
+  font-size: var(--t-mayor);
+  font-weight: 500;
+  letter-spacing: 0.005em;
+  color: var(--tinta);
+  margin: 0 0 8px;
+}
+.compromiso-texto { font-size: var(--t-dato); line-height: 1.62; color: var(--tinta-2); margin: 0; }
+.cimiento-nota {
+  font-size: var(--t-menor);
+  color: var(--tinta-3);
+  max-width: 82ch;
+  line-height: 1.55;
+  margin: 40px 0 0;
+  padding-top: 16px;
+  border-top: 1px solid var(--regla);
+}
+
+/* ═════════════════════════════════════════════════════════════════════════
+   METODOLOGIA Y FUENTES
+   ═════════════════════════════════════════════════════════════════════════ */
+.filtros {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  gap: 18px;
+  align-items: end;
+  background: var(--campo);
+  border-top: 2px solid var(--tinta);
+  padding: 16px 18px;
+  margin-bottom: 26px;
+}
+.filtros-cuenta { font-family: var(--m); font-size: var(--t-menor); color: var(--tinta-2); white-space: nowrap; padding-bottom: 8px; }
+
+.lamina-vertical { max-width: 640px; margin: 0 auto; }
+.tabla-desplazable { overflow-x: auto; }
+
+.vacio {
+  border: 1px dashed var(--regla);
+  padding: 34px;
+  text-align: center;
+  font-size: var(--t-dato);
+  color: var(--tinta-3);
+  background: var(--lamina);
+}
+.dataTables_wrapper { color: var(--tinta-2) !important; font-size: var(--t-dato); }
+
+/* ═════════════════════════════════════════════════════════════════════════
+   ADAPTACION
+   ═════════════════════════════════════════════════════════════════════════ */
+@media (max-width: 1024px) {
+  .filtros { grid-template-columns: 1fr 1fr; }
+  .filtros-cuenta { grid-column: 1 / -1; padding-bottom: 0; }
+  .umbral { grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); }
+  .indice-portal { grid-template-columns: 1fr; gap: 20px 0; }
+  .indice-rotulo { display: flex; }
+  .sala { grid-template-columns: 3em minmax(0, 1fr) auto 16px; }
+  .sala-rango { display: none; }
+  .pulso { grid-template-columns: 1fr 1fr; }
+  .compromisos { grid-template-columns: 1fr; gap: 26px 0; }
+}
+
+@media (max-width: 768px) {
+  :root { --canal: 18px; }
+  body { font-size: var(--t-dato); }
+
+  /* Las alturas de lamina estan calibradas para el ancho completo del pliego;
+     en un telefono se recortan aqui, que es un ajuste de medio y no de
+     contenido. */
+  .piezas-acc .echarts4r { height: 230px !important; }
+
+  .marca-plataforma { height: 28px; }
+  .marca { gap: 12px; }
+  .marca-edicion { display: none; }
+  .marca-institucion { display: none; }
+  .marca-edicion-pestana { padding: 12px 8px 6px; }
+  .pestana-fecha { display: none; }
+  .indices { display: none; }
+
+  .portadilla { min-height: 260px; }
+  /* En telefono el credito vertical choca con la cobertura: sube a la esquina
+     y se acuesta. */
+  .portadilla .credito, .umbral-foto .credito {
+    writing-mode: horizontal-tb; transform: none;
+    top: 10px; right: 12px; bottom: auto;
+  }
+  .portadilla-interior { padding: 32px var(--canal) 24px; }
+
+  /* El inventario en telefono: cada fila se recompone en dos lineas sin
+     perder ninguna pieza del mobiliario. Numero, nombre y cifra arriba; unidad
+     y periodo bajo la cifra, fuente y medida bajo el nombre. Una cifra no se
+     publica nunca sin su unidad y su periodo al lado. */
+  .inv-tabla thead { display: none; }
+  .inv-tabla, .inv-tabla tbody { display: block; }
+  .inv-tabla tbody tr {
+    display: grid;
+    grid-template-columns: 2.6em minmax(0, 1fr) auto;
+    column-gap: 12px;
+    row-gap: 3px;
+    padding: 13px 0;
+  }
+  .inv-tabla td, .inv-tabla tbody th { display: block; padding: 0; }
+  .inv-tabla .inv-id      { grid-column: 1; grid-row: 1; text-align: left; }
+  .inv-tabla .inv-pieza   { grid-column: 2; grid-row: 1; min-width: 0; }
+  .inv-tabla .inv-valor   { grid-column: 3; grid-row: 1; }
+  .inv-tabla .inv-unidad  { grid-column: 3; grid-row: 2; text-align: right; font-size: var(--t-menor); }
+  .inv-tabla .inv-periodo { grid-column: 3; grid-row: 3; text-align: right; }
+  .inv-tabla .inv-fuente  { grid-column: 2; grid-row: 2; }
+  .inv-tabla .inv-medida  { grid-column: 2; grid-row: 3; white-space: normal; }
+  .inv-tabla .inv-medida:empty, .inv-tabla .inv-unidad:empty { display: none; }
+
+  .filtros { grid-template-columns: 1fr; }
+
+  /* El umbral se apila: la foto queda como franja arriba y el horizonte pasa
+     al pie del texto. */
+  .umbral { grid-template-columns: 1fr; min-height: 0; }
+  .umbral::before { inset: 220px 0 0 0; opacity: 0.22; -webkit-mask-image: none; mask-image: none; }
+  .umbral-foto { height: 220px; min-height: 0; }
+  .umbral-texto { padding: 34px var(--canal) 92px; max-width: none;
+                  display: flex; flex-direction: column; }
+  /* La advertencia de prototipo sube bajo el titular: tiene que caer en la
+     primera pantalla tambien en telefono. */
+  .umbral-titulo { order: 0; margin-bottom: 16px; }
+  .umbral-aviso  { order: 1; margin: 0 0 22px; }
+  .umbral-bajada { order: 2; }
+  .umbral-estado { order: 3; }
+  .portadilla-cobertura { max-width: none; }
+  /* La cobertura no baja de 24px (contraste de la banda), asi que en telefono
+     el que sube es el titulo, para que siga mandando sobre ella. */
+  .portadilla-titulo { font-size: var(--t-portadilla-movil); }
+  .umbral-estado { flex-wrap: wrap; gap: 12px 0; }
+  .estado-dato { padding: 0 14px 0 0; border-left: none; flex: 1 1 45%; }
+  .umbral > .horizonte { height: 56px; }
+
+  .indice-portal { margin-top: 44px; }
+  .sala { grid-template-columns: 2.4em minmax(0, 1fr) 16px; padding: 15px 4px; gap: 0 12px; }
+  .sala-cuenta { grid-column: 2; grid-row: 2; margin-top: 6px; }
+  .sala-flecha { grid-column: 3; grid-row: 1; }
+  .pulso { grid-template-columns: 1fr; }
+
+  .cimiento-interior { padding: 48px var(--canal) 40px; }
+  .cimiento-cabeza { grid-template-columns: 1fr; gap: 20px 0; }
+  .cimiento-emblema { width: 132px; }
+
+  .colofon-interior { grid-template-columns: 1fr; justify-items: start; }
+  .colofon-meta { text-align: left; }
+
+  /* La ficha se apila: es prosa de consulta, no un pareo de columnas. */
+  .ficha-tabla, .ficha-tabla tbody, .ficha-tabla tr { display: block; }
+  .ficha-campo, .ficha-valor { display: block; width: auto; white-space: normal; padding: 0; max-width: none; }
+  .ficha-campo { border-top: 1px solid var(--regla-fina); padding-top: 9px; margin-top: 9px; }
+  .ficha-valor { border-top: none; padding-bottom: 2px; }
+  .ficha-tabla tr:first-child .ficha-campo { border-top: none; margin-top: 0; padding-top: 0; }
+  .ficha-cabeza { flex-wrap: wrap; gap: 5px 12px; }
+}
+
+/* Sin movimiento si el sistema lo pide: todo queda en su estado final. La
+   banda aparece ya dibujada y las series ya trazadas. */
+@media (prefers-reduced-motion: reduce) {
+  .portadilla .banda, .umbral-titulo .banda { animation: none; background-size: 100% 100%; color: #fff; }
+  .pulso .pulso-svg { animation: none; clip-path: none; }
+  *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+}
