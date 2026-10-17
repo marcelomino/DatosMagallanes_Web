@@ -4,7 +4,7 @@ Plataforma de información sobre bienestar y desarrollo en la Región de Magalla
 de la Antártica Chilena. Unidad de Estudios Regionales (UER), Universidad de
 Magallanes.
 
-**Sitio:** https://marcelomino.github.io/DatosMagallanes_Web/
+**Sitio:** https://datos-magallanes.netlify.app
 
 69 indicadores de población, economía, pobreza, bienestar y cohesión social, cada
 uno con su ficha técnica (definición, cálculo, fuente, desagregaciones) y su número
@@ -34,8 +34,20 @@ Paquetes de R (CRAN): bslib, htmltools, echarts4r, dplyr, purrr, stringr, tidyr,
 yaml, jsonlite, glue, cli, sass, htmlwidgets. Para el taller (`_dev/`): chromote
 (prueba), igraph (`red_fuentes.R`) e ImageMagick (`portadillas.R`).
 
-**Publicar:** push a `master`. El Action `.github/workflows/publicar.yml` construye
-el sitio y lo despliega en GitHub Pages.
+**Publicar:** `git push` a `master`. El hook `.githooks/pre-push` corre
+`_dev/publicar.sh`, que construye, prueba y sube `_site/` a Netlify; si la
+construcción o la prueba fallan, el push se cancela. Preparación, una vez por
+máquina:
+
+```sh
+git config core.hooksPath .githooks
+npx netlify-cli login
+npx netlify-cli link --id <id del sitio>
+```
+
+Además, el Action `.github/workflows/publicar.yml` despliega en GitHub Pages en
+cada push. Hoy no corre porque la cuenta de GitHub tiene Actions bloqueadas por
+facturación.
 
 ## Agregar o corregir un indicador
 

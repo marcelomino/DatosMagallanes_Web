@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+# ═════════════════════════════════════════════════════════════════════════════
+# .githooks/pre-push — Cada push a master publica el sitio en Netlify
+#
+# Se activa una vez por clon:  git config core.hooksPath .githooks
+#
+# Si la construccion, la prueba o la subida fallan, el push se cancela: el
+# repositorio y el sitio publicado no quedan desfasados. Para subir sin
+# publicar (por ejemplo, un cambio que solo toca documentacion de taller):
+#   git push --no-verify
+# ═════════════════════════════════════════════════════════════════════════════
+set -euo pipefail
+
+# Git entrega por stdin una linea por referencia que se empuja:
+#   <ref local> <sha local> <ref remota> <sha remoto>
+publica=0
+while read -r _ sha_local ref_remota _; do
+  # Un borrado de rama llega con sha local en ceros: no publica nada.
+  if [ "$ref_remota" = "refs/heads/master" ] && [ "$sha_local" != "0000000000000000000000000000000000000000" ]; then
+    [ "$sha_local" = "$(git rev-parse HEAD)" ] || {
+      echo "✖ Se empuja master ($sha_local) pero la copia de trabajo esta en otro commit ($(git rev-parse HEAD))." >&2
+      echo "  Cambia a master antes de empujar, o usa --no-verify para no publicar." >&2
+      exit 1
+    }
+    publica=1
+  fi
+done
+
+[ "$publica" = 1 ] || exit 0
+exec "$(git rev-parse --show-toplevel)/_dev/publicar.sh"

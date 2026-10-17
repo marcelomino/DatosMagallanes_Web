@@ -15,8 +15,13 @@ Es la continuacion del dashboard Shiny `10_Datos_Magallanes_dash`, **congelado e
 - Probar: `Rscript _dev/probar_sitio.R` (chromote): enlaces, las 36 laminas, errores
   de JS, desborde a 390 px, controles. Correrlo antes de cada push.
 - Ver en local: `python3 -m http.server 8080 --directory _site`
-- Publicar: push a `master`. `.github/workflows/publicar.yml` construye y despliega
-  en GitHub Pages (repo publico `marcelomino/DatosMagallanes_Web`). `_site/` no se versiona.
+- Publicar: `git push` a `master`. `.githooks/pre-push` corre `_dev/publicar.sh`:
+  exige arbol limpio, construye, prueba y sube `_site/` a Netlify (`netlify-cli@27`).
+  Si algo falla, el push se cancela; `git push --no-verify` sube sin publicar.
+  Requiere `git config core.hooksPath .githooks` y `netlify login` + `link` en la
+  maquina. `.github/workflows/publicar.yml` publica ademas en GitHub Pages, pero no
+  corre mientras la cuenta tenga Actions bloqueadas por facturacion (17-10-2026).
+  `_site/` y `.netlify/` no se versionan.
 
 ## Estructura
 
@@ -44,6 +49,8 @@ _dev/portadillas.R       Tine las fotos de portadilla (ImageMagick). Lee los ori
 _dev/motivos_paisaje.R   Escribe www/img/topo.svg y horizonte.svg desde PAL.
 _dev/ver.R               Dibuja una lamina en la consola.
 _dev/probar_sitio.R      Prueba del sitio construido en Chrome sin ventana.
+_dev/publicar.sh         Construye, prueba y sube a Netlify. Lo llama el hook pre-push.
+.githooks/pre-push       Cada push a master publica (activar: git config core.hooksPath .githooks)
 ```
 
 ## Paginas
