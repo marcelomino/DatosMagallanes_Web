@@ -1,0 +1,83 @@
+/* =============================================================================
+   transicion.css — De la entrada (index.html) a la portada (inicio.html)
+
+   La firma de movimiento del sistema es la banda magenta que se dibuja de
+   izquierda a derecha. Aqui hace el viaje completo:
+
+     1. En la entrada, la banda de "Magallanes" se estira hasta cubrir la
+        pantalla (www/entrada.js). El nombre queda en blanco sobre el magenta.
+     2. Se navega. La transicion entre documentos fotografia esa pantalla
+        magenta y la pone encima de la portada ya dibujada.
+     3. La banda se retira hacia la derecha y descubre la portada, mientras el
+        nombre viaja hasta su lugar en la barra de marca.
+
+   Solo enlazan esta hoja index.html e inicio.html: una transicion entre
+   documentos ocurre cuando los DOS la piden, asi que el resto del sitio navega
+   sin ella. Bajo prefers-reduced-motion no se pide.
+
+   Firefox (sin transicion entre documentos) recibe el paso 3 como respaldo:
+   html.llega-banda, que pone R/50_sitio.R (.script_llegada) en la portada.
+   ============================================================================= */
+
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition { navigation: auto; }
+}
+
+/* El nombre de la plataforma es el mismo objeto en las dos paginas. En
+   telefono la entrada lo parte en dos lineas y la barra lo lleva en una: no
+   hay viaje limpio entre esas dos formas, y el nombre se va con la banda. */
+.entrada-titulo,
+.marca-titulo { view-transition-name: marca-nombre; }
+@media (max-width: 768px) {
+  .entrada-titulo { view-transition-name: none; }
+}
+
+/* ── 3. La banda se retira ───────────────────────────────────────────────── */
+/* La foto de la pagina vieja (la pantalla magenta) va ENCIMA de la nueva y se
+   recorta desde la izquierda: es la banda que se va. La nueva no se anima; ya
+   esta en su lugar, debajo. */
+::view-transition-old(root) {
+  z-index: 1;
+  animation: banda-se-retira 0.78s var(--curva-mov) both;
+}
+::view-transition-new(root) { animation: none; }
+
+@keyframes banda-se-retira {
+  from { clip-path: inset(0 0 0 0); }
+  to   { clip-path: inset(0 0 0 100%); }
+}
+
+/* El nombre viaja con la misma curva y un poco mas largo que la banda: llega
+   a la barra cuando la banda ya la descubrio, no antes. */
+::view-transition-group(marca-nombre) {
+  z-index: 2;
+  animation-duration: 0.9s;
+  animation-timing-function: var(--salida);
+}
+::view-transition-old(marca-nombre),
+::view-transition-new(marca-nombre) {
+  /* Dos lineas que pasan a una: se escala por el alto, no se estira. */
+  height: 100%;
+  width: auto;
+  animation-duration: 0.9s;
+  animation-timing-function: var(--salida);
+}
+/* El nombre blanco se apaga en el primer tercio del viaje: si los dos
+   nombres se cruzan a media opacidad, se lee doble. */
+::view-transition-old(marca-nombre) { animation-duration: 0.32s; }
+
+/* ── Respaldo sin transicion entre documentos ────────────────────────────── */
+/* La portada llega cubierta de magenta y la banda se retira igual. */
+html.llega-banda::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  background: var(--magenta);
+  pointer-events: none;
+  animation: banda-se-retira 0.78s var(--curva-mov) 0.05s both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.llega-banda::after { display: none; }
+}

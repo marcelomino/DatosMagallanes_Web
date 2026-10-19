@@ -1,7 +1,7 @@
 # ═════════════════════════════════════════════════════════════════════════════
 # R/40_pag_presentacion.R — El portal
 #
-# PAGINA: index.html
+# PAGINA: inicio.html (la raiz, index.html, es la entrada: R/40_pag_entrada.R)
 #
 # QUE HACE
 #   Es la entrada de la plataforma, y responde tres preguntas antes que
@@ -349,7 +349,7 @@ pag_presentacion <- function() {
                "Por que una universidad publica construye esto desde la ",
                tags$span(class = "banda", "region")),
             p(class = "cimiento-entrada",
-              "America Latina concentra fuera de su territorio buena parte de la America Latina concentra fuera de su territorio buena parte de la",
+              "America Latina concentra fuera de su territorio buena parte de la",
               "infraestructura que procesa sus propios datos, y Magallanes repite",
               "esa condicion periferica a escala subnacional: la region produce el",
               "dato bruto y el valor se captura en otra parte. Reunir, documentar y",

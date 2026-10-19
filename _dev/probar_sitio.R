@@ -14,6 +14,8 @@
 #      despliega su entrada; la busqueda y ?pieza= filtran las fichas.
 #   4. El menu de telefono: a 390 px reemplaza la franja, trae las 8 secciones
 #      y todos los cuadros, lleva al cuadro, y la barra queda fija.
+#   5. La entrada (index.html): sus enlaces existen, no desborda ni lanza
+#      errores a 1360 y a 390 px, y "Entrar" lleva a inicio.html.
 #
 #   Termina con status 1 si algo falla, para poder usarlo antes de publicar.
 #
@@ -23,7 +25,7 @@
 suppressPackageStartupMessages(library(chromote))
 
 SITIO <- normalizePath("_site", mustWork = TRUE)
-PAGINAS <- c("index.html", "poblacion.html", "economia.html", "pobreza.html",
+PAGINAS <- c("inicio.html", "poblacion.html", "economia.html", "pobreza.html",
              "bienestar.html", "cohesion.html", "metodologia.html", "fuentes.html",
              "creditos.html", "contacto.html")
 
@@ -289,6 +291,33 @@ if (!identical(as.numeric(tope), 0)) {
 exc <- excepciones(b)
 if (length(exc)) fallar("Menu de telefono: ", paste(exc, collapse = " | "))
 b$close()
+
+
+# ── 5. La entrada ────────────────────────────────────────────────────────────
+# index.html no lleva chasis ni colofon: se prueba aparte. "Entrar" estira la
+# banda y recien despues navega, de ahi la espera.
+cli::cli_h2("La entrada")
+html <- paste(readLines(file.path(SITIO, "index.html"), warn = FALSE), collapse = "\n")
+refs <- stringr::str_match_all(html, '(?:href|src)="([^"#?]+)')[[1]][, 2]
+refs <- unique(refs[!grepl("^(https?:|mailto:|data:|//)", refs)])
+rotos <- refs[!file.exists(file.path(SITIO, refs))]
+if (length(rotos)) fallar("index.html: enlaces rotos ", paste(rotos, collapse = ", ")) else
+  ok("index.html: ", length(refs), " enlaces internos")
+for (ancho in c(1360, 390)) {
+  b <- abrir("index.html", ancho)
+  desborde <- js(b, "document.documentElement.scrollWidth > window.innerWidth")
+  if (isTRUE(desborde)) fallar("index.html @", ancho, ": desborde horizontal")
+  js(b, "document.querySelector('.entrada-prompt').click(); 1")
+  Sys.sleep(2)
+  destino <- js(b, "location.pathname.split('/').pop()")
+  if (!identical(destino, "inicio.html"))
+    fallar("index.html @", ancho, ": Entrar llevo a ", destino, ", no a inicio.html")
+  exc <- excepciones(b)
+  if (length(exc)) fallar("index.html @", ancho, ": ", paste(exc, collapse = " | "))
+  if (!isTRUE(desborde) && identical(destino, "inicio.html") && !length(exc))
+    ok("index.html @", ancho, "px: Entrar lleva a inicio.html")
+  b$close()
+}
 
 
 # ── Resultado ────────────────────────────────────────────────────────────────

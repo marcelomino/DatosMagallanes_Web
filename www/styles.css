@@ -1583,3 +1583,242 @@ a.sala, a.sala:hover, a.pulso-pieza, a.pulso-pieza:hover { color: var(--tinta); 
   .pulso .pulso-svg { animation: none; clip-path: none; }
   *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
 }
+
+
+/* ═════════════════════════════════════════════════════════════════════════
+   LA ENTRADA — index.html
+   La tapa antes de abrir el Boletin: papel, curvas de nivel, el nombre, una
+   frase y un boton. Su unico momento es la banda de "Magallanes", que se
+   dibuja al llegar y se estira hasta cubrir la pantalla al entrar
+   (www/entrada.js, www/transicion.css). El campo solo respira.
+   ═════════════════════════════════════════════════════════════════════════ */
+body.es-entrada { margin: 0; }
+.entrada {
+  position: relative;
+  isolation: isolate;
+  min-height: 100vh;
+  min-height: 100svh;
+  display: grid;
+  grid-template-rows: auto 1fr auto auto;
+  overflow: hidden;
+}
+
+/* ── El campo: un terreno que gira ───────────────────────────────────────── */
+/* Una sola capa: img/topo-giro.svg, cuadrado y con su cumbre al centro, gira
+   sobre ese centro a velocidad constante (una vuelta cada 140 s: el borde
+   visible avanza unos 40 px por segundo). El eje queda a la derecha y la
+   mascara, que no gira, apaga las curvas antes de llegar al nombre. El
+   cuadrado mide 150vmax: a cualquier angulo cubre todo lo que la mascara deja
+   ver. */
+.entrada-campo {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  -webkit-mask-image: radial-gradient(ellipse 62% 84% at 82% 46%, black 26%, transparent 76%);
+          mask-image: radial-gradient(ellipse 62% 84% at 82% 46%, black 26%, transparent 76%);
+  animation: entrada-aparece 1.6s var(--salida) both;
+}
+.entrada-curvas {
+  --eje-x: 82%;
+  --eje-y: 46%;
+  position: absolute;
+  width: 150vmax;
+  height: 150vmax;
+  left: calc(var(--eje-x) - 75vmax);
+  top: calc(var(--eje-y) - 75vmax);
+  background: url(img/topo-giro.svg) center / 100% 100% no-repeat;
+  will-change: transform;
+  animation: girar 140s linear infinite;
+}
+@keyframes girar { to { transform: rotate(360deg); } }
+@keyframes entrada-aparece { from { opacity: 0; } to { opacity: 1; } }
+@keyframes entrada-sube {
+  from { opacity: 0; transform: translateY(16px); filter: blur(6px); }
+  to   { opacity: 1; transform: none; filter: none; }
+}
+
+/* ── La cabeza ───────────────────────────────────────────────────────────── */
+.entrada-cabeza {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 24px;
+  padding: 0 var(--canal);
+  animation: entrada-aparece 1s var(--salida) 0.1s both;
+}
+.entrada-cabeza .marca-edicion-pestana { padding: 22px 12px 10px; }
+.entrada-sello { height: 40px; width: auto; margin-top: 24px; }
+
+/* ── El nombre, la frase y el boton ──────────────────────────────────────── */
+.entrada-cuerpo {
+  align-self: center;
+  padding: 48px var(--canal) 56px clamp(32px, 8.5vw, 136px);
+  max-width: 68rem;
+}
+.entrada-titulo {
+  position: relative;
+  z-index: 6;              /* sobre el telon: queda en blanco sobre el magenta */
+  /* Ajustado al texto: la transicion lo mide para llevarlo a la barra, y un
+     bloque a todo el ancho llegaria con su aire vacio a cuestas. */
+  width: fit-content;
+  font-size: var(--t-indice);
+  font-weight: 200;
+  letter-spacing: 0.01em;
+  line-height: 1;
+  margin: 0 0 32px;
+  color: var(--tinta);
+}
+.entrada-linea {
+  display: inline-block;
+  animation: entrada-sube 1.1s var(--salida) 0.15s both;
+}
+.entrada-linea + .entrada-linea { animation-delay: 0.27s; }
+/* La banda se dibuja cuando la palabra ya llego, como en el portal. */
+.entrada-titulo .banda {
+  font-weight: 300;
+  padding: 0 0.12em 0.04em;
+  background-color: transparent;
+  background-image: linear-gradient(var(--magenta), var(--magenta));
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  animation: dibujar-banda-papel 0.95s var(--curva-mov) 0.85s both;
+}
+.entrada-bajada {
+  font-size: var(--t-mayor);
+  line-height: 1.6;
+  color: var(--tinta-2);
+  max-width: 46ch;
+  margin: 0 0 40px;
+  animation: entrada-sube 1s var(--salida) 0.5s both;
+}
+.entrada-accion {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px 28px;
+  animation: entrada-sube 1s var(--salida) 0.65s both;
+}
+
+/* El prompt: la unica accion de la pagina, escrita como una linea de
+   comandos. Azul, porque es lo accionable; el signo en tinta tenue; el cursor
+   de bloque en magenta, el color del cursor de texto en todo el sitio. Al
+   pasar, la banda se dibuja sobre "entrar" como texto seleccionado en una
+   terminal, y esa misma banda es la que cubre la pantalla al pulsar. */
+.entrada-prompt {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6em;
+  padding: 6px 0;
+  font-family: var(--m);
+  font-size: var(--t-cifra);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  line-height: 1.2;
+  color: var(--azul);
+  text-decoration: none;
+}
+.prompt-signo { color: var(--tinta-3); font-weight: 400; transition: color 0.3s var(--salida); }
+.prompt-palabra {
+  display: inline-block;
+  margin-right: -0.6em;     /* el cursor va pegado a la palabra, sin el gap */
+  padding: 0.06em 0.18em;
+  margin-left: -0.18em;     /* la banda sobresale; la palabra no se corre */
+  background-image: linear-gradient(var(--magenta), var(--magenta));
+  background-repeat: no-repeat;
+  background-size: 0% 100%;
+  transition: background-size 0.5s var(--curva-mov), color 0.3s var(--curva-mov) 0.12s;
+}
+.prompt-cursor {
+  display: inline-block;
+  width: 0.62em;
+  height: 1.15em;
+  margin-left: 0.12em;
+  background: var(--magenta);
+  animation: parpadeo 1.1s steps(1, end) infinite;
+}
+@keyframes parpadeo { 50% { opacity: 0; } }
+
+.entrada-prompt:hover, .entrada-prompt:focus-visible { color: var(--azul); }
+.entrada-prompt:hover .prompt-signo,
+.entrada-prompt:focus-visible .prompt-signo { color: var(--magenta-prof); }
+.entrada-prompt:hover .prompt-palabra,
+.entrada-prompt:focus-visible .prompt-palabra { background-size: 100% 100%; color: #fff; }
+/* Con la palabra seleccionada el cursor deja de parpadear: espera la orden. */
+.entrada-prompt:hover .prompt-cursor,
+.entrada-prompt:focus-visible .prompt-cursor { animation: none; }
+.entrada-prompt:focus-visible { outline-offset: 6px; }
+
+/* ── El pie: el estado del catalogo y el lugar ───────────────────────────── */
+.entrada-pie {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 12px 32px;
+  padding: 0 var(--canal) 14px;
+  font-size: var(--t-menor);
+  color: var(--tinta-3);
+  animation: entrada-aparece 1.2s var(--salida) 0.9s both;
+}
+.entrada-pie p { margin: 0; }
+.entrada-estado { display: flex; flex-wrap: wrap; }
+.entrada-estado span { padding: 0 14px; border-left: 1px solid var(--regla); }
+.entrada-estado span:first-child { padding-left: 0; border-left: none; }
+.entrada-estado b { color: var(--tinta); font-weight: 600; }
+.entrada-lugar { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; }
+.entrada-coordenadas { font-family: var(--m); letter-spacing: 0.02em; }
+
+/* El Paine al pie, de borde a borde, trazado de izquierda a derecha. */
+.entrada-horizonte {
+  height: clamp(64px, 11vh, 120px);
+  animation: trazar 2.2s var(--salida) 0.35s both;
+}
+
+/* ── El telon y la salida ────────────────────────────────────────────────── */
+.entrada-telon {
+  position: fixed;
+  inset: 0;
+  z-index: 5;
+  background: var(--magenta);
+  visibility: hidden;
+  pointer-events: none;
+  will-change: clip-path;
+}
+/* La banda nace en el prompt, bajo el nombre: "Datos" pasa a blanco recien
+   cuando la inundacion lo alcanza (la franja ocupa el 46% de los 820 ms, y la
+   subida hasta el nombre, otro tanto). "Magallanes" ya es blanco en su banda. */
+.es-entrando .entrada-titulo { color: #fff; transition: color 0.22s linear 0.52s; }
+.es-entrando .entrada-prompt { pointer-events: none; }
+.es-entrando .prompt-palabra { background-size: 100% 100%; color: #fff; }
+
+@media (max-width: 768px) {
+  .entrada-cabeza .marca-edicion-pestana { padding: 16px 9px 7px; }
+  .entrada-sello { height: 30px; margin-top: 16px; }
+  /* En telefono el texto ocupa todo el ancho y no hay "derecha" donde
+     guardar el terreno: baja al tramo entre el prompt y el pie, y se apaga
+     antes de llegar a la frase. */
+  .entrada-campo {
+    opacity: 0.75;
+    -webkit-mask-image: linear-gradient(to bottom, transparent 58%, black 72%, black 84%, transparent 96%);
+            mask-image: linear-gradient(to bottom, transparent 58%, black 72%, black 84%, transparent 96%);
+  }
+  .entrada-curvas { --eje-x: 70%; --eje-y: 76%; }
+  .entrada-cuerpo { padding: 40px var(--canal) 40px; }
+  .entrada-linea { display: block; }
+  .entrada-titulo { line-height: 1.04; margin-bottom: 24px; }
+  .entrada-bajada { font-size: var(--t-base); margin-bottom: 32px; }
+  .entrada-prompt { flex: 1 1 100%; }
+  .entrada-accion .marca-estado { white-space: normal; }
+  .entrada-pie { flex-direction: column; align-items: flex-start; gap: 10px; }
+  .entrada-lugar { align-items: flex-start; }
+  .entrada-estado { gap: 2px 14px; }
+  .entrada-estado span { padding: 0; border-left: none; }
+  .entrada-horizonte { height: 52px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .entrada-campo, .entrada-curvas, .entrada-cabeza, .entrada-linea, .entrada-bajada,
+  .entrada-accion, .entrada-pie, .entrada-horizonte, .prompt-cursor { animation: none; }
+  .entrada-titulo .banda { animation: none; background-size: 100% 100%; color: #fff; }
+}

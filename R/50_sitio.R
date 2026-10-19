@@ -24,7 +24,7 @@
 # numeral salen de ahi. Lo unico que se declara aqui es que funcion dibuja cada
 # una, en el orden de la barra.
 .PAGINAS <- c(
-  list(list(archivo = "index.html", nav = "Presentación", nombre = "Datos Magallanes",
+  list(list(archivo = "inicio.html", nav = "Presentación", nombre = "Datos Magallanes",
             num = NULL, dibujo = \() pag_presentacion())),
   purrr::map2(
     c(.CAPITULOS, list(.SALA_METODOLOGIA, .SALA_FUENTES)),
@@ -43,13 +43,14 @@
 # ── Barra de marca ───────────────────────────────────────────────────────────
 # Tres piezas, en el orden que las distingue: la marca de LA PLATAFORMA a la
 # izquierda, su nombre al centro y el sello de LA INSTITUCION a la derecha. La
-# marca lleva a la portada. En telefono el sello cede su lugar al boton del
-# menu (menu_movil()), que va fuera del enlace de la marca.
+# marca lleva a la portada (inicio.html, no a la entrada de la raiz). En
+# telefono el sello cede su lugar al boton del menu (menu_movil()), que va
+# fuera del enlace de la marca.
 .barra_marca <- function(menu = NULL) {
   div(
     class = "barra-marca",
     tags$a(
-      class = "marca", href = "index.html", style = "text-decoration:none",
+      class = "marca", href = "inicio.html", style = "text-decoration:none",
       # La pestana de edicion: la del teal vertical de la portada del Boletin
       # ("N.2 / MARZO 2026"), aqui con la version y el mes de la edicion. Sale
       # de .EDICION: un solo cambio.
@@ -73,8 +74,10 @@
 }
 
 # ── Cabecera ─────────────────────────────────────────────────────────────────
-.cabecera <- function(titulo) {
-  tags$head(
+# Lo que comparten todas las paginas, incluida la entrada: fuentes, styles.css
+# y la identidad que se ve fuera del sitio.
+.cabecera_comun <- function(titulo) {
+  tagList(
     tags$title(titulo),
     # La fuente va ANTES de styles.css: declara los @font-face de Asap, que el
     # tema (tema_umag) solo nombra. Es nuestra copia, no una peticion a Google.
@@ -106,7 +109,35 @@
     tags$meta(name = "twitter:title",       content = titulo),
     tags$meta(name = "twitter:description", content = .DESCRIPCION_SOCIAL),
     tags$meta(name = "twitter:image",       content = "og-image.png"),
-    tags$meta(name = "description",         content = .DESCRIPCION_SOCIAL),
+    tags$meta(name = "description",         content = .DESCRIPCION_SOCIAL)
+  )
+}
+
+# La transicion de la entrada a la portada (www/transicion.css). Solo la llevan
+# las dos paginas que la protagonizan: una transicion entre documentos ocurre
+# cuando AMBOS la piden, asi que navegar entre capitulos sigue siendo seco.
+.cabecera_transicion <- function() {
+  tags$link(rel = "stylesheet", href = .con_version("transicion.css", "www/transicion.css"))
+}
+
+# El respaldo de la llegada para los navegadores sin transicion entre
+# documentos (Firefox): la entrada deja una marca en sessionStorage y la
+# portada, si no recibe la transicion nativa, retira la banda con CSS. Va en
+# linea y antes de dibujar: pagereveal se dispara antes del primer cuadro.
+.script_llegada <- function() {
+  tags$script(HTML(
+    '(function(){var d=document.documentElement;function llega(){var f=null;',
+    'try{f=sessionStorage.getItem("dm-entrada");sessionStorage.removeItem("dm-entrada")}catch(e){}',
+    'return f}if("onpagereveal" in window){addEventListener("pagereveal",function(e){',
+    'if(llega()&&!e.viewTransition)d.classList.add("llega-banda")},{once:true})}',
+    'else if(llega())d.classList.add("llega-banda")})();'
+  ))
+}
+
+.cabecera <- function(titulo, transicion = FALSE) {
+  tags$head(
+    .cabecera_comun(titulo),
+    if (transicion) tagList(.cabecera_transicion(), .script_llegada()),
     # Antes de que se dibuje nada, y en este orden: el formateador de cifras
     # (DM.n) que invoca cada rotulo y tooltip, y el tema "catalogo" que
     # e_lamina() le pide a cada grafico.
@@ -168,7 +199,8 @@ pagina <- function(actual) {
       nav_item(tags$a(class = "nav-link", href = p$archivo, p$nav))
   })
 
-  titulo <- if (identical(actual$archivo, "index.html")) "Datos Magallanes"
+  portada <- identical(actual$archivo, "inicio.html")
+  titulo <- if (portada) "Datos Magallanes"
             else paste(actual$nombre, "· Datos Magallanes")
 
   do.call(page_navbar, c(
@@ -181,12 +213,32 @@ pagina <- function(actual) {
       # El indice de cada capitulo, colgado de su pestana. Se emite oculto y
       # js/sitio.js lo posiciona al abrirlo. Sale de LAM: una pieza nueva entra
       # al menu por el solo hecho de tener su grafico.R.
-      header = tagList(.cabecera(titulo), menu_indices(.CAPITULOS)),
+      header = tagList(.cabecera(titulo, transicion = portada), menu_indices(.CAPITULOS)),
       footer = if (en_barra) .colofon()
                else tagList(div(class = "contenedor", actual$dibujo()), .colofon())
     ),
     entradas
   ))
+}
+
+# ── La entrada ───────────────────────────────────────────────────────────────
+#' El documento de index.html: sin chasis, sin Bootstrap y sin ECharts
+#'
+#' Pide por adelantado la portada (reglas de especulacion: Chrome y Edge la
+#' prerenderizan) para que, al pulsar "Entrar", la banda se retire sobre una
+#' pagina ya dibujada y no sobre una espera.
+.documento_entrada <- function() {
+  tagList(
+    tags$head(
+      .cabecera_comun("Datos Magallanes"),
+      .cabecera_transicion(),
+      tags$script(type = "speculationrules", HTML(jsonlite::toJSON(
+        list(prerender = list(list(source = "list", urls = list(.DESTINO_ENTRADA)))),
+        auto_unbox = TRUE))),
+      tags$script(src = .con_version("entrada.js", "www/entrada.js"), defer = NA)
+    ),
+    pag_entrada()
+  )
 }
 
 #' La pestana de la pagina actual, con el marcado de las demas
@@ -240,6 +292,10 @@ escribir_sitio <- function(destino) {
 
   # Las paginas. Las dependencias (Bootstrap compilado con tema_umag(), jQuery,
   # el JS de los componentes de bslib) quedan en lib/, compartidas.
+  htmltools::save_html(.documento_entrada(), file.path(destino, "index.html"), lang = "es")
+  .clase_cuerpo(file.path(destino, "index.html"), "es-entrada")
+  cli::cli_alert_success("index.html (entrada)")
+
   for (p in .PAGINAS) {
     archivo <- file.path(destino, p$archivo)
     htmltools::save_html(pagina(p), archivo, libdir = "lib", lang = "es")
@@ -257,6 +313,15 @@ escribir_sitio <- function(destino) {
                              paste(pend, collapse = "; ")))
 
   .podar_lib(destino)
+}
+
+#' Poner una clase en el <body> que escribe save_html()
+.clase_cuerpo <- function(archivo, clase) {
+  txt <- paste(readLines(archivo, encoding = "UTF-8"), collapse = "\n")
+  if (!grepl("<body>", txt, fixed = TRUE))
+    cli::cli_abort("No encontre <body> en {.path {archivo}}: cambio la salida de save_html().")
+  txt <- sub("<body>", paste0('<body class="', clase, '">'), txt, fixed = TRUE)
+  writeLines(txt, archivo, useBytes = TRUE)
 }
 
 #' La copia de ECharts que trae echarts4r, leida de su dependencia

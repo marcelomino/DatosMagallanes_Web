@@ -4,6 +4,8 @@
 # QUE HACE
 #   Escribe los dos motivos de paisaje del sistema como SVG estaticos:
 #     www/img/topo.svg        curvas de nivel procedurales (fondo del portal)
+#     www/img/topo-giro.svg   un terreno cuadrado con su cumbre al centro: el
+#                             que gira en la entrada (index.html)
 #     www/img/horizonte.svg   perfil estilizado del macizo del Paine
 #
 #   Vienen del tema «austral» de la presentacion de brechas sociolaborales
@@ -14,7 +16,8 @@
 #
 # POR QUE SE CONGELAN
 #   Son geometria fija (semilla fija): se revisan una vez y quedan. La app no
-#   los calcula ni los anima; solo los sirve.
+#   los calcula; solo los sirve. El unico que se mueve es topo-giro.svg, y lo
+#   mueve CSS girandolo entero, sin tocar su geometria.
 #
 # USO
 #   Rscript _dev/motivos_paisaje.R
@@ -50,6 +53,41 @@ writeLines(c(
   sprintf('<style>path{fill:none;stroke:%s;stroke-linejoin:round;vector-effect:non-scaling-stroke}.c{stroke-width:.7;stroke-opacity:.45}.m{stroke-width:1.2;stroke-opacity:.8}</style>', TRAZO),
   curvas, "</svg>"), "www/img/topo.svg")
 cli_alert_success("www/img/topo.svg ({length(curvas)} curvas)")
+
+# ── El terreno que gira ──────────────────────────────────────────────────────
+# Cuadrado, porque gira: un rectangulo mostraria sus esquinas a media vuelta. La
+# cumbre va al centro, que es el eje del giro, rodeada de cerros menores que
+# son los que se ven pasar. Lleva mas niveles que topo.svg porque se dibuja
+# mas grande (unos 2000 px de lado) y las curvas no deben verse ralas.
+set.seed(70)
+L <- 2000; n <- 200
+u <- seq(0, 1, length.out = n)
+g <- expand.grid(x = u, y = u)
+r <- sqrt((g$x - 0.5)^2 + (g$y - 0.5)^2)
+z <- 1.5 * exp(-r^2 / (2 * 0.11^2)) +
+     0.35 * sin(3.4 * pi * g$x + 0.6) * cos(2.8 * pi * g$y) +
+     0.15 * sin(7 * pi * (g$x - g$y))
+for (i in 1:22) {
+  ang <- runif(1, 0, 2 * pi); dist <- runif(1, 0.12, 0.48)
+  cx <- 0.5 + dist * cos(ang); cy <- 0.5 + dist * sin(ang)
+  s <- runif(1, 0.03, 0.1); a <- runif(1, -0.7, 1.1)
+  z <- z + a * exp(-((g$x - cx)^2 + (g$y - cy)^2) / (2 * s^2))
+}
+m <- matrix(z, n, n)
+niveles <- pretty(range(m), 58)
+curvas <- contourLines(u, u, m, levels = niveles) |>
+  map_chr(\(k) {
+    # A pixel entero: a este tamano el decimal no se ve y pesa un tercio del archivo.
+    px <- round(k$x * L); py <- round((1 - k$y) * L)
+    maestra <- match(k$level, niveles) %% 5 == 0
+    sprintf('<path d="M%s" class="%s"/>', paste(px, py, sep = ",", collapse = "L"),
+            if (maestra) "m" else "c")
+  })
+writeLines(c(
+  sprintf('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 %d %d">', L, L),
+  sprintf('<style>path{fill:none;stroke:%s;stroke-linejoin:round;vector-effect:non-scaling-stroke}.c{stroke-width:.7;stroke-opacity:.45}.m{stroke-width:1.2;stroke-opacity:.8}</style>', TRAZO),
+  curvas, "</svg>"), "www/img/topo-giro.svg")
+cli_alert_success("www/img/topo-giro.svg ({length(curvas)} curvas)")
 
 # ── Perfil del Paine ─────────────────────────────────────────────────────────
 # Estepa -> Paine Grande -> Cuernos -> Torres -> estepa. El trazo no se estira

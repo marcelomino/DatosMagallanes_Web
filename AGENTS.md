@@ -33,9 +33,11 @@ R/20_graficos.R          Registro de laminas: barre indicadores/*/grafico.R y ar
 R/30_ui_components.R     cuadro(), pieza_cuadro(), lienzo(), rango_anios(), controles, marca_estado()
 R/40_pag_*.R             Una funcion pag_*() por seccion (8)
 R/40_pag_aparato.R       Paginas del pie (Creditos, Contacto); .EQUIPO y .CONTACTO se editan aqui
+R/40_pag_entrada.R       La entrada (index.html): sin chasis; el prompt "> entrar" lleva a inicio.html
 R/50_sitio.R             Chasis (barra, cabecera, colofon), pagina(), escribir_sitio()
 js/sitio.js              Monta laminas, conmuta el cero, aplica rangos, filtra fichas, navega
-www/                     styles.css, portal.js, fuentes, fotos de portadilla, logos
+www/                     styles.css, portal.js, fuentes, fotos de portadilla, logos;
+                         entrada.js y transicion.css (la banda de la entrada a la portada)
 indicadores/{id}_{slug}/ficha.yaml   LA FUENTE DE VERDAD del indicador (define su id)
 indicadores/{id}_{slug}/datos.csv    Los datos de ese indicador
 indicadores/{id}_{slug}/grafico.R    Las laminas de ese indicador (echarts4r plano)
@@ -47,7 +49,7 @@ _dev/agregar_fichas.R    Regenera el agregado. Correr tras tocar una ficha.
 _dev/red_fuentes.R       Regenera red.yaml (igraph). Correr tras agregar/quitar un indicador.
 _dev/portadillas.R       Tine las fotos de portadilla (ImageMagick). Lee los originales del
                          Boletin en ../_Logos_Plantillas/ (fuera del repo).
-_dev/motivos_paisaje.R   Escribe www/img/topo.svg y horizonte.svg desde PAL.
+_dev/motivos_paisaje.R   Escribe www/img/topo.svg, topo-giro.svg y horizonte.svg desde PAL.
 _dev/ver.R               Dibuja una lamina en la consola.
 _dev/probar_sitio.R      Prueba del sitio construido en Chrome sin ventana.
 _dev/publicar.sh         Construye, prueba y sube a Netlify. Lo llama el hook pre-push.
@@ -58,7 +60,8 @@ _dev/publicar.sh         Construye, prueba y sube a Netlify. Lo llama el hook pr
 
 | Seccion            | Archivo            | Funcion             |
 |--------------------|--------------------|---------------------|
-| Presentacion       | `index.html`       | `pag_presentacion()`|
+| Entrada (raiz)     | `index.html`       | `pag_entrada()`     |
+| Presentacion       | `inicio.html`      | `pag_presentacion()`|
 | I Poblacion        | `poblacion.html`   | `pag_poblacion()`   |
 | II Economia        | `economia.html`    | `pag_economia()`    |
 | III Pobreza        | `pobreza.html`     | `pag_pobreza()`     |
@@ -68,6 +71,11 @@ _dev/publicar.sh         Construye, prueba y sube a Netlify. Lo llama el hook pr
 | VII Fuentes        | `fuentes.html`     | `pag_fuentes()`     |
 | Creditos (pie)     | `creditos.html`    | `pag_creditos()`    |
 | Contacto (pie)     | `contacto.html`    | `pag_contacto()`    |
+
+La entrada no lleva chasis y solo la ve quien llega desde fuera: la marca de la
+barra apunta a `inicio.html`. Al pulsar "> entrar" la banda del prompt cubre la
+pantalla y se retira sobre la portada (transicion entre documentos; respaldo CSS en
+Firefox). Solo `index.html` e `inicio.html` enlazan `transicion.css`.
 
 Las dos del pie no entran a la barra: se enlazan solo desde el colofon
 (`.PAGINAS_PIE`, R/40_pag_aparato.R). La construccion avisa mientras `.EQUIPO` o
