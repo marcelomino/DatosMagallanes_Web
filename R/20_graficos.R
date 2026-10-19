@@ -183,7 +183,8 @@ cargar_laminas <- function(carpeta) {
   # asi que mover la base recorta la barra y la magnitud que dibuja deja de ser
   # la del dato. En una linea el cero es contexto —se puede quitar declarandolo—;
   # en una barra es constitutivo. Por eso el control ni siquiera se ofrece ahi.
-  lam$admite_cero <- !any(grepl("e_bar\\(", deparse(lam$dibujo)))
+  # "e_bar_?" cubre tambien la forma con nombre de columna en texto (e_bar_()).
+  lam$admite_cero <- !any(grepl("e_bar_?\\(", deparse(lam$dibujo)))
 
   lam
 }

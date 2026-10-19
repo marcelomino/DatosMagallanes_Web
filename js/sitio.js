@@ -6,7 +6,9 @@
 //   1. Montar cada lamina cuando el lector abre su entrada, y no antes: un
 //      grafico dentro de un panel cerrado mide cero.
 //   2. El conmutador "Eje desde cero" de cada pieza.
-//   3. Los rangos de anos que comparten II.1/II.2 y III.1/III.2.
+//   3. Los rangos de anos que comparten II.1/II.2 y III.1/III.2, y el selector
+//      de censo de I.3 (un rango de un solo ano)
+//      y el de la piramide de I.2, que suma la opcion Superpuestos.
 //   4. El filtro y la busqueda de las fichas del capitulo VI.
 //   5. La navegacion: el indice colgado de cada pestana y las direcciones de
 //      cita en la URL (economia.html#cuadro-II-1, metodologia.html?pieza=215).
@@ -52,8 +54,11 @@
   }
 
   // La clave del rango vigente de un grupo ("2018-2023"). Si el lector invierte
-  // el rango se intercambian, en vez de dejar el cuadro vacio.
+  // el rango se intercambian, en vez de dejar el cuadro vacio. Un selector de
+  // ano suelto (corte_anio() en R) es el rango de un solo ano: "2017-2017".
   function claveRango(grupo) {
+    var u = document.getElementById(grupo + '-anio');
+    if (u) return u.value + '-' + u.value;
     var d = document.getElementById(grupo + '-anio_desde');
     var h = document.getElementById(grupo + '-anio_hasta');
     var a = Number(d.value), b = Number(h.value);
@@ -109,7 +114,8 @@
       if (!graficos[l.id]) return;
       var esCero  = l.dataset.cero && el.id === l.dataset.cero;
       var esRango = l.dataset.rango &&
-        (el.id === l.dataset.rango + '-anio_desde' || el.id === l.dataset.rango + '-anio_hasta');
+        (el.id === l.dataset.rango + '-anio_desde' || el.id === l.dataset.rango + '-anio_hasta' ||
+         el.id === l.dataset.rango + '-anio');
       if (esCero || esRango) dibujar(l);
     });
   });
@@ -196,6 +202,56 @@
     abrir('.fichas-acc [data-value="ind_' + pieza + '"]', null);
   }
 
+  // Un enlace a un cuadro de la misma pagina no recarga: se cambia el ancla y
+  // se abre la entrada aqui mismo, aunque el ancla ya fuera esa (sin
+  // hashchange). A otra pagina, el enlace navega normalmente.
+  function irDentro(a, e) {
+    var u = new URL(a.href, location.href);
+    if (u.pathname !== location.pathname || !u.hash) return;
+    e.preventDefault();
+    history.pushState(null, '', u.hash);
+    seguirAncla();
+  }
+
+  // El menu de telefono (menu_movil()). Abre y cierra solo, por ser <details>;
+  // aqui se cierra con Escape, al tocar fuera, al elegir un enlace o al volver
+  // a ancho de escritorio, y mientras esta abierto el fondo no se desplaza.
+  function enlazarMenuMovil() {
+    var menu = document.querySelector('.menu-movil');
+    if (!menu) return;
+    var boton = menu.querySelector('.menu-movil-boton');
+    var raiz = document.documentElement;
+    var barra = document.querySelector('.navbar');
+    // La barra es fija en telefono: su alto dice donde empieza el panel y cuanto
+    // margen deja un cuadro al saltar a su ancla (scroll-margin-top).
+    function medir() {
+      raiz.style.setProperty('--alto-barra', barra.offsetHeight + 'px');
+    }
+    function cerrar(devolverFoco) {
+      if (!menu.open) return;
+      menu.open = false;
+      if (devolverFoco) boton.focus();
+    }
+    medir();
+    window.addEventListener('resize', medir);
+    menu.addEventListener('toggle', function () {
+      if (menu.open) medir();
+      raiz.classList.toggle('menu-abierto', menu.open);
+    });
+    menu.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') cerrar(true);
+    });
+    document.addEventListener('click', function (e) {
+      if (menu.open && !menu.contains(e.target)) cerrar(false);
+    });
+    $$('.menu-movil-panel a', menu).forEach(function (a) {
+      a.addEventListener('click', function (e) { cerrar(false); irDentro(a, e); });
+    });
+    window.matchMedia('(min-width: 769px)').addEventListener('change', function (m) {
+      if (m.matches) cerrar(false);
+    });
+  }
+
   // El indice colgado de cada pestana: se abre al pasar o al enfocar la
   // pestana, flecha abajo entra, Escape sale. Cada entrada es un enlace real a
   // la pagina y al ancla de su cuadro (ver menu_indices()).
@@ -244,16 +300,7 @@
       });
       $$('.indice-item', panel).forEach(function (a) {
         a.setAttribute('tabindex', '0');
-        // En la misma pagina no hay recarga: se cambia el ancla y se abre la
-        // entrada aqui mismo, aunque el ancla ya fuera esa (sin hashchange).
-        a.addEventListener('click', function (e) {
-          cerrar();
-          var u = new URL(a.href, location.href);
-          if (u.pathname !== location.pathname) return;
-          e.preventDefault();
-          history.pushState(null, '', u.hash);
-          seguirAncla();
-        });
+        a.addEventListener('click', function (e) { cerrar(); irDentro(a, e); });
       });
     });
     document.addEventListener('click', function (e) {
@@ -285,6 +332,7 @@
     dibujarVisibles();
     anclarPestanaActiva();
     enlazarIndices();
+    enlazarMenuMovil();
     seguirAncla();
     seguirPieza();
   }

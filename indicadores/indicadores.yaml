@@ -12,115 +12,117 @@ indicadores:
 
   # ── POBLACION ─────────────────────────────────────────────────────────
   - id: 101
-    nombre: "Población total"
+    nombre: "Población regional según sexo"
     seccion: Poblacion
     definicion: >
-      Número de personas censadas o estimadas a nivel regional en un año dado.
-      Refleja el tamaño total de la población residente habitual en la Región
-      de Magallanes y de la Antártica Chilena.
+      Número de hombres y de mujeres censados o estimados a nivel regional en
+      un año dado, desde el censo de 1907. Refleja el tamaño y la composición
+      por sexo de la población residente habitual en la Región de Magallanes y
+      de la Antártica Chilena.
     unidad: "Número de personas"
     tipo_dato: "Censos de Población y estimaciones intercensales."
-    calculo: "Conteo directo de población en operaciones censales; estimaciones intercensales basadas en componentes demográficos"
+    calculo: "Conteo directo de población por sexo en operaciones censales; estimaciones intercensales basadas en componentes demográficos"
     fuente: "INE — Censos de Población y Vivienda; Estimaciones y proyecciones de población"
     fuente_id: censo
-    desagregaciones: "Comuna, zona urbana/rural"
-    disponibilidad: "Censos de Población (1907–2024); estimaciones anuales"
+    desagregaciones: "Sexo"
+    disponibilidad: "Censos de Población (1907–2024)"
     comentario: >
       Incluye crecimiento vegetativo (nacimientos menos defunciones) y saldo
       migratorio (inmigración menos emigración). Los valores intercensales son
       estimaciones sujetas a revisión posterior. La serie larga permite
-      observar la transición demográfica regional.
+      observar la transición demográfica regional y el paso de una población
+      muy masculinizada a una composición cercana al equilibrio.
 
   - id: 102
-    nombre: "Distribución de la población por sexo y edad"
+    nombre: "Población según comuna y sexo"
     seccion: Poblacion
     definicion: >
-      Composición porcentual de la población regional según grupos
-      quinquenales o decenales de edad y sexo. Permite construir la pirámide
-      poblacional y caracterizar la estructura demográfica.
-    unidad: "Porcentaje (%)"
-    tipo_dato: "Censo de Población y estimaciones intercensales."
-    calculo: "(Población del grupo de edad y sexo / Población total) x 100"
-    fuente: "INE — Censo de Población y Vivienda 2017; Estimaciones y proyecciones"
+      Número de hombres y de mujeres censados en cada una de las once comunas
+      de la Región de Magallanes y de la Antártica Chilena, en los censos de
+      1992, 2002, 2017 y 2024. Permite comparar el tamaño y la composición por
+      sexo de la población entre comunas y entre censos.
+    unidad: "Número de personas"
+    tipo_dato: "Censos de Población y Vivienda."
+    calculo: "Conteo directo de población por comuna y sexo en operaciones censales"
+    fuente: "INE — Censos de Población y Vivienda 1992, 2002, 2017 y 2024"
     fuente_id: censo
-    desagregaciones: "Sexo, grupo etario"
-    disponibilidad: "Censal (2017); estimaciones anuales"
+    desagregaciones: "Comuna, sexo"
+    disponibilidad: "Censos de Población (1992, 2002, 2017, 2024)"
     comentario: >
-      La pirámide poblacional de Magallanes muestra un perfil de
-      envejecimiento avanzado, con base angosta y ensanchamiento en edades
-      medias y superiores. Los datos de prototipo corresponden a la estimación
-      2023.
+      Punta Arenas concentra cerca de cuatro quintos de la población regional.
+      Las comunas rurales y la comuna Antártica tienen una composición por
+      sexo marcadamente masculina. El censo de 2002 tuvo cobertura distinta en
+      algunas comunas rurales; las comparaciones entre censos deben leerse con
+      cautela.
 
   - id: 103
-    nombre: "Tasa de crecimiento poblacional"
+    nombre: "Pirámide de población regional"
     seccion: Poblacion
     definicion: >
-      Variación porcentual de la población total entre dos períodos censales o
-      estimaciones consecutivas. Mide la velocidad de cambio demográfico de la
-      región.
-    unidad: "Porcentaje (%)"
-    tipo_dato: "Cálculo derivado de censos y estimaciones de población."
-    calculo: "((Población año t - Población año t-1) / Población año t-1) x 100"
-    fuente: "INE — Censos de Población y Vivienda; Estimaciones y proyecciones"
+      Porcentaje de hombres y de mujeres de cada grupo quinquenal de edad,
+      desde 0-4 años hasta 100 años y más, sobre la población total censada en
+      la Región de Magallanes y de la Antártica Chilena, en los censos de
+      1992, 2002, 2017 y 2024. Hombres y mujeres suman 100 en cada censo.
+      Muestra la estructura por edad y sexo de la población y su cambio entre
+      censos.
+    unidad: "Porcentaje de la población total del censo"
+    tipo_dato: "Censos de Población y Vivienda."
+    calculo: "(Población del sexo y grupo de edad / población total del censo) x 100"
+    fuente: "INE — Censos de Población y Vivienda 1992, 2002, 2017 y 2024"
     fuente_id: censo
-    desagregaciones: "No aplica"
-    disponibilidad: "Intercensal; estimaciones anuales"
+    desagregaciones: "Sexo, grupo quinquenal de edad"
+    disponibilidad: "Censos de Población (1992, 2002, 2017, 2024)"
     comentario: >
-      Magallanes presenta tasas de crecimiento bajas e incluso negativas en
-      períodos recientes, consistentes con el proceso de envejecimiento y
-      emigración de población joven. Datos derivados de la serie de población
-      total.
+      Al expresarse en porcentaje, censos de tamaño distinto se comparan por
+      la forma de su estructura y no por su volumen. El estrechamiento de la
+      base y el ensanchamiento de las edades mayores describen el
+      envejecimiento de la región, que el indicador 107 mide como tasa e
+      índice.
 
   - id: 104
-    nombre: "Tasa de natalidad"
+    nombre: "Tasa de dependencia demográfica"
     seccion: Poblacion
     definicion: >
-      Número de nacidos vivos ocurridos durante un año por cada 1.000
-      habitantes, considerando el lugar de residencia habitual de la madre o
-      progenitor(a). Se denomina "bruta" porque utiliza la población total y
-      no se ajusta por edad, sexo u otras características.
-    unidad: "Nacidos vivos por 1.000 habitantes"
-    tipo_dato: "Registro administrativo de estadísticas vitales (INE)."
-    calculo: "Tasas regionales publicadas directamente por el INE, cuadro 1.2.2.1-01b. No se recalcularon tasas ni se realizaron estimaciones, interpolaciones o imputaciones.
+      Corresponde a una medida demográfica para expresar la relación de la
+      población, en términos de edad, entre las personas potencialmente
+      activas y las personas potencialmente dependientes (inactivas).
+      Normalmente se utilizan tres medidas: la relación de dependencia total,
+      la infantil y la de adultos mayores.
+    unidad: "Por cada 100 personas de 15 a 64 años"
+    tipo_dato: "Cálculo derivado de estructura etaria censal o estimada."
+    calculo: "Total: ((Población 0-14 + Población 65+) / Población 15-64) x 100. Infantil: (Población 0-14 / Población 15-64) x 100. Adultos mayores: (Población 65+ / Población 15-64) x 100.
 "
-    fuente: "INE — Estadísticas Vitales, cuadro 1.2.2.1-01b"
-    fuente_id: ine_vitales
-    desagregaciones: "Provincia (Magallanes, Antártica Chilena, Tierra del Fuego, Última Esperanza)"
-    disponibilidad: "Anual, 2013-2023"
+    fuente: "INE — Censos de Población; Estimaciones y proyecciones"
+    fuente_id: ine_proyecciones
+    desagregaciones: "Dependencia total, infantil (0-14) y de adultos mayores (65+)"
+    disponibilidad: "Censal; estimaciones anuales"
     comentario: >
-      La tasa puede variar según el número de personas en edades
-      reproductivas, por lo que no equivale directamente a la tasa global de
-      fecundidad. El INE no establece categorías oficiales de natalidad baja,
-      media o alta. Las tasas definitivas utilizan nacidos vivos corregidos y
-      estimaciones de población; los nacimientos se asignan al lugar de
-      residencia habitual de la madre o progenitor(a), no al lugar donde
-      ocurrió el parto.
+      En Magallanes la dependencia de adultos mayores crece mientras la
+      dependencia infantil disminuye, reflejando el proceso de envejecimiento;
+      la dependencia total se mantiene relativamente estable porque ambos
+      movimientos se compensan. El indicador es relevante para la
+      planificación de servicios sociales y de salud.
 
   - id: 105
-    nombre: "Tasa de mortalidad general"
+    nombre: "Tasa de envejecimiento demográfico"
     seccion: Poblacion
     definicion: >
-      Número de defunciones ocurridas durante un año por cada 1.000
-      habitantes, según el lugar de residencia habitual de la persona
-      fallecida. Se denomina "bruta" porque relaciona todas las defunciones
-      con la población total, sin ajustar por edad, sexo u otras
-      características.
-    unidad: "Defunciones por 1.000 habitantes"
-    tipo_dato: "Registro administrativo de estadísticas vitales (INE)."
-    calculo: "Tasas regionales publicadas directamente por el INE, cuadro 1.2.2.5-01b. No se recalcularon tasas ni se realizaron estimaciones o interpolaciones.
+      Relación entre la cantidad de personas mayores (generalmente de 60 o 65
+      años en adelante) y la población más joven (menores de 15 años). Indica
+      cuántas personas mayores hay por cada 100 menores de 15 años.
+    unidad: "Personas mayores por cada 100 menores de 15 años"
+    tipo_dato: "Estimación a partir de censos y proyecciones de población."
+    calculo: "60 y más: (Población 60+ / Población 0-14) x 100. 65 y más: (Población 65+ / Población 0-14) x 100.
 "
-    fuente: "INE — Estadísticas Vitales, cuadro 1.2.2.5-01b"
-    fuente_id: ine_vitales
-    desagregaciones: "Provincia (Magallanes, Antártica Chilena, Tierra del Fuego, Última Esperanza)"
-    disponibilidad: "Anual, 2013-2023"
+    fuente: "INE — Censos 2002 y 2017; Estimaciones y proyecciones de población"
+    fuente_id: censo
+    desagregaciones: "Umbral de persona mayor (60+ y 65+); sexo, zona, comuna"
+    disponibilidad: "Censal (2002, 2017); estimaciones anuales"
     comentario: >
-      La tasa está influida por la estructura etaria de la población; una
-      región con mayor proporción de personas mayores puede presentar una tasa
-      más alta sin que ello implique necesariamente mayor riesgo de muerte
-      para cada grupo de edad. El INE no define categorías oficiales de
-      mortalidad baja, media o alta. Desde 2016 no calcula tasas para
-      territorios con menos de 20 defunciones, restricción que no afecta la
-      serie regional publicada aquí.
+      Un valor de 100 indica que hay tantas personas mayores como menores de
+      15 años; sobre 100, las personas mayores son más. La elección del umbral
+      (60 o 65 años) cambia el nivel del indicador pero no su tendencia, por
+      lo que se publican ambas series.
 
   - id: 106
     nombre: "Tasa global de fecundidad"
@@ -148,26 +150,158 @@ indicadores:
       lugar del valor redondeado de 1,4 incluido en el texto del anuario.
 
   - id: 107
-    nombre: "Tasa de envejecimiento demográfico"
+    nombre: "Tasa bruta de natalidad"
     seccion: Poblacion
     definicion: >
-      Proporción de la población de 60 años y más respecto al total de la
-      población residente. Indicador del grado de envejecimiento demográfico
-      de la región.
-    unidad: "Porcentaje (%)"
-    tipo_dato: "Estimación a partir de censos y proyecciones de población."
-    calculo: "(Población 60 años y más / Población total) x 100"
-    fuente: "INE — Censos 2002 y 2017; Estimaciones y proyecciones de población"
-    fuente_id: censo
-    desagregaciones: "Sexo, zona, comuna"
-    disponibilidad: "Censal (2002, 2017); estimaciones anuales"
+      Número de nacidos vivos ocurridos durante un año por cada 1.000
+      habitantes, considerando el lugar de residencia habitual de la madre o
+      progenitor(a). Se denomina "bruta" porque utiliza la población total y
+      no se ajusta por edad, sexo u otras características.
+    unidad: "Nacidos vivos por 1.000 habitantes"
+    tipo_dato: "Registro administrativo de estadísticas vitales (INE)."
+    calculo: "Tasas regionales publicadas directamente por el INE, cuadro 1.2.2.1-01b. No se recalcularon tasas ni se realizaron estimaciones, interpolaciones o imputaciones.
+"
+    fuente: "INE — Estadísticas Vitales, cuadro 1.2.2.1-01b"
+    fuente_id: ine_vitales
+    desagregaciones: "Provincia (Magallanes, Antártica Chilena, Tierra del Fuego, Última Esperanza)"
+    disponibilidad: "Anual, 2013-2023"
     comentario: >
-      Umbral OMS para sociedad envejecida: 20%. Magallanes superó ese umbral
-      circa 2022. El índice de envejecimiento (razón entre población 60+ y
-      población menor de 15 años) complementa esta tasa y se presenta junto a
-      ella en el dashboard.
+      La tasa puede variar según el número de personas en edades
+      reproductivas, por lo que no equivale directamente a la tasa global de
+      fecundidad. El INE no establece categorías oficiales de natalidad baja,
+      media o alta. Las tasas definitivas utilizan nacidos vivos corregidos y
+      estimaciones de población; los nacimientos se asignan al lugar de
+      residencia habitual de la madre o progenitor(a), no al lugar donde
+      ocurrió el parto.
 
   - id: 108
+    nombre: "Esperanza de vida al nacer, según sexo"
+    seccion: Poblacion
+    definicion: >
+      Número promedio de años que se espera vivir al momento del nacimiento,
+      bajo las condiciones de mortalidad actuales de la región.
+    unidad: "Años"
+    tipo_dato: "Estimación actuarial a partir de estadísticas vitales."
+    calculo: "Tabla de vida abreviada; promedio de años esperados para recién nacidos"
+    fuente: "INE — Estadísticas Vitales; DEIS-MINSAL"
+    fuente_id: ine_vitales
+    desagregaciones: "Sexo"
+    disponibilidad: "Quinquenal / estimaciones anuales"
+    comentario: >
+      Desagregado por sexo: mujeres presentan mayor esperanza de vida. El
+      aislamiento geográfico de la región es un factor contextual relevante
+      para el acceso a servicios de salud. La tasa de mortalidad infantil
+      (110) y la de menores de 5 años (111) complementan esta lectura.
+
+  - id: 109
+    nombre: "Tasa bruta de mortalidad"
+    seccion: Poblacion
+    definicion: >
+      Número de defunciones ocurridas durante un año por cada 1.000
+      habitantes, según el lugar de residencia habitual de la persona
+      fallecida. Se denomina "bruta" porque relaciona todas las defunciones
+      con la población total, sin ajustar por edad, sexo u otras
+      características.
+    unidad: "Defunciones por 1.000 habitantes"
+    tipo_dato: "Registro administrativo de estadísticas vitales (INE)."
+    calculo: "Tasas regionales publicadas directamente por el INE, cuadro 1.2.2.5-01b. No se recalcularon tasas ni se realizaron estimaciones o interpolaciones.
+"
+    fuente: "INE — Estadísticas Vitales, cuadro 1.2.2.5-01b"
+    fuente_id: ine_vitales
+    desagregaciones: "Provincia (Magallanes, Antártica Chilena, Tierra del Fuego, Última Esperanza)"
+    disponibilidad: "Anual, 2013-2023"
+    comentario: >
+      La tasa está influida por la estructura etaria de la población; una
+      región con mayor proporción de personas mayores puede presentar una tasa
+      más alta sin que ello implique necesariamente mayor riesgo de muerte
+      para cada grupo de edad. El INE no define categorías oficiales de
+      mortalidad baja, media o alta. Desde 2016 no calcula tasas para
+      territorios con menos de 20 defunciones, restricción que no afecta la
+      serie regional publicada aquí.
+
+  - id: 110
+    nombre: "Tasa de mortalidad infantil, por sexo"
+    seccion: Poblacion
+    definicion: >
+      Número de defunciones de menores de un año por cada mil nacidos vivos en
+      un año dado.
+    unidad: "Por mil nacidos vivos"
+    tipo_dato: "Registro de estadísticas vitales."
+    calculo: "(Defunciones de menores de 1 año / Nacidos vivos) x 1.000"
+    fuente: "INE — Estadísticas Vitales; DEIS-MINSAL"
+    fuente_id: ine_vitales
+    desagregaciones: "Sexo"
+    disponibilidad: "Anual"
+    comentario: >
+      La mortalidad infantil masculina es sistemáticamente mayor que la
+      femenina. Con pocos nacimientos al año en la región, unas pocas
+      defunciones mueven la tasa de manera visible: las variaciones entre años
+      consecutivos deben leerse con cautela.
+
+  - id: 111
+    nombre: "Tasa de mortalidad en menores de 5 años, por sexo"
+    seccion: Poblacion
+    definicion: >
+      Número de defunciones de niñas y niños menores de 5 años por cada mil
+      nacidos vivos en un año dado.
+    unidad: "Por mil nacidos vivos"
+    tipo_dato: "Registro de estadísticas vitales."
+    calculo: "(Defunciones de menores de 5 años / Nacidos vivos) x 1.000"
+    fuente: "INE — Estadísticas Vitales; DEIS-MINSAL"
+    fuente_id: ine_vitales
+    desagregaciones: "Sexo"
+    disponibilidad: "Anual"
+    comentario: >
+      Incluye la mortalidad infantil (menores de 1 año, indicador 110) más las
+      defunciones de 1 a 4 años. Con pocos nacimientos al año en la región,
+      las variaciones entre años consecutivos deben leerse con cautela.
+
+  - id: 112
+    nombre: "Población urbana y rural"
+    seccion: Poblacion
+    definicion: >
+      Población residente en la región según área de residencia, urbana o
+      rural, de acuerdo con la clasificación censal del INE. Se considera
+      urbana la población que reside en entidades con más de 2.000 habitantes,
+      o entre 1.001 y 2.000 habitantes cuando la mayoría de su población
+      activa se dedica a actividades secundarias o terciarias; el resto es
+      rural.
+    unidad: "Número de personas y porcentaje del total regional"
+    tipo_dato: "Censo de población."
+    calculo: "Personas censadas por área de residencia, y su proporción sobre la población regional total, según publica el INE en cada censo.
+"
+    fuente: "INE — Censos de Población y Vivienda 1992, 2002, 2017 y 2024"
+    fuente_id: censo
+    desagregaciones: "Área urbana/rural; comuna"
+    disponibilidad: "Censos 1992, 2002, 2017 y 2024"
+    comentario: >
+      Magallanes es una de las regiones más urbanizadas del país: cerca de
+      nueve de cada diez habitantes residen en áreas urbanas, concentradas
+      principalmente en Punta Arenas. Los criterios de clasificación
+      urbano-rural del INE se han ajustado entre censos, por lo que las
+      comparaciones deben considerar esos cambios.
+
+  - id: 113
+    nombre: "Tasa de crecimiento poblacional"
+    seccion: Poblacion
+    definicion: >
+      Variación porcentual de la población total entre dos períodos censales o
+      estimaciones consecutivas. Mide la velocidad de cambio demográfico de la
+      región.
+    unidad: "Porcentaje (%)"
+    tipo_dato: "Cálculo derivado de censos y estimaciones de población."
+    calculo: "((Población año t - Población año t-1) / Población año t-1) x 100"
+    fuente: "INE — Censos de Población y Vivienda; Estimaciones y proyecciones"
+    fuente_id: censo
+    desagregaciones: "No aplica"
+    disponibilidad: "Intercensal; estimaciones anuales"
+    comentario: >
+      Magallanes presenta tasas de crecimiento bajas e incluso negativas en
+      períodos recientes, consistentes con el proceso de envejecimiento y
+      emigración de población joven. Datos derivados de la serie de población
+      total.
+
+  - id: 114
     nombre: "Densidad poblacional"
     seccion: Poblacion
     definicion: >
@@ -192,26 +326,7 @@ indicadores:
       territorio antártico reclamado por Chile, lo que afecta
       significativamente el cálculo.
 
-  - id: 109
-    nombre: "Tasa de dependencia demográfica"
-    seccion: Poblacion
-    definicion: >
-      Razón entre la población en edades dependientes (menores de 15 años más
-      personas de 65 años y más) y la población en edad de trabajar (15 a 64
-      años).
-    unidad: "Por cada 100 personas en edad de trabajar"
-    tipo_dato: "Cálculo derivado de estructura etaria censal o estimada."
-    calculo: "((Población 0-14 + Población 65+) / Población 15-64) x 100"
-    fuente: "INE — Censos de Población; Estimaciones y proyecciones"
-    fuente_id: ine_proyecciones
-    desagregaciones: "Dependencia juvenil, dependencia senil"
-    disponibilidad: "Censal; estimaciones anuales"
-    comentario: >
-      En Magallanes la dependencia senil crece mientras la dependencia juvenil
-      disminuye, reflejando el proceso de envejecimiento. El indicador es
-      relevante para planificación de servicios sociales y salud.
-
-  - id: 110
+  - id: 115
     nombre: "Índice de masculinidad"
     seccion: Poblacion
     definicion: >
@@ -230,7 +345,7 @@ indicadores:
       de prototipo muestran el índice por grupo etario, derivado de la
       distribución por sexo y edad.
 
-  - id: 111
+  - id: 116
     nombre: "Proporción de población perteneciente a pueblos originarios"
     seccion: Poblacion
     definicion: >
@@ -248,9 +363,10 @@ indicadores:
       En Magallanes los pueblos originarios principales son el pueblo Kawésqar
       y el pueblo Yagán, además de población mapuche migrante. La
       autoidentificación puede variar entre instrumentos censales y
-      encuestales.
+      encuestales. - fecha: 2026-10-18 nota: "Renumerado de 111 a 116: el 111
+      pasa a la tasa de mortalidad en menores de 5 anos."
 
-  - id: 112
+  - id: 117
     nombre: "Proporción de población migrante"
     seccion: Poblacion
     definicion: >
@@ -267,28 +383,6 @@ indicadores:
       Incluye solo residentes habituales. Puede subestimar la población en
       situación migratoria irregular. La proporción de población migrante en
       Magallanes ha crecido sostenidamente desde 2017.
-
-  - id: 113
-    nombre: "Población total por comuna"
-    seccion: Poblacion
-    definicion: >
-      Número de personas censadas o estimadas en cada comuna de la Región de
-      Magallanes y de la Antártica Chilena en un año dado. Es el corte comunal
-      del indicador 101.
-    unidad: "Número de personas"
-    tipo_dato: "Censos de Población y estimaciones intercensales."
-    calculo: "Conteo directo de población en operaciones censales; estimaciones intercensales basadas en componentes demográficos"
-    fuente: "INE — Censos de Población y Vivienda; Estimaciones y proyecciones de población"
-    fuente_id: censo
-    desagregaciones: "Zona urbana/rural"
-    disponibilidad: "Censos de Población; estimaciones comunales anuales"
-    comentario: >
-      Hasta septiembre de 2026 este corte compartía el id 101 con la población
-      total regional, de modo que dos cuadros distintos colgaban de una misma
-      ficha. La concentración de la población regional en Punta Arenas hace
-      que las comunas menores se lean como cero si el cuadro no declara su
-      cifra. Campos heredados de la ficha 101: confirmar cobertura temporal
-      del nivel comunal, que puede diferir de la regional.
 
 
   # ── ECONOMIA ──────────────────────────────────────────────────────────
@@ -848,25 +942,6 @@ indicadores:
 
 
   # ── BIENESTAR ─────────────────────────────────────────────────────────
-  - id: 401
-    nombre: "Esperanza de vida al nacer"
-    seccion: Bienestar
-    definicion: >
-      Número promedio de años que se espera vivir al momento del nacimiento,
-      bajo las condiciones de mortalidad actuales de la región.
-    unidad: "Años"
-    tipo_dato: "Estimación actuarial a partir de estadísticas vitales."
-    calculo: "Tabla de vida abreviada; promedio de años esperados para recién nacidos"
-    fuente: "INE — Estadísticas Vitales; DEIS-MINSAL"
-    fuente_id: ine_vitales
-    desagregaciones: "Sexo"
-    disponibilidad: "Quinquenal / estimaciones anuales"
-    comentario: >
-      Desagregado por sexo: mujeres presentan mayor esperanza de vida. El
-      aislamiento geográfico de la región es un factor contextual relevante
-      para el acceso a servicios de salud. Los datos incluyen también la tasa
-      de mortalidad infantil como indicador complementario.
-
   - id: 402
     nombre: "Tasa neta de matrícula por nivel educativo"
     seccion: Bienestar
@@ -1139,29 +1214,6 @@ indicadores:
       Los datos de prototipo muestran la distribución por tipo de tenencia. La
       proporción de vivienda propia (pagada + pagando) indica el grado de
       acceso a la propiedad habitacional en la región.
-
-  - id: 415
-    nombre: "Tasa de mortalidad infantil"
-    seccion: Bienestar
-    definicion: >
-      Número de defunciones de menores de un año por cada mil nacidos vivos en
-      un año dado.
-    unidad: "Por mil nacidos vivos"
-    tipo_dato: "Registro de estadísticas vitales."
-    calculo: "(Defunciones de menores de 1 año / Nacidos vivos) x 1.000"
-    fuente: "INE — Estadísticas Vitales; DEIS-MINSAL"
-    fuente_id: ine_vitales
-    desagregaciones: "Sin dato"
-    disponibilidad: "Anual"
-    comentario: >
-      Hasta septiembre de 2026 esta serie se publicaba en el cuadro IV.1 sin
-      ficha propia, es decir, fuera del catálogo: viajaba como una columna del
-      CSV de la esperanza de vida al nacer (401), cuyo comentario la
-      mencionaba como indicador complementario. Ficha redactada al separarla,
-      a partir de la 401 y del rótulo con que el dashboard ya publicaba la
-      columna. Los campos cálculo, disponibilidad y desagregaciones no estaban
-      documentados en ninguna parte y deben confirmarse contra la fuente
-      primaria.
 
 
   # ── COHESION SOCIAL ───────────────────────────────────────────────────

@@ -1,0 +1,42 @@
+# ── Identidad ────────────────────────────────────────────────────────────
+# El id manda: debe coincidir con el prefijo de la carpeta que contiene
+# este archivo. R/00_data.R lo verifica al arrancar y aborta si no calza.
+id: 105
+nombre: "Tasa de envejecimiento demográfico"
+seccion: Poblacion
+
+# ── Ficha publicada ──────────────────────────────────────────────────────
+# Lo que se publica en el capitulo VI, mas el titulo y el pie de los cuadros
+# que cuelgan de esta ficha.
+definicion: >
+  Relación entre la cantidad de personas mayores (generalmente de 60 o 65
+  años en adelante) y la población más joven (menores de 15 años). Indica
+  cuántas personas mayores hay por cada 100 menores de 15 años.
+unidad: "Personas mayores por cada 100 menores de 15 años"
+tipo_dato: "Estimación a partir de censos y proyecciones de población."
+calculo: >
+  60 y más: (Población 60+ / Población 0-14) x 100.
+  65 y más: (Población 65+ / Población 0-14) x 100.
+fuente: "INE — Censos 2002 y 2017; Estimaciones y proyecciones de población"
+fuente_id: censo   # clave en indicadores/fuentes.yaml
+desagregaciones: "Umbral de persona mayor (60+ y 65+); sexo, zona, comuna"
+disponibilidad: "Censal (2002, 2017); estimaciones anuales"
+comentario: >
+  Un valor de 100 indica que hay tantas personas mayores como menores de 15
+  años; sobre 100, las personas mayores son más. La elección del umbral (60
+  o 65 años) cambia el nivel del indicador pero no su tendencia, por lo que
+  se publican ambas series.
+
+# ── Aparato interno ──────────────────────────────────────────────────────
+# No se publica: es la bitacora de quien mantiene el indicador.
+procesamiento:
+  script: "pendiente (proyecto hermano DATOS_MAG_MMO)"
+  ultimo: "datos de prototipo generados para maqueta, 2002-2024"
+notas_calidad:
+  - "Datos de prototipo (mockup), no cifras oficiales: pendientes de reemplazo con estimaciones INE."
+  - "El indice 65+ se genero coherente con el mockup de la 104 (dep. mayores / dep. infantil x 100)."
+historial:
+  - fecha: 2026-08-04
+    nota: "Creacion de carpeta en reestructuracion indicadores/ (como 107)"
+  - fecha: 2026-10-18
+    nota: "Renumerado de 107 a 105; redefinido como indice (mayores por 100 menores de 15) con series 60+ y 65+ de prototipo 2002-2024."

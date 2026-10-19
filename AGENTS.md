@@ -12,7 +12,7 @@ Es la continuacion del dashboard Shiny `10_Datos_Magallanes_dash`, **congelado e
 ## Construir, probar y publicar
 
 - Construir: `Rscript construir.R` → `_site/` (~3 s). Se abre con doble clic.
-- Probar: `Rscript _dev/probar_sitio.R` (chromote): enlaces, las 36 laminas, errores
+- Probar: `Rscript _dev/probar_sitio.R` (chromote): enlaces, las 39 laminas, errores
   de JS, desborde a 390 px, controles. Correrlo antes de cada push.
 - Ver en local: `python3 -m http.server 8080 --directory _site`
 - Publicar: `git push` a `master`. `.githooks/pre-push` corre `_dev/publicar.sh`:
@@ -32,6 +32,7 @@ R/10_utils.R             PAL, tema, e_lamina(), formateadores, portadilla(), inv
 R/20_graficos.R          Registro de laminas: barre indicadores/*/grafico.R y arma LAM; dibujar()
 R/30_ui_components.R     cuadro(), pieza_cuadro(), lienzo(), rango_anios(), controles, marca_estado()
 R/40_pag_*.R             Una funcion pag_*() por seccion (8)
+R/40_pag_aparato.R       Paginas del pie (Creditos, Contacto); .EQUIPO y .CONTACTO se editan aqui
 R/50_sitio.R             Chasis (barra, cabecera, colofon), pagina(), escribir_sitio()
 js/sitio.js              Monta laminas, conmuta el cero, aplica rangos, filtra fichas, navega
 www/                     styles.css, portal.js, fuentes, fotos de portadilla, logos
@@ -39,7 +40,7 @@ indicadores/{id}_{slug}/ficha.yaml   LA FUENTE DE VERDAD del indicador (define s
 indicadores/{id}_{slug}/datos.csv    Los datos de ese indicador
 indicadores/{id}_{slug}/grafico.R    Las laminas de ese indicador (echarts4r plano)
 indicadores/fuentes.yaml             Registro de fuentes; las fichas apuntan con fuente_id
-indicadores/indicadores.yaml         AGREGADO GENERADO de las 69 fichas. No editar.
+indicadores/indicadores.yaml         AGREGADO GENERADO de las 71 fichas. No editar.
 indicadores/red.yaml                 GENERADO: medidas del grafo de fuentes
 indicadores/_plantilla/              ficha.yaml y grafico.R comentados, para copiar
 _dev/agregar_fichas.R    Regenera el agregado. Correr tras tocar una ficha.
@@ -65,6 +66,12 @@ _dev/publicar.sh         Construye, prueba y sube a Netlify. Lo llama el hook pr
 | V Cohesion         | `cohesion.html`    | `pag_cohesion()`    |
 | VI Metodologia     | `metodologia.html` | `pag_metodologia()` |
 | VII Fuentes        | `fuentes.html`     | `pag_fuentes()`     |
+| Creditos (pie)     | `creditos.html`    | `pag_creditos()`    |
+| Contacto (pie)     | `contacto.html`    | `pag_contacto()`    |
+
+Las dos del pie no entran a la barra: se enlazan solo desde el colofon
+(`.PAGINAS_PIE`, R/40_pag_aparato.R). La construccion avisa mientras `.EQUIPO` o
+`.CONTACTO` tengan campos en "PENDIENTE".
 
 `.CAPITULOS` (R/40_pag_presentacion.R) es el registro unico de secciones: de ahi salen
 la barra, los menus de indice, las salas de la portada y los rotulos del cap. VII.
@@ -73,6 +80,8 @@ Direcciones citables: `economia.html#cuadro-II-1` (abre la pieza) y
 
 ## Reglas del proyecto
 
+- **No hacer commit ni push hasta que el usuario lo indique.** Los cambios quedan
+  en el arbol de trabajo para su revision. Cada push a `master` publica el sitio.
 - **Estilo R**: perspectiva tidyverse — pipes (`|>`), purrr, dplyr, stringr, readr, cli
 - **Colores**: nunca hardcodear — siempre usar `PAL$*` (definido en `R/10_utils.R`)
 - **Graficos echarts4r**: siempre aplicar `e_lamina()` (registra el tema unico UMAG)
@@ -99,6 +108,11 @@ Direcciones citables: `economia.html#cuadro-II-1` (abre la pieza) y
   mismo id, o si una carpeta no trae ficha: un desajuste de identidad no produce un
   error visible, produce una cifra correcta publicada con el nombre de otra pieza.
 - **Numero de acceso**: el id del indicador es su identidad; se cita y se busca por el.
+- **Numeracion de cuadros**: cada capitulo numera sus cuadros I.1, I.2... sin saltos,
+  en el orden en que se publican; el id (101, 215) es orden interno. El inventario
+  lleva una fila por cuadro, en ese mismo orden y con ese mismo numero:
+  `fila_inventario(.I[["I.3"]], ...)` recibe la lamina, no un id. `probar_sitio.R`
+  falla si inventario y cuadros no coinciden.
 - **Datos**: `IND[["301_pobreza"]]`, `ficha_de("301_pobreza")`. Los `d_*` son alias
   legibles sobre `IND` (seccion 4 de R/00_data.R).
 - **Trazabilidad**: `ind_id(df)`, `ind_carpeta(df)`, `ind_ficha(df)`.
@@ -113,6 +127,9 @@ Direcciones citables: `economia.html#cuadro-II-1` (abre la pieza) y
 - **La lamina es una funcion pura.** Los controles se declaran en la pagina del
   capitulo (`rango_anios()`), que pasa los datos; toda lamina se dibuja desde la
   consola: `dibujar(LAM[["511_delitos_dmcs"]][["V.3"]], d_crimen)`.
+  Si `dibujo` declara `function(df, todo = df)`, `lienzo()` le pasa ademas los datos
+  completos para fijar lo que no debe moverse entre cortes (la escala de la piramide
+  I.2). `corte_anio(todos = "Superpuestos")` agrega la opcion con todos los anos.
 - **El titulo y la fuente del cuadro los manda la ficha.** No hay campo `ficha` en la
   lamina; R/20_graficos.R aborta si lo encuentra.
 - **El capitulo VII publica el otro registro**: `indicadores/fuentes.yaml`. La fuente

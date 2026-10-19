@@ -1,0 +1,45 @@
+# ── Identidad ────────────────────────────────────────────────────────────
+# El id manda: debe coincidir con el prefijo de la carpeta que contiene
+# este archivo. R/00_data.R lo verifica al arrancar y aborta si no calza.
+id: 104
+nombre: "Tasa de dependencia demográfica"
+seccion: Poblacion
+
+# ── Ficha publicada ──────────────────────────────────────────────────────
+# Lo que se publica en el capitulo VI, mas el titulo y el pie de los cuadros
+# que cuelgan de esta ficha.
+definicion: >
+  Corresponde a una medida demográfica para expresar la relación de la
+  población, en términos de edad, entre las personas potencialmente activas y
+  las personas potencialmente dependientes (inactivas). Normalmente se
+  utilizan tres medidas: la relación de dependencia total, la infantil y la
+  de adultos mayores.
+unidad: "Por cada 100 personas de 15 a 64 años"
+tipo_dato: "Cálculo derivado de estructura etaria censal o estimada."
+calculo: >
+  Total: ((Población 0-14 + Población 65+) / Población 15-64) x 100.
+  Infantil: (Población 0-14 / Población 15-64) x 100.
+  Adultos mayores: (Población 65+ / Población 15-64) x 100.
+fuente: "INE — Censos de Población; Estimaciones y proyecciones"
+fuente_id: ine_proyecciones   # clave en indicadores/fuentes.yaml
+desagregaciones: "Dependencia total, infantil (0-14) y de adultos mayores (65+)"
+disponibilidad: "Censal; estimaciones anuales"
+comentario: >
+  En Magallanes la dependencia de adultos mayores crece mientras la
+  dependencia infantil disminuye, reflejando el proceso de envejecimiento;
+  la dependencia total se mantiene relativamente estable porque ambos
+  movimientos se compensan. El indicador es relevante para la planificación
+  de servicios sociales y de salud.
+
+# ── Aparato interno ──────────────────────────────────────────────────────
+# No se publica: es la bitacora de quien mantiene el indicador.
+procesamiento:
+  script: "pendiente (proyecto hermano DATOS_MAG_MMO)"
+  ultimo: "datos de prototipo generados para maqueta, 2002-2024"
+notas_calidad:
+  - "Datos de prototipo (mockup), no cifras oficiales: pendientes de reemplazo con estimaciones INE."
+historial:
+  - fecha: 2026-08-04
+    nota: "Creacion de carpeta en reestructuracion indicadores/ (como 109)"
+  - fecha: 2026-10-18
+    nota: "Renumerado de 109 a 104; nueva definicion con sus tres medidas y datos de prototipo 2002-2024."

@@ -9,7 +9,7 @@
 laminas <- list(
 
   list(
-    numero = "IV.4",
+    numero = "IV.2",
 
     # Categorias SIN orden intrinseco: tono plano. El grafico se ordena por
     # magnitud, que ya se lee en el largo de la barra.

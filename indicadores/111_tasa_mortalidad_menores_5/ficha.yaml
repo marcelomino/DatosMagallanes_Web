@@ -1,0 +1,35 @@
+# ── Identidad ────────────────────────────────────────────────────────────
+# El id manda: debe coincidir con el prefijo de la carpeta que contiene
+# este archivo. R/00_data.R lo verifica al arrancar y aborta si no calza.
+id: 111
+nombre: "Tasa de mortalidad en menores de 5 años, por sexo"
+seccion: Poblacion
+
+# ── Ficha publicada ──────────────────────────────────────────────────────
+# Lo que se publica en el capitulo VI, mas el titulo y el pie de los cuadros
+# que cuelgan de esta ficha.
+definicion: >
+  Número de defunciones de niñas y niños menores de 5 años por cada mil
+  nacidos vivos en un año dado.
+unidad: "Por mil nacidos vivos"
+tipo_dato: "Registro de estadísticas vitales."
+calculo: "(Defunciones de menores de 5 años / Nacidos vivos) x 1.000"
+fuente: "INE — Estadísticas Vitales; DEIS-MINSAL"
+fuente_id: ine_vitales   # clave en indicadores/fuentes.yaml
+desagregaciones: "Sexo"
+disponibilidad: "Anual"
+comentario: >
+  Incluye la mortalidad infantil (menores de 1 año, indicador 110) más las
+  defunciones de 1 a 4 años. Con pocos nacimientos al año en la región, las
+  variaciones entre años consecutivos deben leerse con cautela.
+
+# ── Aparato interno ──────────────────────────────────────────────────────
+# No se publica: es la bitacora de quien mantiene el indicador.
+procesamiento:
+  script: "pendiente (proyecto hermano DATOS_MAG_MMO)"
+  ultimo: "datos de prototipo por sexo generados para maqueta, 2013-2023"
+notas_calidad:
+  - "Datos de prototipo (mockup), no cifras oficiales: generados sobre el mockup de la 110 mas el tramo 1-4 anos."
+historial:
+  - fecha: 2026-10-18
+    nota: "Creacion de la ficha, con datos de prototipo por sexo 2013-2023."

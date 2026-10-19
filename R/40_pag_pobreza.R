@@ -79,18 +79,20 @@ pag_pobreza <- function() {
         # mientras siga siendo cierta.
         marca = marca_estado("ilustrativo",
                              "Series de prototipo, no cifras oficiales"),
-        fila_inventario(302, "Pobreza multidimensional", fmt_n(.multi$valor, 1),
-          unidad = "%", periodo = paste("CASEN", .multi$anio)),
-        fila_inventario(301, "Pobreza por ingresos", fmt_n(.ingr$valor, 1),
+        # Una fila por cuadro, en el orden de los cuadros: el numero de la fila
+        # es el del cuadro que resume (lo toma de la lamina).
+        fila_inventario(.III[["III.1"]], "Pobreza por ingresos", fmt_n(.ingr$valor, 1),
           unidad = "%", periodo = paste("CASEN", .ingr$anio)),
-        fila_inventario(305, "Ingreso autonomo por quintil", fmt_n(.ingr_med),
+        fila_inventario(.III[["III.2"]], "Pobreza multidimensional", fmt_n(.multi$valor, 1),
+          unidad = "%", periodo = paste("CASEN", .multi$anio)),
+        fila_inventario(.III[["III.3"]], "Brecha salarial por sexo", "—",
+          glosa = "Se lee en el cuadro III.3; la fuente no publica la brecha"),
+        fila_inventario(.III[["III.4"]], "Ingreso autonomo por quintil", fmt_n(.ingr_med),
           unidad = "CLP",
           glosa = "Quintil 3 (central), mensual per capita del hogar"),
-        fila_inventario(306, "Brecha salarial por sexo", "—",
-          glosa = "Se lee en el cuadro III.3; la fuente no publica la brecha"),
-        fila_inventario(307, "Hacinamiento habitacional", fmt_n(.hacin$valor, 1),
+        fila_inventario(.III[["III.5"]], "Hacinamiento habitacional", fmt_n(.hacin$valor, 1),
           unidad = "%", periodo = paste("CASEN", .hacin$anio)),
-        fila_inventario(308, "Deficit habitacional cuantitativo",
+        fila_inventario(.III[["III.6"]], "Deficit habitacional cuantitativo",
           fmt_n(.defic$valor, 1),
           unidad = "%", periodo = paste("CASEN", .defic$anio))
       ),

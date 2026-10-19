@@ -1,0 +1,49 @@
+# ── Identidad ────────────────────────────────────────────────────────────
+# El id manda: debe coincidir con el prefijo de la carpeta que contiene
+# este archivo. R/00_data.R lo verifica al arrancar y aborta si no calza.
+id: 109
+nombre: "Tasa bruta de mortalidad"
+seccion: Poblacion
+
+# ── Ficha publicada ──────────────────────────────────────────────────────
+# Lo que se publica en el capitulo VI, mas el titulo y el pie de los cuadros
+# que cuelgan de esta ficha.
+definicion: >
+  Número de defunciones ocurridas durante un año por cada 1.000 habitantes,
+  según el lugar de residencia habitual de la persona fallecida. Se
+  denomina "bruta" porque relaciona todas las defunciones con la población
+  total, sin ajustar por edad, sexo u otras características.
+unidad: "Defunciones por 1.000 habitantes"
+tipo_dato: "Registro administrativo de estadísticas vitales (INE)."
+calculo: >
+  Tasas regionales publicadas directamente por el INE, cuadro 1.2.2.5-01b.
+  No se recalcularon tasas ni se realizaron estimaciones o interpolaciones.
+fuente: "INE — Estadísticas Vitales, cuadro 1.2.2.5-01b"
+fuente_id: ine_vitales   # clave en indicadores/fuentes.yaml
+desagregaciones: "Provincia (Magallanes, Antártica Chilena, Tierra del Fuego, Última Esperanza)"
+disponibilidad: "Anual, 2013-2023"
+comentario: >
+  La tasa está influida por la estructura etaria de la población; una
+  región con mayor proporción de personas mayores puede presentar una tasa
+  más alta sin que ello implique necesariamente mayor riesgo de muerte para
+  cada grupo de edad. El INE no define categorías oficiales de mortalidad
+  baja, media o alta. Desde 2016 no calcula tasas para territorios con
+  menos de 20 defunciones, restricción que no afecta la serie regional
+  publicada aquí.
+
+# ── Aparato interno ──────────────────────────────────────────────────────
+# No se publica: es la bitacora de quien mantiene el indicador.
+procesamiento:
+  script: "pendiente (proyecto hermano DATOS_MAG_MMO)"
+  ultimo: "compilado desde INE, Estadisticas Vitales, cuadro 1.2.2.5-01b"
+notas_calidad:
+  - "Serie oficial 2013-2023, sin recalculo: se transcribe la tasa regional publicada por el INE."
+historial:
+  - fecha: 2026-08-04
+    nota: "Creacion de carpeta en reestructuracion indicadores/"
+  - fecha: 2026-09-17
+    nota: "Compilada la serie oficial 2013-2023 (INE, cuadro 1.2.2.5-01b) y enriquecida la ficha con la ficha tecnica de Drive."
+  - fecha: 2026-10-18
+    nota: "Renumerado de 105 a 109: el 105 pasa a la tasa bruta de natalidad."
+  - fecha: 2026-10-18
+    nota: "Renombrado Tasa bruta de mortalidad (carpeta 109_tasa_bruta_mortalidad)."

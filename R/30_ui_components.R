@@ -55,7 +55,7 @@
 #'                  porque es la direccion que se cita.
 #' @param unidad     Unidad de medida, bajo el titulo y entre parentesis.
 #' @param definicion Que mide la pieza. Va al pie, antes de la fuente.
-#' @param pieza      Numero de acceso (415). Si se entrega, el pie publica el
+#' @param pieza      Numero de acceso (110). Si se entrega, el pie publica el
 #'                   enlace al asiento completo del capitulo VI.
 #' @param cabecera  Cuanto de la cabecera se dibuja. Existe porque el cuadro ya
 #'                  no siempre se publica suelto: dentro de una entrada plegada,
@@ -234,19 +234,65 @@ menu_indices <- function(capitulos) {
     div(
       class = "indice", `data-seccion` = c$nav, role = "menu",
       `aria-label` = paste("Indicadores del capitulo", c$nombre),
-      lapply(piezas, function(p) {
-        tags$a(
-          class = "indice-item", role = "menuitem", tabindex = "-1",
-          href = paste0(c$archivo, "#", ancla_cuadro(p$numero)),
-          `data-seccion` = c$nav, `data-ancla` = ancla_cuadro(p$numero),
-          span(class = "indice-cuadro", p$numero),
-          span(class = "indice-id", p$id),
-          span(class = "indice-nombre", p$nombre)
-        )
-      })
+      lapply(piezas, \(p) .item_indice(c, p, role = "menuitem", tabindex = "-1"))
     )
   })
   div(class = "indices", purrr::compact(paneles))
+}
+
+# Una entrada de indice: direccion de cuadro, numero de acceso y nombre, como
+# enlace real al ancla del cuadro. La comparten el desplegable de escritorio y
+# el menu de telefono.
+.item_indice <- function(capitulo, pieza, ...) {
+  ancla <- ancla_cuadro(pieza$numero)
+  tags$a(
+    class = "indice-item", ...,
+    href = paste0(capitulo$archivo, "#", ancla),
+    `data-seccion` = capitulo$nav, `data-ancla` = ancla,
+    span(class = "indice-cuadro", pieza$numero),
+    span(class = "indice-id", pieza$id),
+    span(class = "indice-nombre", pieza$nombre)
+  )
+}
+
+#' El menu de telefono: todas las secciones y los cuadros de cada capitulo
+#'
+#' En <=768 px la franja de pestanas se oculta y su lugar lo toma este menu,
+#' colgado de un boton "Indice" en la barra de marca. Es `<details>` nativo:
+#' abre, cierra y navega sin JS; js/sitio.js solo agrega el cierre con Escape o
+#' al tocar fuera y el bloqueo del fondo. Se deriva de .PAGINAS y de LAM, como
+#' menu_indices(): una pieza nueva entra al menu por tener su grafico.R.
+#'
+#' @param actual Archivo de la pagina actual. El capitulo actual viene abierto y
+#'   su entrada lleva aria-current; en las paginas del pie no hay ninguna.
+menu_movil <- function(actual) {
+  entradas <- lapply(.PAGINAS, function(p) {
+    es_actual <- identical(p$archivo, actual)
+    rotulo <- tagList(
+      span(class = "menu-num", p$num %||% ""),
+      span(class = "menu-nombre", p$nav)
+    )
+    piezas <- if (is.null(p$num)) list() else indice_de_capitulo(p$num)
+    if (!length(piezas))
+      return(tags$a(class = "menu-seccion", href = p$archivo,
+                    `aria-current` = if (es_actual) "page", rotulo))
+    tags$details(
+      class = "menu-capitulo", open = if (es_actual) NA,
+      tags$summary(class = "menu-seccion",
+                   `aria-current` = if (es_actual) "page", rotulo),
+      tags$a(class = "menu-inicio", href = p$archivo, "Inicio del capitulo"),
+      lapply(piezas, \(x) .item_indice(p, x))
+    )
+  })
+  tags$details(
+    class = "menu-movil",
+    tags$summary(class = "menu-movil-boton",
+                 `aria-label` = "Indice del sitio",
+                 span(class = "menu-movil-icono", `aria-hidden` = "true"),
+                 span(class = "menu-movil-rotulo", "Indice")),
+    tags$nav(class = "menu-movil-panel", `aria-label` = "Secciones y cuadros del sitio",
+             entradas)
+  )
 }
 
 
@@ -358,12 +404,16 @@ lienzo <- function(id, lam, datos, rango = NULL, id_cero = NULL) {
   recorte <- function(r) if (is.null(r)) datos else
     dplyr::filter(datos, anio >= r[1], anio <= r[2])
 
+  # Una lamina que declara el argumento `todo` recibe ademas los datos
+  # completos, para fijar con ellos lo que no debe moverse entre cortes (la
+  # escala de la piramide de I.2). Sigue siendo pura: `todo` tiene por defecto
+  # el propio `df`, y desde la consola se dibuja igual.
+  extra <- if ("todo" %in% names(formals(lam$dibujo))) list(todo = datos)
   dibujos <- purrr::map(rangos, function(r) {
     d <- recorte(r)
-    if (isTRUE(lam$admite_cero))
-      list(si = opciones_grafico(dibujar(lam, d, cero = TRUE)),
-           no = opciones_grafico(dibujar(lam, d, cero = FALSE)))
-    else list(fijo = opciones_grafico(dibujar(lam, d)))
+    dib <- function(...) opciones_grafico(do.call(dibujar, c(list(lam, d), extra, list(...))))
+    if (isTRUE(lam$admite_cero)) list(si = dib(cero = TRUE), no = dib(cero = FALSE))
+    else list(fijo = dib())
   })
   # Con rango, el CSV es el del rango que el cuadro muestra, como en la app.
   csv <- if (!is.null(rango)) purrr::map(rangos, \(r) texto_csv(recorte(r)))
@@ -419,6 +469,41 @@ rango_anios <- function(id, anios) {
   )
 }
 
+#' Un ano suelto: el selector de censo
+#'
+#' La variante de un solo ano de rango_anios(): el lector elige UN ano y el
+#' cuadro muestra solo ese corte (los censos de I.3). Reusa la maquinaria del
+#' rango —cada ano es el rango "2017-2017", dibujado por lienzo() al construir—,
+#' asi que js/sitio.js sigue eligiendo entre dibujos hechos, y el CSV que se
+#' descarga es el del ano que el cuadro muestra.
+#'
+#' CON `todos`, el selector ofrece ademas una ultima opcion que deja pasar
+#' todos los anos a la vez (la clave "todos-todos", que js/sitio.js arma igual
+#' que las demas). Que hacer con varios anos lo decide la lamina: la piramide
+#' de I.2 los superpone.
+#'
+#' @param id     Prefijo del selector: <id>-anio.
+#' @param anios  Los anos que ofrece el selector, del propio CSV.
+#' @param rotulo Rotulo del selector.
+#' @param todos  Rotulo de la opcion con todos los anos, o NULL para no darla.
+#' @return La misma forma que rango_anios(): `id`, `rangos` y `controles`.
+corte_anio <- function(id, anios, rotulo = "Ano", todos = NULL) {
+  anios <- sort(unique(anios))
+  rangos <- purrr::set_names(purrr::map(anios, \(a) c(a, a)),
+                             paste(anios, anios, sep = "-"))
+  opciones <- purrr::set_names(anios, anios)
+  if (!is.null(todos)) {
+    rangos[["todos-todos"]] <- range(anios)
+    opciones <- c(opciones, purrr::set_names("todos", todos))
+  }
+  list(
+    id = id,
+    rangos = rangos,
+    controles = control_select(paste0(id, "-anio"), rotulo, opciones, max(anios),
+                               if (is.null(todos)) "96px" else "150px")
+  )
+}
+
 
 # ── Marca de estado: trama y corte, nunca solo color ─────────────────────────
 # El estado del dato se distingue por FORMA ademas de por color, para que sea
@@ -460,13 +545,17 @@ pliego <- function(...) div(class = "pliego", ...)
 # controles nativos, y js/sitio.js escucha sus eventos.
 
 #' Selector nativo
+#'
+#' @param opciones Valores del selector. Si el vector tiene nombres, el nombre
+#'   es el rotulo que se lee y el valor es lo que viaja (corte_anio(todos=)).
 control_select <- function(id, rotulo, opciones, elegido = NULL, ancho = "100%") {
+  rotulos  <- names(opciones) %||% as.character(opciones)
   opciones <- as.character(opciones)
   div(class = "form-group shiny-input-container", style = paste0("width:", ancho, ";"),
       tags$label(class = "control-label", id = paste0(id, "-label"), `for` = id, rotulo),
       div(tags$select(class = "form-control", id = id,
-                      purrr::map(opciones, \(o)
-                        tags$option(value = o, selected = if (identical(o, as.character(elegido))) NA, o)))))
+                      purrr::map2(opciones, rotulos, \(o, r)
+                        tags$option(value = o, selected = if (identical(o, as.character(elegido))) NA, r)))))
 }
 
 #' Casilla de verificacion

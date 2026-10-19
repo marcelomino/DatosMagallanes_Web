@@ -302,8 +302,8 @@ Pliego clampeado a 1440px (`--ancho`) con canal de 32px (18px en <=768px). Los c
 
 - **Portal:** el umbral es una rejilla 5/7 (4/8 en <=1024px): foto del indice del Boletin a sangre a la izquierda, texto a la derecha sobre curvas de nivel enmascaradas bajo el titular. El horizonte cruza foto y texto de borde a borde al pie. En telefono se apila: foto como franja de 220px, y la marca de prototipo sube bajo el titular para caer en la primera pantalla. Debajo, el indice en 4/8 ("In/di/ce" a la izquierda, siete salas a la derecha), luego el pulso y el cimiento con tres compromisos.
 - **Capitulo:** portadilla fotografica (min 280-400px), inventario, piezas plegadas (acordeon de cuadros), nota de aparato al pie.
-- **Chasis identico** en las ocho secciones: barra de marca, navegacion horizontal, colofon con el Paine y las coordenadas de Punta Arenas.
-- **Navegacion:** las ocho pestanas nunca se esconden tras un menu; en angosto se desplazan con barra visible y snap.
+- **Chasis identico** en las ocho secciones: barra de marca, navegacion (franja horizontal en escritorio, menu Indice en telefono), colofon con el Paine y las coordenadas de Punta Arenas.
+- **Navegacion:** en escritorio las ocho pestanas estan siempre a la vista en la franja, cada capitulo con su indice de cuadros al pasar o enfocar la pestana. En <=768px la franja no cabia (mostraba tres y media y escondia el resto sin aviso): la reemplaza el boton **Indice** de la barra de marca, que despliega un panel a pantalla completa con las ocho secciones y, dentro de cada capitulo plegable, sus cuadros (el actual abierto, marcado con el filete azul). La barra de marca queda fija arriba. Es `<details>` nativo: funciona sin JS. Bajo 380px el boton queda solo con su icono.
 - **Inventario en telefono:** cada fila se recompone como rejilla de tres columnas (numero, nombre, cifra), con unidad y periodo bajo la cifra y fuente y medida bajo el nombre. Ninguna cifra se publica sin su unidad y su periodo al lado.
 - **Asiento en telefono:** la tabla campo/valor se apila como prosa de consulta.
 - Breakpoints observados: 1024px y 768px.

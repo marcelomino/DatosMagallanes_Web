@@ -1,0 +1,51 @@
+# ── Identidad ────────────────────────────────────────────────────────────
+# El id manda: debe coincidir con el prefijo de la carpeta que contiene
+# este archivo. R/00_data.R lo verifica al arrancar y aborta si no calza.
+id: 107
+nombre: "Tasa bruta de natalidad"
+seccion: Poblacion
+
+# ── Ficha publicada ──────────────────────────────────────────────────────
+# Lo que se publica en el capitulo VI, mas el titulo y el pie de los cuadros
+# que cuelgan de esta ficha.
+definicion: >
+  Número de nacidos vivos ocurridos durante un año por cada 1.000 habitantes,
+  considerando el lugar de residencia habitual de la madre o progenitor(a).
+  Se denomina "bruta" porque utiliza la población total y no se ajusta por
+  edad, sexo u otras características.
+unidad: "Nacidos vivos por 1.000 habitantes"
+tipo_dato: "Registro administrativo de estadísticas vitales (INE)."
+calculo: >
+  Tasas regionales publicadas directamente por el INE, cuadro 1.2.2.1-01b.
+  No se recalcularon tasas ni se realizaron estimaciones, interpolaciones o
+  imputaciones.
+fuente: "INE — Estadísticas Vitales, cuadro 1.2.2.1-01b"
+fuente_id: ine_vitales   # clave en indicadores/fuentes.yaml
+desagregaciones: "Provincia (Magallanes, Antártica Chilena, Tierra del Fuego, Última Esperanza)"
+disponibilidad: "Anual, 2013-2023"
+comentario: >
+  La tasa puede variar según el número de personas en edades reproductivas,
+  por lo que no equivale directamente a la tasa global de fecundidad. El INE
+  no establece categorías oficiales de natalidad baja, media o alta. Las
+  tasas definitivas utilizan nacidos vivos corregidos y estimaciones de
+  población; los nacimientos se asignan al lugar de residencia habitual de
+  la madre o progenitor(a), no al lugar donde ocurrió el parto.
+
+# ── Aparato interno ──────────────────────────────────────────────────────
+# No se publica: es la bitacora de quien mantiene el indicador.
+procesamiento:
+  script: "pendiente (proyecto hermano DATOS_MAG_MMO)"
+  ultimo: "compilado desde INE, Estadisticas Vitales, cuadro 1.2.2.1-01b"
+notas_calidad:
+  - "Serie oficial 2013-2023, sin recalculo: se transcribe la tasa regional publicada por el INE."
+historial:
+  - fecha: 2026-08-04
+    nota: "Creacion de carpeta en reestructuracion indicadores/"
+  - fecha: 2026-09-17
+    nota: "Compilada la serie oficial 2013-2023 (INE, cuadro 1.2.2.1-01b) y enriquecida la ficha con la ficha tecnica de Drive."
+  - fecha: 2026-10-18
+    nota: "Renumerado de 104 a 109; el 104 pasa a la tasa de dependencia demografica."
+  - fecha: 2026-10-18
+    nota: "Renumerado de 109 a 105 y renombrado Tasa bruta de natalidad (carpeta 105_tasa_bruta_natalidad); el 109 pasa a la mortalidad general."
+  - fecha: 2026-10-18
+    nota: "Renumerado de 105 a 107 (carpeta 107_tasa_bruta_natalidad): el 105 pasa a la tasa de envejecimiento."

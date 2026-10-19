@@ -9,7 +9,7 @@
 laminas <- list(
 
   list(
-    numero = "IV.6",
+    numero = "IV.4",
 
     dibujo = function(df) {
       eje <- eje_holgado(df$escolaridad, 1)

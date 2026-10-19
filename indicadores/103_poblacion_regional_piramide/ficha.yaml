@@ -1,0 +1,43 @@
+# ── Identidad ────────────────────────────────────────────────────────────
+# El id manda: debe coincidir con el prefijo de la carpeta que contiene
+# este archivo. R/00_data.R lo verifica al arrancar y aborta si no calza.
+id: 103
+nombre: "Pirámide de población regional"
+seccion: Poblacion
+
+# ── Ficha publicada ──────────────────────────────────────────────────────
+# Lo que se publica en el capitulo VI, mas el titulo y el pie de los cuadros
+# que cuelgan de esta ficha.
+definicion: >
+  Porcentaje de hombres y de mujeres de cada grupo quinquenal de edad, desde
+  0-4 años hasta 100 años y más, sobre la población total censada en la Región
+  de Magallanes y de la Antártica Chilena, en los censos de 1992, 2002, 2017 y
+  2024. Hombres y mujeres suman 100 en cada censo. Muestra la estructura por
+  edad y sexo de la población y su cambio entre censos.
+unidad: "Porcentaje de la población total del censo"
+tipo_dato: "Censos de Población y Vivienda."
+calculo: "(Población del sexo y grupo de edad / población total del censo) x 100"
+fuente: "INE — Censos de Población y Vivienda 1992, 2002, 2017 y 2024"
+fuente_id: censo   # clave en indicadores/fuentes.yaml
+desagregaciones: "Sexo, grupo quinquenal de edad"
+disponibilidad: "Censos de Población (1992, 2002, 2017, 2024)"
+comentario: >
+  Al expresarse en porcentaje, censos de tamaño distinto se comparan por la
+  forma de su estructura y no por su volumen. El estrechamiento de la base y
+  el ensanchamiento de las edades mayores describen el envejecimiento de la región, que el indicador 107 mide como
+  tasa e índice.
+
+# ── Aparato interno ──────────────────────────────────────────────────────
+# No se publica: es la bitacora de quien mantiene el indicador.
+procesamiento:
+  script: "pendiente (proyecto hermano DATOS_MAG_MMO)"
+  ultimo: "MOCKUP 18-10-2026: estructura por edad inventada, escalada a los totales por sexo de 101 y publicada en porcentaje"
+notas_calidad:
+  - "MOCKUP: la distribucion por edad es ficticia (dos perfiles de referencia, 1992 y 2024, interpolados para 2002 y 2017). Reemplazar por los tabulados censales del INE antes de publicar"
+  - "Los conteos de base de cada censo calzan con los totales por sexo del indicador 101; el CSV publica su porcentaje sobre el total del censo, con dos decimales (la suma puede diferir de 100 en el redondeo)"
+  - "El porcentaje viene en el CSV: con los tabulados reales, calcularlo en el procesamiento (DATOS_MAG_MMO), nunca en la interfaz"
+historial:
+  - fecha: 2026-10-18
+    nota: "Creacion. El id 103 era la tasa de crecimiento, que pasa a 113_tasa_crecimiento"
+  - fecha: 2026-10-18
+    nota: "Los datos pasan de numero de personas a porcentaje de la poblacion total de cada censo"

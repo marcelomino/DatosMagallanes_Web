@@ -1,0 +1,43 @@
+# ── Identidad ────────────────────────────────────────────────────────────
+# El id manda: debe coincidir con el prefijo de la carpeta que contiene
+# este archivo. R/00_data.R lo verifica al arrancar y aborta si no calza.
+id: 112
+nombre: "Población urbana y rural"
+seccion: Poblacion
+
+# ── Ficha publicada ──────────────────────────────────────────────────────
+# Lo que se publica en el capitulo VI, mas el titulo y el pie de los cuadros
+# que cuelgan de esta ficha.
+definicion: >
+  Población residente en la región según área de residencia, urbana o rural,
+  de acuerdo con la clasificación censal del INE. Se considera urbana la
+  población que reside en entidades con más de 2.000 habitantes, o entre
+  1.001 y 2.000 habitantes cuando la mayoría de su población activa se
+  dedica a actividades secundarias o terciarias; el resto es rural.
+unidad: "Número de personas y porcentaje del total regional"
+tipo_dato: "Censo de población."
+calculo: >
+  Personas censadas por área de residencia, y su proporción sobre la
+  población regional total, según publica el INE en cada censo.
+fuente: "INE — Censos de Población y Vivienda 1992, 2002, 2017 y 2024"
+fuente_id: censo   # clave en indicadores/fuentes.yaml
+desagregaciones: "Área urbana/rural; comuna"
+disponibilidad: "Censos 1992, 2002, 2017 y 2024"
+comentario: >
+  Magallanes es una de las regiones más urbanizadas del país: cerca de nueve
+  de cada diez habitantes residen en áreas urbanas, concentradas
+  principalmente en Punta Arenas. Los criterios de clasificación urbano-rural
+  del INE se han ajustado entre censos, por lo que las comparaciones deben
+  considerar esos cambios.
+
+# ── Aparato interno ──────────────────────────────────────────────────────
+# No se publica: es la bitacora de quien mantiene el indicador.
+procesamiento:
+  script: "pendiente (proyecto hermano DATOS_MAG_MMO)"
+  ultimo: "datos de prototipo generados para maqueta, censos 1992-2024"
+notas_calidad:
+  - "Datos de prototipo (mockup), no cifras oficiales: el total es el de la 101; el reparto urbano/rural es inventado. Reemplazar por los censos INE antes de publicar."
+  - "Verificar la definicion de area urbana vigente en cada censo (1992, 2002, 2017 y 2024)."
+historial:
+  - fecha: 2026-10-18
+    nota: "Creacion de la ficha, con datos de prototipo de los censos 1992, 2002, 2017 y 2024."

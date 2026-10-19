@@ -9,7 +9,7 @@
 laminas <- list(
 
   list(
-    numero = "IV.3",
+    numero = "IV.1",
     # 250px y no los 270 de antes: al separarse la mortalidad infantil, el
     # capitulo paso de tres cuadros a cuatro, en dos filas de dos. Los cuatro
     # comparten alto para que cada fila quede pareja.

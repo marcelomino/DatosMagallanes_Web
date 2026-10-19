@@ -467,8 +467,8 @@ tip_red <- function() {
 #' un grafico de dos series: la cifra sin el nombre de su serie no dice nada.
 #'
 #' @param suf,pre Se admiten VECTORES, uno por serie, para el caso de dos
-#'                series con unidades distintas (el cuadro I.5 mezcla un
-#'                porcentaje con una razon). Se reciclan si faltan.
+#'                series con unidades distintas (por ejemplo, un porcentaje
+#'                con una razon). Se reciclan si faltan.
 #' @inheritParams rotulo_cifra
 tip_eje <- function(dec = 1, suf = "", pre = "", idx = 1, abs = FALSE) {
   htmlwidgets::JS(sprintf(
@@ -551,11 +551,17 @@ portadilla <- function(numero, titulo, cobertura = NULL, rango = NULL) {
 
 #' Una fila del inventario del capitulo
 #'
-#' El inventario es el resumen del capitulo: una linea por pieza, con su numero
-#' de acceso a la izquierda. No lleva delta calculado; lleva, cuando existe, la
-#' medida que la fuente publica (ver medida_publicada()).
+#' El inventario es el resumen del capitulo: una linea por cuadro, en el orden
+#' de los cuadros y con su numero (I.1, I.2...) a la izquierda. El id del
+#' indicador es orden interno y no se publica aqui. No lleva delta calculado;
+#' lleva, cuando existe, la medida que la fuente publica (ver medida_publicada()).
 #'
-#' @param id        Numero de acceso del indicador.
+#' LA FILA RECIBE LA LAMINA, NO UN NUMERO. Escribir el numero a mano permitia
+#' que inventario y cuadros se numeraran distinto; tomandolo de la lamina, la
+#' fila no puede citar un cuadro que no es el suyo. La fuente sale de la ficha
+#' de la carpeta de esa misma lamina.
+#'
+#' @param lam       La lamina del registro LAM cuyo cuadro resume la fila.
 #' @param indicador Nombre de la pieza.
 #' @param valor     Valor ya formateado.
 #' @param unidad    Unidad publicada.
@@ -567,15 +573,17 @@ portadilla <- function(numero, titulo, cobertura = NULL, rango = NULL) {
 #' @param medida    Salida de medida_publicada(), o NULL.
 #' @param glosa     Precision opcional bajo el nombre.
 #' @param estado    Marca de estado del dato, opcional.
-fila_inventario <- function(id, indicador, valor, unidad = NULL, periodo = NULL,
+fila_inventario <- function(lam, indicador, valor, unidad = NULL, periodo = NULL,
                             fuente = NULL, medida = NULL, glosa = NULL,
                             estado = NULL) {
+  if (is.null(lam$numero) || is.null(lam$carpeta))
+    cli::cli_abort("fila_inventario() recibe una lamina de LAM, no un id: {.val {indicador}}.")
   # La fuente NO se escribe a mano en el modulo: se deriva de la ficha del
   # indicador, via su fuente_id (ver fuente_de_indicador en la seccion 6).
   # Un argumento explicito sigue ganando, para el caso excepcional.
-  if (is.null(fuente)) fuente <- fuente_de_indicador(id)
+  if (is.null(fuente)) fuente <- fuente_de_indicador(ficha_de(lam$carpeta)$id)
   tags$tr(
-    tags$td(class = "inv-id", id),
+    tags$td(class = "inv-id", lam$numero),
     tags$th(scope = "row", class = "inv-pieza",
             indicador,
             if (!is.null(glosa)) tags$span(class = "inv-glosa", glosa),

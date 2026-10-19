@@ -1,0 +1,41 @@
+# ── Identidad ────────────────────────────────────────────────────────────
+# El id manda: debe coincidir con el prefijo de la carpeta que contiene
+# este archivo. R/00_data.R lo verifica al arrancar y aborta si no calza.
+id: 110
+nombre: "Tasa de mortalidad infantil, por sexo"
+seccion: Poblacion
+
+# ── Ficha publicada ──────────────────────────────────────────────────────
+# Lo que se publica en el capitulo VI, mas el titulo y el pie de los cuadros
+# que cuelgan de esta ficha.
+definicion: >
+  Número de defunciones de menores de un año por cada mil nacidos vivos en
+  un año dado.
+unidad: "Por mil nacidos vivos"
+tipo_dato: "Registro de estadísticas vitales."
+calculo: "(Defunciones de menores de 1 año / Nacidos vivos) x 1.000"
+fuente: "INE — Estadísticas Vitales; DEIS-MINSAL"
+fuente_id: ine_vitales   # clave en indicadores/fuentes.yaml
+desagregaciones: "Sexo"
+disponibilidad: "Anual"
+comentario: >
+  La mortalidad infantil masculina es sistemáticamente mayor que la
+  femenina. Con pocos nacimientos al año en la región, unas pocas
+  defunciones mueven la tasa de manera visible: las variaciones entre años
+  consecutivos deben leerse con cautela.
+
+# ── Aparato interno ──────────────────────────────────────────────────────
+# No se publica: es la bitacora de quien mantiene el indicador.
+procesamiento:
+  script: "pendiente (proyecto hermano DATOS_MAG_MMO)"
+  ultimo: "datos de prototipo por sexo generados para maqueta, 2013-2023"
+notas_calidad:
+  - "Datos de prototipo (mockup), no cifras oficiales: hombres y mujeres inventados alrededor del total; los totales 2018-2022 son los del prototipo anterior."
+  - "PENDIENTE DE VALIDACION: la ficha (entonces 415) se redacto al separar esta serie, a partir de la ficha 401 y del rotulo con que el dashboard ya publicaba la columna (\"Mortalidad infantil\", \"por mil\"). Los campos `calculo`, `disponibilidad` y `desagregaciones` no estaban documentados en ninguna parte y deben confirmarse contra la fuente primaria."
+historial:
+  - fecha: 2026-08-04
+    nota: "Creacion de carpeta en reestructuracion indicadores/ (como parte de 401_esperanza_vida)"
+  - fecha: 2026-09-16
+    nota: "Separada de 401_esperanza_vida. La columna `mortalidad` se publicaba en el cuadro IV.1 sin tener ficha propia, es decir, fuera del catalogo. Ahora es el indicador 415."
+  - fecha: 2026-10-18
+    nota: "Renumerado de 415 a 110 y movido de Bienestar a Poblacion; desagregado por sexo con datos de prototipo 2013-2023. El comentario publicado sobre la separacion de la 401 paso a este historial."

@@ -1,0 +1,39 @@
+# ── Identidad ────────────────────────────────────────────────────────────
+# El id manda: debe coincidir con el prefijo de la carpeta que contiene
+# este archivo. R/00_data.R lo verifica al arrancar y aborta si no calza.
+id: 113
+nombre: "Tasa de crecimiento poblacional"
+seccion: Poblacion
+
+# ── Ficha publicada ──────────────────────────────────────────────────────
+# Lo que se publica en el capitulo VI, mas el titulo y el pie de los cuadros
+# que cuelgan de esta ficha.
+definicion: >
+  Variación porcentual de la población total entre dos períodos censales o
+  estimaciones consecutivas. Mide la velocidad de cambio demográfico de la
+  región.
+unidad: "Porcentaje (%)"
+tipo_dato: "Cálculo derivado de censos y estimaciones de población."
+calculo: "((Población año t - Población año t-1) / Población año t-1) x 100"
+fuente: "INE — Censos de Población y Vivienda; Estimaciones y proyecciones"
+fuente_id: censo   # clave en indicadores/fuentes.yaml
+desagregaciones: "No aplica"
+disponibilidad: "Intercensal; estimaciones anuales"
+comentario: >
+  Magallanes presenta tasas de crecimiento bajas e incluso negativas en
+  períodos recientes, consistentes con el proceso de envejecimiento y
+  emigración de población joven. Datos derivados de la serie de población
+  total.
+
+# ── Aparato interno ──────────────────────────────────────────────────────
+# No se publica: es la bitacora de quien mantiene el indicador.
+procesamiento:
+  script: "pendiente (proyecto hermano DATOS_MAG_MMO)"
+  ultimo: "datos de prototipo, migracion inicial"
+notas_calidad:
+  - "Datos de prototipo, pendientes de validacion con fuente primaria"
+historial:
+  - fecha: 2026-08-04
+    nota: "Creacion de carpeta en reestructuracion indicadores/"
+  - fecha: 2026-10-18
+    nota: "Renumerada de 103_tasa_crecimiento a 113_tasa_crecimiento: el 103 pasa a la piramide de poblacion regional."

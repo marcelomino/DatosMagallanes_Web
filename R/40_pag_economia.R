@@ -62,6 +62,7 @@ pag_economia <- function() {
   # las dos series terminaran en anos distintos, la medida no calificaria la
   # cifra de su fila. Sin ese ano, la celda queda vacia.
   .pib_var <- d_variacion_pib$variacion_pib[d_variacion_pib$anio == .pib$anio]
+  .var    <- ultimo_valor(d_variacion_pib, "variacion_pib")
   .ocup   <- ultimo_valor(d_ocupacion, "ocupacion")
   .desemp <- ultimo_valor(d_empleo, "desempleo")
   .idx    <- which.max(d_sectores$valor)    # sector de mayor peso
@@ -81,21 +82,27 @@ pag_economia <- function() {
         # mientras siga siendo cierta.
         marca = marca_estado("ilustrativo",
                              "Series de prototipo, no cifras oficiales"),
-        fila_inventario(215, "Producto interno bruto", fmt_n(.pib$valor),
+        # Una fila por cuadro, en el orden de los cuadros: el numero de la fila
+        # es el del cuadro que resume (lo toma de la lamina).
+        fila_inventario(.II[["II.1"]], "Producto interno bruto", fmt_n(.pib$valor),
           unidad = "MM CLP", periodo = .pib$anio,
-          # La medida no se calcula: es la pieza 201, publicada por el Banco Central.
-          medida = medida_publicada(.pib_var, "%", "variacion anual, indicador 201")),
-        fila_inventario(202, "Sector de mayor peso", d_sectores$sector[.idx],
-          unidad = paste0(fmt_n(d_sectores$valor[.idx]), "% del PIB")),
-        fila_inventario(216, "Tasa de ocupacion", fmt_n(.ocup$valor, 1),
+          # La medida no se calcula: es la pieza 201 (cuadro II.2), publicada
+          # por el Banco Central.
+          medida = medida_publicada(.pib_var, "%", "variacion anual, cuadro II.2")),
+        fila_inventario(.II[["II.2"]], "Variacion anual del PIB", fmt_n(.var$valor, 1),
+          unidad = "%", periodo = .var$anio,
+          glosa = "La que publica el Banco Central; no se deriva del nivel"),
+        fila_inventario(.II[["II.3"]], "Tasa de ocupacion", fmt_n(.ocup$valor, 1),
           unidad = "%", periodo = .ocup$anio,
           glosa = "Promedio anual de la Encuesta Nacional de Empleo"),
-        fila_inventario(205, "Tasa de desempleo", fmt_n(.desemp$valor, 1),
+        fila_inventario(.II[["II.4"]], "Tasa de desempleo", fmt_n(.desemp$valor, 1),
           unidad = "%", periodo = .desemp$anio,
           glosa = "Promedio anual de la Encuesta Nacional de Empleo"),
-        fila_inventario(203, "Numero de empresas", fmt_n(.emp$valor),
+        fila_inventario(.II[["II.5"]], "Sector de mayor peso", d_sectores$sector[.idx],
+          unidad = paste0(fmt_n(d_sectores$valor[.idx]), "% del PIB")),
+        fila_inventario(.II[["II.6"]], "Numero de empresas", fmt_n(.emp$valor),
           unidad = "empresas", periodo = .emp$anio),
-        fila_inventario(208, "Tasa de informalidad laboral", fmt_n(.inform$valor, 1),
+        fila_inventario(.II[["II.7"]], "Tasa de informalidad laboral", fmt_n(.inform$valor, 1),
           unidad = "%", periodo = .inform$anio,
           glosa = "Segun el ano de levantamiento de la CASEN, no es serie continua")
       ),

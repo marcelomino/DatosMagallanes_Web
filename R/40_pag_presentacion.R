@@ -93,11 +93,11 @@
 #   suf      lo que va pegado a la cifra; la unidad completa va bajo el nombre
 #   archivo  pagina de destino al pulsar el panel
 .PULSO <- list(
-  list(carpeta = "101_poblacion_total",         col = "total",           dec = 0, suf = "",  archivo = "poblacion.html"),
+  list(carpeta = "101_poblacion_regional_segun_sexo", col = "total",           dec = 0, suf = "",  archivo = "poblacion.html"),
   list(carpeta = "215_pib_regional",            col = "pib",             dec = 0, suf = "",  archivo = "economia.html"),
   list(carpeta = "205_empleo",                  col = "desempleo",       dec = 1, suf = "%", archivo = "economia.html"),
   list(carpeta = "301_pobreza",                 col = "pobreza_ingreso", dec = 1, suf = "%", archivo = "pobreza.html"),
-  list(carpeta = "401_esperanza_vida",          col = "esperanza",       dec = 1, suf = "",  archivo = "bienestar.html"),
+  list(carpeta = "404_anos_escolaridad",        col = "escolaridad",     dec = 1, suf = "",  archivo = "bienestar.html"),
   list(carpeta = "515_participacion_electoral", col = "electoral",       dec = 1, suf = "%", archivo = "cohesion.html")
 )
 
@@ -349,7 +349,7 @@ pag_presentacion <- function() {
                "Por que una universidad publica construye esto desde la ",
                tags$span(class = "banda", "region")),
             p(class = "cimiento-entrada",
-              "America Latina concentra fuera de su territorio buena parte de la",
+              "America Latina concentra fuera de su territorio buena parte de la America Latina concentra fuera de su territorio buena parte de la",
               "infraestructura que procesa sus propios datos, y Magallanes repite",
               "esa condicion periferica a escala subnacional: la region produce el",
               "dato bruto y el valor se captura en otra parte. Reunir, documentar y",

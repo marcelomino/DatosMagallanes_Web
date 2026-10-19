@@ -13,7 +13,7 @@
 laminas <- list(
 
   list(
-    numero = "I.8",
+    numero = "I.6",
     nota   = paste("2017 sin dato regional. 2024 y 2025 son cifras",
                    "provisionales."),
 

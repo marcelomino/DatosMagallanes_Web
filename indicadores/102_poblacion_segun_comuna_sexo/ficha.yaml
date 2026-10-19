@@ -1,0 +1,41 @@
+# ── Identidad ────────────────────────────────────────────────────────────
+# El id manda: debe coincidir con el prefijo de la carpeta que contiene
+# este archivo. R/00_data.R lo verifica al arrancar y aborta si no calza.
+id: 102
+nombre: "Población según comuna y sexo"
+seccion: Poblacion
+
+# ── Ficha publicada ──────────────────────────────────────────────────────
+# Lo que se publica en el capitulo VI, mas el titulo y el pie de los cuadros
+# que cuelgan de esta ficha.
+definicion: >
+  Número de hombres y de mujeres censados en cada una de las once comunas de
+  la Región de Magallanes y de la Antártica Chilena, en los censos de 1992,
+  2002, 2017 y 2024. Permite comparar el tamaño y la composición por sexo de
+  la población entre comunas y entre censos.
+unidad: "Número de personas"
+tipo_dato: "Censos de Población y Vivienda."
+calculo: "Conteo directo de población por comuna y sexo en operaciones censales"
+fuente: "INE — Censos de Población y Vivienda 1992, 2002, 2017 y 2024"
+fuente_id: censo   # clave en indicadores/fuentes.yaml
+desagregaciones: "Comuna, sexo"
+disponibilidad: "Censos de Población (1992, 2002, 2017, 2024)"
+comentario: >
+  Punta Arenas concentra cerca de cuatro quintos de la población regional.
+  Las comunas rurales y la comuna Antártica tienen una composición por sexo
+  marcadamente masculina. El censo de 2002 tuvo cobertura distinta en algunas
+  comunas rurales; las comparaciones entre censos deben leerse con cautela.
+
+# ── Aparato interno ──────────────────────────────────────────────────────
+# No se publica: es la bitacora de quien mantiene el indicador.
+procesamiento:
+  script: "pendiente (proyecto hermano DATOS_MAG_MMO)"
+  ultimo: "MOCKUP 17-10-2026: totales aproximados y reparto por sexo inventado"
+notas_calidad:
+  - "MOCKUP: totales por comuna aproximados y columnas hombres y mujeres ficticias. Reemplazar por los censos INE antes de publicar"
+  - "Los totales comunales no estan conciliados con el total regional del indicador 101"
+historial:
+  - fecha: 2026-08-04
+    nota: "Creacion de carpeta en reestructuracion indicadores/"
+  - fecha: 2026-10-17
+    nota: "Renombrada de 102_distribucion_sexo_edad a 102_poblacion_segun_comuna_sexo. Deja de ser la piramide por sexo y edad; pasa a poblacion por comuna y sexo, censos 1992-2024, con datos mockup"

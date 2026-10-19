@@ -9,7 +9,7 @@
 laminas <- list(
 
   list(
-    numero = "IV.8",
+    numero = "IV.6",
     nota   = paste("Titulaciones otorgadas, no personas unicas: 1999-2006 con",
                    "bases DIVESUP, desde 2007 con recoleccion directa SIES."),
 

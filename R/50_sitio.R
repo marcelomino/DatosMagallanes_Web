@@ -43,8 +43,9 @@
 # ── Barra de marca ───────────────────────────────────────────────────────────
 # Tres piezas, en el orden que las distingue: la marca de LA PLATAFORMA a la
 # izquierda, su nombre al centro y el sello de LA INSTITUCION a la derecha. La
-# marca lleva a la portada.
-.barra_marca <- function() {
+# marca lleva a la portada. En telefono el sello cede su lugar al boton del
+# menu (menu_movil()), que va fuera del enlace de la marca.
+.barra_marca <- function(menu = NULL) {
   div(
     class = "barra-marca",
     tags$a(
@@ -65,6 +66,7 @@
           div(class = "marca-edicion",
               "Plataforma de informacion sobre bienestar y desarrollo"))
     ),
+    menu,
     tags$img(src = "logo_uer_color.png", class = "marca-institucion",
              alt = "Unidad de Estudios Regionales, Universidad de Magallanes")
   )
@@ -119,9 +121,11 @@
 }
 
 # ── Colofon ──────────────────────────────────────────────────────────────────
-# Chasis fijo al pie de las ocho paginas. Lo abre el perfil del Paine de borde a
-# borde y debajo va la firma: sello UER, institucion, el lugar desde donde se
-# publica en coordenadas, y la ficha de edicion (de .EDICION).
+# Chasis fijo al pie de todas las paginas. Lo abre el perfil del Paine de borde
+# a borde y debajo va la firma: sello UER, institucion, el lugar desde donde se
+# publica en coordenadas, y la ficha de edicion (de .EDICION). Sobre la ficha,
+# los enlaces a las paginas del pie (.PAGINAS_PIE, R/40_pag_aparato.R), que son
+# la unica entrada a ellas.
 .colofon <- function() {
   div(
     class = "colofon",
@@ -135,9 +139,11 @@
               "Unidad de Estudios Regionales · Universidad de Magallanes"),
           div(class = "colofon-lugar", "Punta Arenas · 53°09′50″S 70°55′02″W")),
       div(class = "colofon-meta",
-          span(class = "colofon-edicion", paste0("Edicion ", .EDICION$version)),
-          paste0(" · Beta de datos · Actualizado el ", .EDICION$actualizado,
-                 " · © ", .EDICION$anio, " · CC BY 4.0"))
+          tags$nav(class = "colofon-enlaces", `aria-label` = "Paginas del pie",
+                   purrr::map(.PAGINAS_PIE, \(p) tags$a(href = p$archivo, p$nombre))),
+          div(span(class = "colofon-edicion", paste0("Edicion ", .EDICION$version)),
+              paste0(" · Beta de datos · Actualizado el ", .EDICION$actualizado,
+                     " · © ", .EDICION$anio, " · CC BY 4.0")))
     )
   )
 }
@@ -149,7 +155,12 @@
 #' Las demas entradas de la barra son enlaces a su propia pagina, con el mismo
 #' marcado .nav-link que estiliza styles.css: la barra se ve y se recorre igual
 #' que en el dashboard, pero cambiar de seccion es navegar.
+#'
+#' Una pagina del pie (.PAGINAS_PIE) no esta en la barra: todas las entradas
+#' quedan como enlaces, ninguna activa, y su cuerpo va en el `footer`, antes
+#' del colofon, porque page_navbar() solo pone contenido dentro de un panel.
 pagina <- function(actual) {
+  en_barra <- any(purrr::map_lgl(.PAGINAS, \(p) identical(p$archivo, actual$archivo)))
   entradas <- purrr::map(.PAGINAS, function(p) {
     if (identical(p$archivo, actual$archivo))
       nav_panel(p$nav, div(class = "contenedor", p$dibujo()))
@@ -166,12 +177,13 @@ pagina <- function(actual) {
       theme = tema_umag(),
       fillable = FALSE,          # la pagina se desplaza; no se ajusta al viewport
       window_title = titulo,
-      title  = .barra_marca(),
+      title  = .barra_marca(menu_movil(actual$archivo)),
       # El indice de cada capitulo, colgado de su pestana. Se emite oculto y
       # js/sitio.js lo posiciona al abrirlo. Sale de LAM: una pieza nueva entra
       # al menu por el solo hecho de tener su grafico.R.
       header = tagList(.cabecera(titulo), menu_indices(.CAPITULOS)),
-      footer = .colofon()
+      footer = if (en_barra) .colofon()
+               else tagList(div(class = "contenedor", actual$dibujo()), .colofon())
     ),
     entradas
   ))
@@ -234,6 +246,15 @@ escribir_sitio <- function(destino) {
     .pestana_activa(archivo, p$archivo)
     cli::cli_alert_success(p$archivo)
   }
+  # Las del pie: sin pestana activa que reescribir (ver pagina()).
+  for (p in .PAGINAS_PIE) {
+    htmltools::save_html(pagina(p), file.path(destino, p$archivo), libdir = "lib", lang = "es")
+    cli::cli_alert_success(p$archivo)
+  }
+  pend <- pendientes_pie()
+  if (length(pend))
+    cli::cli_alert_warning(c("Datos del pie sin completar (R/40_pag_aparato.R): ",
+                             paste(pend, collapse = "; ")))
 
   .podar_lib(destino)
 }

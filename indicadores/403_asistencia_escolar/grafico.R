@@ -9,7 +9,7 @@
 laminas <- list(
 
   list(
-    numero = "IV.5",
+    numero = "IV.3",
     nota   = paste("Poblacion en edad teorica de cada nivel: 6 a 13 anos para",
                    "basica, 14 a 17 para media."),
 

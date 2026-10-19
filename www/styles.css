@@ -239,8 +239,10 @@ body.bslib-page-navbar > .container-fluid { padding-left: 0 !important; padding-
 }
 
 /* ── Navegacion ──────────────────────────────────────────────────────────── */
-/* Las ocho secciones se mantienen accesibles en todo tamano. Si falta espacio
-   se desplazan; nunca se esconden tras un menu. */
+/* En escritorio las ocho secciones estan siempre a la vista en esta franja; si
+   falta espacio se desplazan. En telefono (<=768px) la franja cede su lugar al
+   menu "Indice" de la barra de marca (.menu-movil, ver ADAPTACION), que trae
+   ademas los cuadros de cada capitulo. */
 .navbar-collapse, .collapse.navbar-collapse {
   display: block !important;
   grid-column: 1 / -1;
@@ -258,7 +260,7 @@ body.bslib-page-navbar > .container-fluid { padding-left: 0 !important; padding-
   width: 100% !important;
   scroll-snap-type: x proximate;
   /* La barra se queda visible: es la unica senal de que el catalogo sigue a
-     la derecha en pantalla angosta (ver la regla de navegacion). */
+     la derecha cuando la ventana de escritorio se angosta. */
   scrollbar-width: auto;
 }
 .navbar-nav::-webkit-scrollbar { height: 3px; }
@@ -331,6 +333,9 @@ body.bslib-page-navbar > .container-fluid { padding-left: 0 !important; padding-
 .indice-nombre { font-size: var(--t-dato); color: var(--tinta); }
 .indice-item:hover .indice-nombre { color: var(--azul); }
 
+/* El menu de telefono vive en la barra de marca y solo aparece en <=768px. */
+.menu-movil { display: none; }
+
 /* ── Colofon ─────────────────────────────────────────────────────────────── */
 /* Lo abre el horizonte del Paine; debajo, la firma. Papel, como el resto. */
 .colofon { background: var(--papel); }
@@ -356,6 +361,41 @@ body.bslib-page-navbar > .container-fluid { padding-left: 0 !important; padding-
 }
 .colofon-meta { font-size: var(--t-menor); color: var(--tinta-3); text-align: right; }
 .colofon-edicion { font-family: var(--m); color: var(--tinta-2); }
+/* Las paginas del pie: enlaces, asi que en azul (lo accionable). */
+.colofon-enlaces {
+  display: flex;
+  gap: 18px;
+  justify-content: flex-end;
+  margin-bottom: 4px;
+  font-size: var(--t-dato);
+}
+
+/* ── Paginas del pie: Creditos y Contacto ────────────────────────────────── */
+/* Una lista de impreso: nombre a la izquierda, detalle al centro, y a la
+   derecha lo que lo califica (la licencia). Filete fino entre filas, como el
+   inventario. */
+.credito-seccion {
+  font-size: var(--t-menor);
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--tinta-2);
+  margin: 44px 0 10px;
+}
+.creditos-lista { border-top: 1px solid var(--tinta); margin-bottom: 20px; }
+.credito-fila {
+  display: grid;
+  grid-template-columns: minmax(10em, 16em) minmax(0, 1fr) auto;
+  gap: 4px 24px;
+  align-items: baseline;
+  padding: 11px 0;
+  border-bottom: 1px solid var(--regla-fina);
+}
+.credito-nombre  { font-weight: 500; color: var(--tinta); }
+.credito-version { font-family: var(--m); font-size: var(--t-menor); color: var(--magenta-prof); margin-left: 8px; }
+.credito-detalle { color: var(--tinta-2); }
+.credito-extra   { font-family: var(--m); font-size: var(--t-menor); color: var(--tinta-3); white-space: nowrap; }
+.credito-licencia { margin-top: 18px; }
 
 /* ═════════════════════════════════════════════════════════════════════════
    LA PORTADILLA — cada capitulo abre como un articulo del Boletin
@@ -1323,6 +1363,134 @@ a.sala, a.sala:hover, a.pulso-pieza, a.pulso-pieza:hover { color: var(--tinta); 
   .pestana-fecha { display: none; }
   .indices { display: none; }
 
+  /* ── Navegacion en telefono ──────────────────────────────────────────────
+     La franja de ocho pestanas no cabia: mostraba tres y media y escondia el
+     resto sin aviso. Aqui la reemplaza el menu "Indice" (menu_movil()), y la
+     barra de marca queda fija arriba para que el menu este a mano en cualquier
+     punto de un capitulo largo. */
+  .navbar { position: sticky !important; top: 0; z-index: 1030; }
+  .navbar-collapse, .collapse.navbar-collapse { display: none !important; }
+  /* Al saltar al ancla de un cuadro, la barra fija no lo tapa. */
+  .piezas-acc .accordion-item, .fichas-acc .accordion-item, [id^="cuadro-"] {
+    scroll-margin-top: calc(var(--alto-barra, 56px) + 8px);
+  }
+  html.menu-abierto { overflow: hidden; }
+
+  /* La barra tiene que alojar marca y boton en 354px: se cierran los aires y
+     se retira el filete entre emblema y nombre. */
+  .barra-marca { gap: 10px; }
+  .marca { gap: 10px; }
+  .marca-regla { display: none; }
+  .menu-movil { display: flex; align-items: center; }
+  .menu-movil-boton {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 44px;
+    min-width: 44px;
+    justify-content: flex-end;
+    padding: 0;
+    list-style: none;
+    cursor: pointer;
+    font-size: var(--t-dato);
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    color: var(--azul);
+    user-select: none;
+  }
+  .menu-movil-boton::-webkit-details-marker { display: none; }
+  /* Tres filetes: dos bordes y un trazo al medio. Al abrir, el del medio se
+     retira y los otros dos se cruzan. */
+  .menu-movil-icono {
+    position: relative;
+    width: 18px;
+    height: 12px;
+    border-top: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
+    transition: border-color 0.12s ease;
+  }
+  .menu-movil-icono::before, .menu-movil-icono::after {
+    content: "";
+    position: absolute;
+    left: 0; right: 0; top: 3px;
+    height: 2px;
+    background: currentColor;
+    transition: transform 0.18s var(--salida);
+  }
+  .menu-movil[open] .menu-movil-icono { border-color: transparent; }
+  .menu-movil[open] .menu-movil-icono::before { transform: rotate(45deg); }
+  .menu-movil[open] .menu-movil-icono::after  { transform: rotate(-45deg); }
+
+  .menu-movil-panel {
+    position: fixed;
+    top: var(--alto-barra, 56px);
+    left: 0; right: 0; bottom: 0;
+    z-index: 1040;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding: 4px var(--canal) 40px;
+    background: var(--papel);
+    border-top: 2px solid var(--tinta);
+    /* Vive dentro de .navbar-brand, que impone nowrap y su propio cuerpo de
+       letra: aqui se restituyen, y las columnas van en rem para no heredarlo. */
+    white-space: normal;
+    font-size: var(--t-dato);
+    line-height: 1.35;
+  }
+  .menu-seccion {
+    display: grid;
+    grid-template-columns: 2.75rem minmax(0, 1fr) 16px;
+    align-items: center;
+    min-height: 50px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--regla-fina);
+    color: var(--tinta);
+    text-decoration: none;
+    list-style: none;
+    cursor: pointer;
+  }
+  .menu-seccion::-webkit-details-marker { display: none; }
+  .menu-num {
+    font-family: var(--m);
+    font-size: var(--t-menor);
+    font-weight: 500;
+    color: var(--magenta-prof);
+  }
+  .menu-nombre { font-size: var(--t-base); font-weight: 500; justify-self: start; }
+  /* La seccion actual, con el mismo filete azul de la pestana activa. */
+  .menu-seccion[aria-current] .menu-nombre {
+    font-weight: 600;
+    border-bottom: 2px solid var(--azul);
+  }
+  /* El chevron de los capitulos, el mismo de las piezas plegadas. */
+  summary.menu-seccion::after {
+    content: "";
+    width: 7px; height: 7px;
+    justify-self: end;
+    border-right: 1.5px solid var(--tinta-2);
+    border-bottom: 1.5px solid var(--tinta-2);
+    transform: rotate(45deg);
+    margin-top: -4px;
+    transition: transform 0.18s var(--salida);
+  }
+  .menu-capitulo[open] > summary.menu-seccion::after { transform: rotate(-135deg); margin-top: 4px; }
+  .menu-capitulo[open] > summary.menu-seccion { border-bottom-color: transparent; }
+  .menu-capitulo[open] { border-bottom: 1px solid var(--regla-fina); padding-bottom: 8px; }
+  .menu-inicio {
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+    padding-left: 2.75rem;
+    font-size: var(--t-dato);
+    font-weight: 500;
+  }
+  .menu-capitulo .indice-item {
+    grid-template-columns: 2.75rem 2.25rem minmax(0, 1fr);
+    gap: 0 8px;
+    padding: 10px 0;
+    min-height: 44px;
+  }
+
   .portadilla { min-height: 260px; }
   /* En telefono el credito vertical choca con la cobertura: sube a la esquina
      y se acuesta. */
@@ -1340,7 +1508,7 @@ a.sala, a.sala:hover, a.pulso-pieza, a.pulso-pieza:hover { color: var(--tinta); 
   .inv-tabla, .inv-tabla tbody { display: block; }
   .inv-tabla tbody tr {
     display: grid;
-    grid-template-columns: 2.6em minmax(0, 1fr) auto;
+    grid-template-columns: 3.4em minmax(0, 1fr) auto;
     column-gap: 12px;
     row-gap: 3px;
     padding: 13px 0;
@@ -1390,6 +1558,8 @@ a.sala, a.sala:hover, a.pulso-pieza, a.pulso-pieza:hover { color: var(--tinta); 
 
   .colofon-interior { grid-template-columns: 1fr; justify-items: start; }
   .colofon-meta { text-align: left; }
+  .colofon-enlaces { justify-content: flex-start; }
+  .credito-fila { grid-template-columns: 1fr; }
 
   /* La ficha se apila: es prosa de consulta, no un pareo de columnas. */
   .ficha-tabla, .ficha-tabla tbody, .ficha-tabla tr { display: block; }
@@ -1398,6 +1568,12 @@ a.sala, a.sala:hover, a.pulso-pieza, a.pulso-pieza:hover { color: var(--tinta); 
   .ficha-valor { border-top: none; padding-bottom: 2px; }
   .ficha-tabla tr:first-child .ficha-campo { border-top: none; margin-top: 0; padding-top: 0; }
   .ficha-cabeza { flex-wrap: wrap; gap: 5px 12px; }
+}
+
+/* En los telefonos mas angostos (360px) el rotulo "Indice" no cabe junto a la
+   marca: queda el icono, y el boton conserva su nombre en aria-label. */
+@media (max-width: 380px) {
+  .menu-movil-rotulo { display: none; }
 }
 
 /* Sin movimiento si el sistema lo pide: todo queda en su estado final. La

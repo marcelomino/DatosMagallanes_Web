@@ -182,16 +182,21 @@ ind_ficha <- function(df) {
 # El comentario al final de cada linea lista las columnas del CSV.
 
 # ── Poblacion (100-199) ──────────────────────────────────────────────────────
-d_pob_total      <- .dato("101_poblacion_total")        # anio, total
-d_pob_comunas    <- .dato("113_poblacion_comunas")      # comuna, pob
-d_crecimiento    <- .dato("103_tasa_crecimiento")       # anio, total, tasa_crecimiento
-d_edad           <- .dato("102_distribucion_sexo_edad") # grupo, hombre, mujer
-d_natalidad      <- .dato("104_tasa_natalidad")         # anio, natalidad
-d_mortalidad_general <- .dato("105_tasa_mortalidad_general") # anio, mortalidad
+d_pob_total      <- .dato("101_poblacion_regional_segun_sexo") # anio, total, hombres, mujeres
+d_comuna_sexo    <- .dato("102_poblacion_segun_comuna_sexo") # anio, comuna, total, hombres, mujeres
+d_piramide       <- .dato("103_poblacion_regional_piramide") # anio, grupo_edad, total, hombres, mujeres
+d_dependencia    <- .dato("104_tasa_dependencia_demografica") # anio, dep_total, dep_infantil, dep_mayores
+d_envejecimiento <- .dato("105_envejecimiento")         # anio, indice_60, indice_65
 d_fecundidad     <- .dato("106_tasa_global_fecundidad") # anio, fecundidad
-d_densidad       <- .dato("108_densidad_poblacional")   # anio, densidad
-d_envejecimiento <- .dato("107_envejecimiento")         # anio, tasa_env, indice_env
-d_migracion      <- .dato("112_poblacion_migrante")     # anio, inmigrantes
+d_natalidad      <- .dato("107_tasa_bruta_natalidad")   # anio, natalidad
+d_esperanza_vida <- .dato("108_esperanza_vida")         # anio, total, hombres, mujeres
+d_mortalidad_general <- .dato("109_tasa_bruta_mortalidad") # anio, mortalidad
+d_mortalidad_infantil <- .dato("110_tasa_mortalidad_infantil") # anio, total, hombres, mujeres
+d_mortalidad_menores5 <- .dato("111_tasa_mortalidad_menores_5") # anio, total, hombres, mujeres
+d_urbana_rural   <- .dato("112_poblacion_urbana_rural") # anio, total, urbana, rural, pct_urbana, pct_rural
+d_crecimiento    <- .dato("113_tasa_crecimiento")       # anio, total, tasa_crecimiento
+d_densidad       <- .dato("114_densidad_poblacional")   # anio, densidad
+d_migracion      <- .dato("117_poblacion_migrante")     # anio, inmigrantes
 
 # ── Economia (200-299) ───────────────────────────────────────────────────────
 d_variacion_pib  <- .dato("201_variacion_pib")          # anio, variacion_pib
@@ -211,14 +216,12 @@ d_hacinamiento   <- .dato("307_hacinamiento")           # anio, hacinamiento
 d_deficit_habitacional <- .dato("308_deficit_habitacional") # anio, deficit_habitacional
 
 # ── Bienestar (400-499) ──────────────────────────────────────────────────────
-d_salud          <- .dato("401_esperanza_vida")         # anio, esperanza
 d_educacion      <- .dato("402_matricula")              # nivel, cobertura
 d_asistencia     <- .dato("403_asistencia_escolar")     # anio, nivel, asistencia
 d_escolaridad    <- .dato("404_anos_escolaridad")       # anio, escolaridad
 d_matricula_superior <- .dato("405_matricula_educacion_superior") # anio, matricula
 d_titulados_superior <- .dato("406_titulados_educacion_superior") # anio, titulados
 d_vivienda       <- .dato("414_habitabilidad_vivienda") # categoria, valor
-d_mortalidad     <- .dato("415_mortalidad_infantil")    # anio, mortalidad
 
 # ── Cohesion Social (500-599) ────────────────────────────────────────────────
 d_confianza      <- .dato("502_confianza_institucional")# institucion, confianza
@@ -228,8 +231,8 @@ d_crimen         <- .dato("511_delitos_dmcs")           # anio, tasa
 d_electoral      <- .dato("515_participacion_electoral")# anio, electoral
 
 # Carpeta con datos que aun no tiene alias (no la grafica ningun modulo
-# todavia): 110_indice_masculinidad. Se carga igual en IND y esta disponible
-# via .dato("110_indice_masculinidad").
+# todavia): 115_indice_masculinidad. Se carga igual en IND y esta disponible
+# via .dato("115_indice_masculinidad").
 
 
 # ─────────────────────────────────────────────────────────────────────────────

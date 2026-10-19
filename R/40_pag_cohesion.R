@@ -57,26 +57,29 @@ pag_cohesion <- function() {
         # mientras siga siendo cierta.
         marca = marca_estado("ilustrativo",
                              "Series de prototipo, no cifras oficiales"),
-        fila_inventario(502, "Mayor confianza declarada",
+        # Una fila por cuadro, en el orden de los cuadros: el numero de la fila
+        # es el del cuadro que resume (lo toma de la lamina). V.1 lleva dos: la
+        # confianza mayor y la menor del mismo cuadro.
+        fila_inventario(.V[["V.1"]], "Mayor confianza declarada",
           fmt_n(d_confianza$confianza[.max_i]), unidad = "%",
           periodo = "2023",
           glosa = d_confianza$institucion[.max_i]),
-        fila_inventario(502, "Menor confianza declarada",
+        fila_inventario(.V[["V.1"]], "Menor confianza declarada",
           fmt_n(d_confianza$confianza[.min_i]), unidad = "%",
           periodo = "2023",
           glosa = d_confianza$institucion[.min_i]),
-        fila_inventario(511, "Delitos de mayor connotacion social",
+        fila_inventario(.V[["V.2"]], "Participacion electoral", fmt_n(.elec$valor, 1),
+          unidad = "%", periodo = .elec$anio,
+          glosa = "Sobre el padron habilitado"),
+        fila_inventario(.V[["V.3"]], "Delitos de mayor connotacion social",
           # La unidad la manda la ficha 511 del YAML ("Por 100.000 habitantes"),
           # no el modulo. Publicaba "por mil", que es la misma cifra leida con
           # un factor de 100 de diferencia.
           fmt_n(.crim$valor, 1), unidad = "por 100.000 hab.",
           periodo = .crim$anio),
-        fila_inventario(515, "Participacion electoral", fmt_n(.elec$valor, 1),
-          unidad = "%", periodo = .elec$anio,
-          glosa = "Sobre el padron habilitado"),
-        fila_inventario(512, "Tasa de homicidios", fmt_n(.homi$valor, 1),
+        fila_inventario(.V[["V.4"]], "Tasa de homicidios", fmt_n(.homi$valor, 1),
           unidad = "por 100.000 hab.", periodo = .homi$anio),
-        fila_inventario(513, "Tasa de mortalidad por suicidios",
+        fila_inventario(.V[["V.5"]], "Tasa de mortalidad por suicidios",
           fmt_n(.suic$valor, 1), unidad = "por 100.000 hab.",
           periodo = .suic$anio)
       ),
