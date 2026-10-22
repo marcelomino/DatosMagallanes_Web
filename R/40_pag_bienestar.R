@@ -68,8 +68,8 @@ pag_bienestar <- function() {
         # recuerda la ultima seccion visitada, asi que un lector habitual puede
         # no volver a pasar por la portada nunca. La advertencia no se retira
         # mientras siga siendo cierta.
-        marca = marca_estado("ilustrativo",
-                             "Series de prototipo, no cifras oficiales"),
+        marca = if (isTRUE(.PROTOTIPO)) marca_estado("ilustrativo",
+                                                 "Series de prototipo, no cifras oficiales"),
         fila_inventario(.IV[["IV.1"]], "Cobertura de educacion media", fmt_n(.educ_media, 1),
           unidad = "%",
           glosa = "Tasa neta de matricula"),

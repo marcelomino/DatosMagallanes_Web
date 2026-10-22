@@ -11,7 +11,9 @@
 #   3. Los controles: el conmutador del cero cambia el eje; los rangos de anos
 #      recortan sus dos cuadros y el CSV que se descarga; el selector de censo
 #      de I.3 cambia el dibujo y su CSV; un ancla de cuadro
-#      despliega su entrada; la busqueda y ?pieza= filtran las fichas.
+#      despliega su entrada y aterriza en su cabecera; la advertencia de
+#      prototipo esta en todos los pies y CSV o en ninguno; la busqueda y
+#      ?pieza= filtran las fichas.
 #   4. El menu de telefono: a 390 px reemplaza la franja, trae las 8 secciones
 #      y todos los cuadros, lleva al cuadro, y la barra queda fija.
 #   5. La entrada (index.html): sus enlaces existen, no desborda ni lanza
@@ -143,6 +145,84 @@ if (is.null(antes)) {
 } else ok("Ancla #cuadro-I-1 y conmutador del cero")
 b$close()
 
+# El ancla aterriza sobre la cabecera de la entrada (direccion y nombre a la
+# vista) y deja el foco en su boton.
+b <- abrir("economia.html#cuadro-II-1")
+Sys.sleep(1.2)
+aterrizaje <- js(b, paste0(
+  "(function(){var i=document.getElementById('cuadro-II-1');",
+  "var t=i.getBoundingClientRect().top;",
+  "return {item: i.classList.contains('accordion-item'), top: t, alto: innerHeight,",
+  "foco: document.activeElement === i.querySelector('.accordion-button')};})()"))
+if (!isTRUE(aterrizaje$item)) {
+  fallar("#cuadro-II-1 no es la entrada plegada")
+} else if (aterrizaje$top < 0 || aterrizaje$top > aterrizaje$alto / 3) {
+  fallar("#cuadro-II-1: la cabecera quedo fuera de la vista (top ", round(aterrizaje$top), ")")
+} else if (!isTRUE(aterrizaje$foco)) {
+  fallar("#cuadro-II-1: el foco no quedo en el boton de la entrada")
+} else ok("Ancla #cuadro-II-1 aterriza en su cabecera, con el foco en su boton")
+b$close()
+
+# La estructura accesible: en cada pagina un enlace para saltar la barra, un
+# <main> al que apunta, un solo h1, y cada entrada plegada es un h3.
+estructura_ok <- 0
+for (p in PAGINAS) {
+  html <- paste(readLines(file.path(SITIO, p), warn = FALSE), collapse = "\n")
+  n_h1 <- stringr::str_count(html, "<h1[ >]")
+  salto <- stringr::str_detect(html, '<body class="bslib-page-navbar">\\s*<a class="salto" href="#contenido">')
+  main <- stringr::str_count(html, '<main id="contenido"')
+  div_cab <- stringr::str_count(html, '<div class="accordion-header"')
+  # Las paginas del pie (creditos, contacto) todavia no tienen h1 propio.
+  h1_esperados <- if (p %in% c("creditos.html", "contacto.html")) 0:1 else 1
+  if (!salto || main != 1 || !n_h1 %in% h1_esperados || div_cab > 0)
+    fallar(p, ": salto ", salto, ", main ", main, ", h1 ", n_h1, ", cabeceras sin h3 ", div_cab)
+  else estructura_ok <- estructura_ok + 1
+}
+if (estructura_ok == length(PAGINAS)) ok("Salto, main, h1 y h3 en ", length(PAGINAS), " paginas")
+
+# Abrir una pieza a mano: su cabecera sube a la vista y la URL toma su
+# direccion; al plegarla, la direccion se retira.
+b <- abrir("economia.html")
+Sys.sleep(0.8)
+js(b, "document.querySelector('#cuadro-II-4 .accordion-button').click(); 1")
+Sys.sleep(1.2)
+abierta <- js(b, paste0(
+  "JSON.stringify({hash: location.hash, alto: innerHeight,",
+  "top: document.getElementById('cuadro-II-4').getBoundingClientRect().top})"))
+abierta <- jsonlite::fromJSON(abierta)
+js(b, "document.querySelector('#cuadro-II-4 .accordion-button').click(); 1")
+Sys.sleep(0.8)
+plegada <- js(b, "location.hash")
+if (!identical(abierta$hash, "#cuadro-II-4")) {
+  fallar("II.4 abierto a mano: la URL quedo en '", abierta$hash, "'")
+} else if (abierta$top < 0 || abierta$top > abierta$alto / 3) {
+  fallar("II.4 abierto a mano: la cabecera quedo en ", round(abierta$top), " px")
+} else if (!identical(plegada, "")) {
+  fallar("II.4 plegado: la URL conservo '", plegada, "'")
+} else ok("II.4 abierto a mano sube a la vista y deja su direccion en la URL")
+b$close()
+
+# La advertencia de prototipo: si un cuadro la lleva, la llevan todos los
+# cuadros de indicador y todo CSV de indicador (un solo interruptor,
+# .PROTOTIPO).
+pies_ind <- avisos <- 0
+for (p in PAGINAS) {
+  html <- paste(readLines(file.path(SITIO, p), warn = FALSE), collapse = "\n")
+  n <- stringr::str_count(html, 'class="cuadro-pie"')
+  pies_ind <- pies_ind + if (stringr::str_detect(html, stringr::fixed('piezas-acc'))) n else 0
+  avisos   <- avisos   + stringr::str_count(html, 'class="cuadro-aviso"')
+}
+csvs <- setdiff(list.files(file.path(SITIO, "datos"), "\\.csv$", full.names = TRUE),
+                file.path(SITIO, "datos", c("fuentes.csv", "red_capitulo_fuente.csv")))
+con_aviso <- purrr::map_lgl(csvs, \(f) startsWith(sub("^\ufeff", "", readLines(f, n = 1, encoding = "UTF-8")), "# "))
+if (avisos > 0 && (avisos != pies_ind || !all(con_aviso))) {
+  fallar("Prototipo a medias: ", avisos, " de ", pies_ind, " pies de indicador, ",
+         sum(con_aviso), " de ", length(csvs), " CSV")
+} else if (avisos == 0 && any(con_aviso)) {
+  fallar("Sin marca en los pies, pero el CSV sigue marcado")
+} else ok("Advertencia de prototipo ",
+          if (avisos) paste0("en los ", avisos, " pies de indicador y en ", length(csvs), " CSV") else "apagada")
+
 # Los rangos: el primer ano se sube y los DOS cuadros del par se recortan.
 for (par in list(c("economia.html", "eco", "II-1", "II-2"),
                  c("pobreza.html", "pob_ing", "III-1", "III-2"))) {
@@ -163,7 +243,10 @@ for (par in list(c("economia.html", "eco", "II-1", "II-2"),
   }
   csv <- js(b, sprintf("(function(){var l=document.getElementById('lienzo-%s'); var d=JSON.parse(document.querySelector('script[data-for=\"lienzo-%s\"]').textContent); var k=%s.value+'-'+document.getElementById('%s-anio_hasta').value; return d.csv[k];})()",
                        par[3], par[3], sel, par[2]))
-  primera <- strsplit(csv, "\n")[[1]][2]
+  # La advertencia de prototipo (aviso_csv()) va comentada con "#" antes de
+  # la cabecera: la primera fila de datos es la segunda linea sin "#".
+  lineas <- strsplit(csv, "\n")[[1]]
+  primera <- lineas[!startsWith(lineas, "#")][2]
   if (!startsWith(primera, paste0(nuevo, ";"))) {
     fallar(par[3], ": el CSV del rango no empieza en ", nuevo)
   } else ok(par[3], ": CSV del rango")
@@ -185,7 +268,8 @@ csv <- js(b, sprintf("JSON.parse(document.querySelector('script[data-for=\"lienz
                      nuevo, nuevo))
 if (is.null(antes) || identical(antes, despues)) {
   fallar("I-3: el selector de censo no cambio el dibujo")
-} else if (is.null(csv) || !startsWith(strsplit(csv, "\n")[[1]][2], paste0(nuevo, ";"))) {
+} else if (is.null(csv) || !startsWith(grep("^#", strsplit(csv, "\n")[[1]], value = TRUE, invert = TRUE)[2],
+                                       paste0(nuevo, ";"))) {
   fallar("I-3: el CSV del censo ", nuevo, " no corresponde")
 } else ok("I-3: censo ", nuevo, " y su CSV")
 b$close()

@@ -49,7 +49,7 @@ pag_metodologia <- function() {
 
   paneles <- purrr::map(seq_len(nrow(df)), function(i) {
     fila <- df[i, ]
-    bslib::accordion_panel(
+    cabecera_h3(bslib::accordion_panel(
       # La cabecera lleva numero de acceso, dimension, nombre y estado del
       # dato: se puede citar una pieza sin abrir su asiento, y se ve de
       # inmediato si tiene datos compilados o solo ficha.
@@ -77,7 +77,7 @@ pag_metodologia <- function() {
       # bslib deja estos atributos en el .accordion-body del asiento.
       `data-seccion` = fila$seccion,
       `data-buscar`  = tolower(paste(fila$id, fila$nombre, fila$seccion,
-                                     fila$definicion %||% "", sep = "\n"))
+                                     fila$definicion %||% "", sep = "\n")))
     )
   })
 
@@ -104,6 +104,7 @@ pag_metodologia <- function() {
 
       div(
         class = "fichas",
+        h2(class = "visually-hidden", "Fichas del catalogo"),
         # multiple = TRUE permite comparar dos asientos abiertos.
         do.call(bslib::accordion,
                 c(paneles, list(id = "met-acc", open = FALSE, multiple = TRUE,

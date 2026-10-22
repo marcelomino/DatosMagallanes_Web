@@ -48,11 +48,9 @@
 #' @param descarga  Boton de descarga opcional (boton_descarga()), al final de
 #'                  los controles. Separado de `controles` porque lo agrega el
 #'                  modulo aunque el cuadro no tenga ningun otro control propio.
-#' @param ancla     FALSE suprime el `id` del cuadro. La misma lamina se publica
-#'                  DOS veces: en su capitulo y dentro de su asiento del
-#'                  capitulo VI. El ancla es unica por documento, asi que la
-#'                  segunda copia va sin ella; el capitulo es el que manda,
-#'                  porque es la direccion que se cita.
+#' @param ancla     FALSE suprime el `id` del cuadro. pieza_cuadro() lo suprime
+#'                  porque el ancla de cita la lleva su entrada plegada, que es
+#'                  la que muestra direccion y nombre.
 #' @param unidad     Unidad de medida, bajo el titulo y entre parentesis.
 #' @param definicion Que mide la pieza. Va al pie, antes de la fuente.
 #' @param pieza      Numero de acceso (110). Si se entrega, el pie publica el
@@ -92,6 +90,8 @@ cuadro <- function(numero, titulo = NULL, ..., controles = NULL, fuente = NULL,
     numero <- lam$numero
   }
 
+  ilustrativo <- isTRUE(.PROTOTIPO) && !is.null(pieza)
+
   # La descarga NO se mezcla con los controles. Un slider de anos cambia lo que
   # el grafico muestra y por eso vive sobre el: es parte de la consulta. El CSV
   # no cambia nada — es lo que uno se lleva despues de mirar — y su lugar esta
@@ -112,7 +112,9 @@ cuadro <- function(numero, titulo = NULL, ..., controles = NULL, fuente = NULL,
             span(class = "cuadro-numero", numero),
             if (cabecera == "completa")
               div(class = "cuadro-lockup",
-                  span(class = "cuadro-titulo", titulo),
+                  # Con cabecera propia el cuadro va suelto en la pagina (el
+                  # VII.1): su titulo es un encabezado bajo el h1 del capitulo.
+                  h2(class = "cuadro-titulo", titulo),
                   rotulo_unidad(unidad))),
         if (!is.null(controles)) div(class = "cuadro-controles", controles)
       )
@@ -128,6 +130,12 @@ cuadro <- function(numero, titulo = NULL, ..., controles = NULL, fuente = NULL,
         !is.null(pieza) || !is.null(descarga))
       div(
         class = "cuadro-pie",
+        # La marca de prototipo va pegada al grafico, antes que todo: es lo que
+        # entra en una captura de pantalla, y el lector que llego por el ancla
+        # nunca vio la del inventario. Solo en los cuadros de un indicador: el
+        # VII.1 cuenta fichas del catalogo, que no son de prototipo.
+        if (ilustrativo)
+          div(class = "cuadro-aviso", marca_estado("ilustrativo", .AVISO_PROTOTIPO)),
         if (!is.null(definicion))
           div(span(class = "llamada", "Definicion"), definicion),
         if (!is.null(fuente))
@@ -319,7 +327,7 @@ menu_movil <- function(actual) {
 #'               lista de mediciones.
 #' @param ...    El cuadro o los cuadros.
 entrada_pieza <- function(clave, numero, nombre, unidad = NULL, ...) {
-  bslib::accordion_panel(
+  cabecera_h3(bslib::accordion_panel(
     value = clave,
     title = div(
       class = "pieza-cabeza",
@@ -329,7 +337,17 @@ entrada_pieza <- function(clave, numero, nombre, unidad = NULL, ...) {
           rotulo_unidad(unidad))
     ),
     ...
-  )
+  ))
+}
+
+#' La cabecera de una entrada plegada, como encabezado h3
+#'
+#' bslib la emite como <div class="accordion-header">: quien recorre la pagina
+#' por encabezados (lector de pantalla, tecla H) no encontraba ningun cuadro.
+#' Como h3 cada pieza es un encabezado bajo el h2 de su lista, y el boton que
+#' abre la entrada sigue dentro, como pide el patron de acordeon de la WAI.
+cabecera_h3 <- function(panel) {
+  htmltools::tagQuery(panel)$find(".accordion-header")$each(\(x, i) x$name <- "h3")$allTags()
 }
 
 #' El cuerpo del capitulo: sus piezas plegadas
@@ -337,9 +355,14 @@ entrada_pieza <- function(clave, numero, nombre, unidad = NULL, ...) {
 #' `multiple = TRUE` a proposito: dos piezas abiertas a la vez es como se
 #' comparan dos series que no comparten cuadro.
 piezas_capitulo <- function(id, ...) {
-  do.call(bslib::accordion,
-          c(list(...), list(id = id, open = FALSE, multiple = TRUE,
-                            class = "piezas-acc")))
+  tagList(
+    # El h2 de la lista: en pantalla la lista se presenta sola, pero en el
+    # esquema de encabezados las piezas (h3) necesitan de quien colgar.
+    h2(class = "visually-hidden", "Cuadros del capitulo"),
+    do.call(bslib::accordion,
+            c(list(...), list(id = id, open = FALSE, multiple = TRUE,
+                              class = "piezas-acc")))
+  )
 }
 
 #' Una pieza del capitulo: la entrada plegada con su cuadro dentro
@@ -370,8 +393,9 @@ pieza_cuadro <- function(lam, datos = IND[[lam$carpeta]], controles = NULL,
                          control_check(id_cero, "Eje desde cero", lam$cero_inicial))
 
   id_lienzo <- paste0("lienzo-", sufijo)
-  entrada_pieza(
-    clave  = ancla_cuadro(lam$numero),
+  ancla <- ancla_cuadro(lam$numero)
+  entrada <- entrada_pieza(
+    clave  = ancla,
     numero = lam$numero,
     nombre = lam$titulo,
     unidad = lam$unidad,
@@ -382,8 +406,14 @@ pieza_cuadro <- function(lam, datos = IND[[lam$carpeta]], controles = NULL,
            nota      = nota,
            descarga  = boton_descarga(lam$carpeta, if (!is.null(rango)) id_lienzo),
            cabecera  = "ninguna",
+           ancla     = FALSE,
            lienzo(id_lienzo, lam, datos, rango, id_cero))
   )
+  # El ancla de cita va en la entrada y no en el cuadro: el cuadro va sin
+  # cabecera, y quien llega por economia.html#cuadro-II-1 tiene que aterrizar
+  # sobre la direccion y el nombre que va a citar, no sobre un grafico mudo.
+  # Tambien sin JS: el salto nativo del navegador cae en la misma cabecera.
+  htmltools::tagAppendAttributes(entrada, id = ancla)
 }
 
 #' El lienzo de una lamina y todos sus dibujos
@@ -416,7 +446,7 @@ lienzo <- function(id, lam, datos, rango = NULL, id_cero = NULL) {
     else list(fijo = dib())
   })
   # Con rango, el CSV es el del rango que el cuadro muestra, como en la app.
-  csv <- if (!is.null(rango)) purrr::map(rangos, \(r) texto_csv(recorte(r)))
+  csv <- if (!is.null(rango)) purrr::map(rangos, \(r) texto_csv(recorte(r), aviso_csv()))
 
   .lienzo_html(id, lam$altura, paste("Cuadro", lam$numero, "-", lam$titulo),
                list(dibujos = dibujos, csv = csv),

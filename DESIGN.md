@@ -118,9 +118,9 @@ typography:
     lineHeight: 1.3
   credito:
     fontFamily: "Asap, sans-serif"
-    fontSize: "0.59375rem"
+    fontSize: "0.75rem"
     fontWeight: 500
-    letterSpacing: "0.12em"
+    letterSpacing: "0.1em"
 rounded:
   radio: "0"
 spacing:
@@ -206,7 +206,7 @@ components:
   marca-estado:
     backgroundColor: "{colors.lamina}"
     textColor: "{colors.tinta-2}"
-    typography: "{typography.rotulo}"
+    typography: "{typography.menor}"
     padding: "3px 9px 3px 7px"
 ---
 
@@ -287,7 +287,7 @@ Campo acromatico en papel blanco y tinta violeta-negra; el color esta confinado 
 - **Menor** (400, 0,75rem): pies, fuentes, glosas, unidad bajo el nombre.
 - **Rotulo** (600, 0,6875rem, 0,12-0,14em, versalita): cabeceras de tabla, campos del asiento, llamadas del pie de cuadro (Definicion, Fuente, Nota), descriptor de la marca, caption del inventario.
 - **Identificador / Medida** (mono 500 / 400, 0,8125 / 0,75rem): numero de acceso, direccion de cuadro, numeral de sala, periodo, rango de ids, coordenadas, edicion, boton CSV. Los ejes de grafico van en mono 10,5px desde `.tema_echarts`.
-- **Credito** (0,59375rem, versalita): credito fotografico vertical en Asap 500 (son palabras, no medidas) y mes de la pestana de edicion en mono.
+- **Credito** (0,75rem, versalita; ningun texto que se lea baja de 11px): credito fotografico vertical en Asap 500 (son palabras, no medidas) y mes de la pestana de edicion en mono.
 
 ### Named Rules
 **The Rampa Cerrada Rule.** Todo tamano sale de las variables `--t-*` de `:root`. Un tamano nuevo se agrega a la rampa o no existe; incluido el titulo de portadilla en telefono (`--t-portadilla-movil`, 2,75rem).

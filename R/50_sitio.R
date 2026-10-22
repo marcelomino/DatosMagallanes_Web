@@ -180,6 +180,27 @@
 }
 
 
+# ── El contenido de la pagina ────────────────────────────────────────────────
+# Un <main> por pagina, con el id al que apunta el enlace "Saltar al contenido"
+# (.salto_contenido()). tabindex -1: el salto lleva tambien el foco, no solo la
+# vista, y el siguiente Tab sigue desde ahi y no desde la barra.
+.contenido <- function(...) tags$main(id = "contenido", class = "contenedor", tabindex = "-1", ...)
+
+# El primer elemento de la pagina: un enlace que salta la barra, sus ocho
+# pestanas y sus indices. Invisible hasta recibir el foco. Va escrito al
+# guardar, como .pestana_activa(), porque page_navbar() no deja poner nada
+# antes de la barra.
+.salto_contenido <- function(archivo) {
+  txt <- paste(readLines(archivo, encoding = "UTF-8"), collapse = "\n")
+  patron <- '<body class="bslib-page-navbar">'
+  if (!grepl(patron, txt, fixed = TRUE))
+    cli::cli_abort("No encontre {.code {patron}} en {.path {archivo}}: cambio el marcado de bslib.")
+  txt <- sub(patron, paste0(patron, '\n<a class="salto" href="#contenido">Saltar al contenido</a>'),
+             txt, fixed = TRUE)
+  writeLines(txt, archivo, useBytes = TRUE)
+}
+
+
 # ── Una pagina ───────────────────────────────────────────────────────────────
 #' El chasis de page_navbar() con un solo panel: el de la seccion de la pagina
 #'
@@ -194,7 +215,7 @@ pagina <- function(actual) {
   en_barra <- any(purrr::map_lgl(.PAGINAS, \(p) identical(p$archivo, actual$archivo)))
   entradas <- purrr::map(.PAGINAS, function(p) {
     if (identical(p$archivo, actual$archivo))
-      nav_panel(p$nav, div(class = "contenedor", p$dibujo()))
+      nav_panel(p$nav, .contenido(p$dibujo()))
     else
       nav_item(tags$a(class = "nav-link", href = p$archivo, p$nav))
   })
@@ -215,7 +236,7 @@ pagina <- function(actual) {
       # al menu por el solo hecho de tener su grafico.R.
       header = tagList(.cabecera(titulo, transicion = portada), menu_indices(.CAPITULOS)),
       footer = if (en_barra) .colofon()
-               else tagList(div(class = "contenedor", actual$dibujo()), .colofon())
+               else tagList(.contenido(actual$dibujo()), .colofon())
     ),
     entradas
   ))
@@ -285,7 +306,8 @@ escribir_sitio <- function(destino) {
   # registros del capitulo VII.
   datos <- file.path(destino, "datos")
   dir.create(datos)
-  purrr::iwalk(IND, \(df, carpeta) escribir_csv(df, file.path(datos, paste0(carpeta, ".csv"))))
+  purrr::iwalk(IND, \(df, carpeta) escribir_csv(df, file.path(datos, paste0(carpeta, ".csv")),
+                                                aviso = aviso_csv()))
   escribir_csv(d_fuentes, file.path(datos, "fuentes.csv"))
   escribir_csv(d_red, file.path(datos, "red_capitulo_fuente.csv"))
   cli::cli_alert_success("CSV: {length(IND) + 2}")
@@ -300,11 +322,14 @@ escribir_sitio <- function(destino) {
     archivo <- file.path(destino, p$archivo)
     htmltools::save_html(pagina(p), archivo, libdir = "lib", lang = "es")
     .pestana_activa(archivo, p$archivo)
+    .salto_contenido(archivo)
     cli::cli_alert_success(p$archivo)
   }
   # Las del pie: sin pestana activa que reescribir (ver pagina()).
   for (p in .PAGINAS_PIE) {
-    htmltools::save_html(pagina(p), file.path(destino, p$archivo), libdir = "lib", lang = "es")
+    archivo <- file.path(destino, p$archivo)
+    htmltools::save_html(pagina(p), archivo, libdir = "lib", lang = "es")
+    .salto_contenido(archivo)
     cli::cli_alert_success(p$archivo)
   }
   pend <- pendientes_pie()

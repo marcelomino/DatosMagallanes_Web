@@ -69,6 +69,42 @@ Hasta octubre de 2026 la plataforma era un dashboard Shiny
 `b5a1843` y su catálogo, su código de láminas y sus componentes se trasladaron
 aquí. El historial está en [CHANGELOG.md](CHANGELOG.md).
 
+## Uso de inteligencia artificial
+
+En el desarrollo de esta plataforma se usaron herramientas de inteligencia
+artificial generativa. Se declaran con la herramienta, el período y las tareas en
+que intervinieron, siguiendo la posición de COPE sobre autoría y herramientas de
+IA (COPE Council, 2023).
+
+- **Herramienta:** Claude Code, asistente de programación de Anthropic, con los
+  modelos Claude Opus 4.6, Claude Sonnet 4.6, Claude Opus 5, Claude Sonnet 5 y
+  Claude Opus 5.5, entre marzo y octubre de 2026 (desde el dashboard
+  `10_Datos_Magallanes_dash` que precede a este repositorio).
+- **Con asistencia de IA:**
+  - Programación y diseño del sitio: código en R, JavaScript y CSS, diseño de la
+    interfaz, pruebas automáticas y documentación técnica.
+  - Procesamiento de datos: limpieza, recorte regional y cálculo de los archivos
+    de datos a partir de las fuentes oficiales.
+- **Sin IA:** la redacción de las fichas metodológicas y de los textos de la
+  plataforma, y las series de prototipo que se publican en esta edición.
+- **Al consultar el sitio:** ninguna. El sitio es estático; ninguna cifra se
+  genera ni se transforma en el navegador.
+- **Supervisión y responsabilidad:** el equipo de la UER revisó cada cambio antes
+  de publicarlo y es responsable del contenido. La IA no figura como autora.
+- **Trazabilidad:** cada commit hecho con asistencia de IA lleva la línea
+  `Co-Authored-By` con el modelo usado.
+
+La misma declaración se publica en la página de Créditos del sitio. Se edita en
+`.USO_IA` ([R/40_pag_aparato.R](R/40_pag_aparato.R)); si cambia allí, se
+actualiza aquí.
+
+### Referencias
+
+- Anthropic. (2026). *Claude Code* [Software]. <https://claude.com/claude-code>
+- COPE Council. (2023, 13 de febrero). *Authorship and AI tools* [Declaración de
+  posición]. Committee on Publication Ethics.
+  <https://publicationethics.org/guidance/cope-position/authorship-and-ai-tools>
+
 ## Licencia
 
 Código: MIT. Datos y contenidos: CC BY 4.0, con atribución a UER-UMAG. Las

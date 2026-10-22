@@ -121,7 +121,7 @@ pag_fuentes <- function() {
 
   tags$section(
     class = "inventario",
-    div(class = "inv-cabecera", div(class = "inv-caption", "Registro de fuentes")),
+    div(class = "inv-cabecera", h2(class = "inv-caption", "Registro de fuentes")),
     div(class = "tabla-desplazable",
       tags$table(
         class = "inv-tabla", `aria-label` = "Registro de fuentes",

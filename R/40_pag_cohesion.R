@@ -55,8 +55,8 @@ pag_cohesion <- function() {
         # recuerda la ultima seccion visitada, asi que un lector habitual puede
         # no volver a pasar por la portada nunca. La advertencia no se retira
         # mientras siga siendo cierta.
-        marca = marca_estado("ilustrativo",
-                             "Series de prototipo, no cifras oficiales"),
+        marca = if (isTRUE(.PROTOTIPO)) marca_estado("ilustrativo",
+                                                 "Series de prototipo, no cifras oficiales"),
         # Una fila por cuadro, en el orden de los cuadros: el numero de la fila
         # es el del cuadro que resume (lo toma de la lamina). V.1 lleva dos: la
         # confianza mayor y la menor del mismo cuadro.

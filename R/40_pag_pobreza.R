@@ -77,8 +77,8 @@ pag_pobreza <- function() {
         # recuerda la ultima seccion visitada, asi que un lector habitual puede
         # no volver a pasar por la portada nunca. La advertencia no se retira
         # mientras siga siendo cierta.
-        marca = marca_estado("ilustrativo",
-                             "Series de prototipo, no cifras oficiales"),
+        marca = if (isTRUE(.PROTOTIPO)) marca_estado("ilustrativo",
+                                                 "Series de prototipo, no cifras oficiales"),
         # Una fila por cuadro, en el orden de los cuadros: el numero de la fila
         # es el del cuadro que resume (lo toma de la lamina).
         fila_inventario(.III[["III.1"]], "Pobreza por ingresos", fmt_n(.ingr$valor, 1),

@@ -5,7 +5,8 @@
 //
 //   1. Montar cada lamina cuando el lector abre su entrada, y no antes: un
 //      grafico dentro de un panel cerrado mide cero.
-//   2. El conmutador "Eje desde cero" de cada pieza.
+//   2. El conmutador "Eje desde cero" de cada pieza y la descarga del CSV del
+//      rango.
 //   3. Los rangos de anos que comparten II.1/II.2 y III.1/III.2, y el selector
 //      de censo de I.3 (un rango de un solo ano)
 //      y el de la piramide de I.2, que suma la opcion Superpuestos.
@@ -13,7 +14,8 @@
 //   5. La navegacion: el indice colgado de cada pestana y las direcciones de
 //      cita en la URL (economia.html#cuadro-II-1, metodologia.html?pieza=215).
 //      Los enlaces ya traen su href real desde R; aqui solo se despliega la
-//      entrada y se desplaza hasta ella.
+//      entrada y se desplaza hasta ella. Abrir una pieza a mano la acomoda
+//      igual y deja su direccion en la URL.
 //
 // NINGUNA CIFRA SE CALCULA AQUI. Cada dibujo viene hecho desde R (ver lienzo()
 // en R/30_ui_components.R); este archivo solo elige cual mostrar.
@@ -135,6 +137,7 @@
     setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
   });
 
+
   // ── 4. Las fichas del capitulo VI ─────────────────────────────────────────
   function filtrarFichas() {
     var sec = document.getElementById('met-filtro_sec');
@@ -168,16 +171,44 @@
 
   // ── 5. Navegacion ─────────────────────────────────────────────────────────
 
+  // Sin movimiento si el lector lo pidio: el salto llega igual, sin deslizarse.
+  function desplazamiento() {
+    return window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
+  }
+
+  // Abrir una pieza a mano hace lo mismo que llegar por su direccion: la
+  // cabecera sube a la vista y la barra del navegador toma la direccion de cita
+  // (economia.html#cuadro-II-3), lista para copiarla. replaceState y no
+  // pushState: abrir cinco piezas no deja cinco pasos en "Atras", y no dispara
+  // hashchange. Al plegarla, la direccion se retira si era la suya. Se acomoda
+  // al terminar de abrir (shown) y no al empezar: con el cuerpo aun plegado,
+  // una pieza al final de la pagina no tiene recorrido para subir.
+  document.addEventListener('shown.bs.collapse', function (e) {
+    var item = e.target.closest('.piezas-acc > .accordion-item');
+    if (!item || !item.id) return;
+    item.scrollIntoView({ block: 'start', behavior: desplazamiento() });
+    if (location.hash !== '#' + item.id) history.replaceState(null, '', '#' + item.id);
+  });
+  document.addEventListener('hide.bs.collapse', function (e) {
+    var item = e.target.closest('.piezas-acc > .accordion-item');
+    if (item && item.id && location.hash === '#' + item.id)
+      history.replaceState(null, '', location.pathname + location.search);
+  });
+
   // Abrir la entrada de una pieza y llevar al lector hasta ella. La entrada
   // cuyo valor es el ancla es la de ese cuadro (ver pieza_cuadro()).
   function abrir(selector, destino) {
     var item = document.querySelector(selector);
     if (!item) return;
     var btn = item.querySelector('.accordion-button');
+    // El ancla vive en la entrada (pieza_cuadro()): se aterriza sobre su
+    // cabecera, con direccion y nombre a la vista, y el foco queda en el boton
+    // que la nombra, que es lo que un lector de pantalla anuncia.
     var ir = function () {
       var el = document.getElementById(destino) || item;
-      el.scrollIntoView({ block: 'start', behavior: 'smooth' });
-      el.setAttribute('tabindex', '-1'); el.focus({ preventScroll: true });
+      el.scrollIntoView({ block: 'start', behavior: desplazamiento() });
+      if (btn) btn.focus({ preventScroll: true });
+      else { el.setAttribute('tabindex', '-1'); el.focus({ preventScroll: true }); }
     };
     if (btn && btn.classList.contains('collapsed')) { btn.click(); setTimeout(ir, 420); }
     else ir();

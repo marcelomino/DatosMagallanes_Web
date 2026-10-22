@@ -108,6 +108,11 @@ Direcciones citables: `economia.html#cuadro-II-1` (abre la pieza) y
   pestana de edicion.
 - **JetBrains Mono solo en identificadores y medidas.** Nombres, prosa y cifras en Asap.
 - **Cero sombras** salvo el anillo de foco, y **sin radios** (`--radio: 0`).
+- **Datos de prototipo: un interruptor.** `.PROTOTIPO` (R/10_utils.R) pone la marca
+  "Serie de prototipo" en el inventario, en el pie de cada cuadro de indicador y
+  como primera linea (`# ...`) de cada CSV. Se apaga cuando los datos sean oficiales.
+- **Uso de IA declarado.** `.USO_IA` (R/40_pag_aparato.R) publica la declaracion en
+  Creditos; la misma va en README.md. Un modelo o una tarea nueva se agregan en ambos.
 - **Portadillas con foto**: foto, bano y credito viven en `.PORTADILLAS`
   (R/10_utils.R). Ninguna foto sin credito publicado.
 - **UNA CARPETA, UN INDICADOR, UNA FICHA, UN ID.** El id lo declara

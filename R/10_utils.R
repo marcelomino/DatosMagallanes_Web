@@ -57,6 +57,15 @@ VIOLETA <- "#593D80"   # Pantone 268 C  — el campo institucional
   mes         = "Oct 2026"     # la pestana de edicion de la barra de marca
 )
 
+# ── Datos de prototipo: un solo interruptor ──────────────────────────────────
+# Mientras las series publicadas sean de prototipo, lo declaran el inventario de
+# cada capitulo, el pie de cada cuadro y el CSV que se descarga: la
+# advertencia viaja con todo lo que puede salir del sitio. Cuando lleguen las
+# cifras oficiales verificadas se pone en FALSE y sale de todas partes a la vez.
+# (La entrada y la portada la llevan escrita en su propio texto.)
+.PROTOTIPO       <- TRUE
+.AVISO_PROTOTIPO <- "Serie de prototipo, no cifra oficial"
+
 # ── La descripcion que viaja fuera del sitio ─────────────────────────────────
 # La usan a la vez meta description, Open Graph y Twitter Card (ver R/50_sitio.R). Se
 # declara una sola vez porque tres copias de la misma frase terminan
@@ -537,7 +546,9 @@ portadilla <- function(numero, titulo, cobertura = NULL, rango = NULL) {
       # El numeral solo, liviano y a escala de display sobre su filete: es la
       # masa del divisor del Boletin, no un rotulo sobre el titulo.
       div(class = "portadilla-numero", numero),
-      h2(class = "portadilla-titulo", titulo),
+      # El unico h1 de la pagina: el nombre del capitulo. Lo que sigue (el
+      # inventario, los cuadros) cuelga de el en h2 y h3.
+      h1(class = "portadilla-titulo", titulo),
       div(
         class = "portadilla-pie",
         if (!is.null(cobertura))
@@ -613,7 +624,7 @@ inventario <- function(..., titulo = "Inventario del capitulo", marca = NULL) {
     # accesible de la tabla lo repone aria-label.
     div(
       class = "inv-cabecera",
-      div(class = "inv-caption", titulo),
+      h2(class = "inv-caption", titulo),
       if (!is.null(marca)) marca
     ),
     tags$table(
@@ -641,13 +652,28 @@ inventario <- function(..., titulo = "Inventario del capitulo", marca = NULL) {
 #' delante le avisa a Excel que el archivo es UTF-8. Se hace con base y no con
 #' readr::write_excel_csv2 para no sumar una dependencia a la construccion.
 #'
-#' @param df   data.frame a escribir.
-#' @param ruta Archivo de destino.
-escribir_csv <- function(df, ruta) {
+#' @param df    data.frame a escribir.
+#' @param ruta  Archivo de destino.
+#' @param aviso Linea de advertencia antes de la cabecera (aviso_csv()), o NULL.
+escribir_csv <- function(df, ruta, aviso = NULL) {
   writeBin(as.raw(c(0xEF, 0xBB, 0xBF)), ruta)
   con <- file(ruta, open = "a", encoding = "UTF-8")
   on.exit(close(con))
+  if (!is.null(aviso)) writeLines(aviso, con)
   utils::write.csv2(df, con, row.names = FALSE)
+}
+
+#' La advertencia de prototipo como primera linea del CSV
+#'
+#' El CSV es lo que mas lejos viaja: se abre en Excel sin el cuadro al lado. Va
+#' como una linea propia y no como columna porque es lo primero que se ve en la
+#' celda A1. Empieza con "#" para que readr (`comment = "#"`) y pandas
+#' (`comment="#"`) la salten; no lleva ";" para no partirse en columnas.
+#' Devuelve NULL cuando los datos son oficiales (ver .PROTOTIPO).
+aviso_csv <- function() {
+  if (!isTRUE(.PROTOTIPO)) return(NULL)
+  paste0("# Dato ilustrativo. ", .AVISO_PROTOTIPO, ". Datos Magallanes, UER-UMAG, ",
+         .EDICION$version)
 }
 
 #' El mismo CSV como texto y sin la BOM
@@ -656,12 +682,12 @@ escribir_csv <- function(df, ruta) {
 #' se descarga es el del rango que el cuadro muestra, asi que no existe de
 #' antemano. Se embebe uno por rango y js/sitio.js arma el archivo al hacer
 #' clic, agregando la BOM.
-texto_csv <- function(df) {
+texto_csv <- function(df, aviso = NULL) {
   salida <- character()
   con <- textConnection("salida", "w", local = TRUE)
   utils::write.csv2(df, con, row.names = FALSE)
   close(con)
-  paste0(paste(salida, collapse = "\n"), "\n")
+  paste0(paste(c(aviso, salida), collapse = "\n"), "\n")
 }
 
 #' Las opciones que un htmlwidget de echarts4r le entregaria a setOption()
