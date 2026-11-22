@@ -26,7 +26,9 @@
 
 suppressPackageStartupMessages(library(chromote))
 
-SITIO <- normalizePath("_site", mustWork = TRUE)
+# winslash: en Windows la ruta sale con "\", que URLencode convierte en %5C y
+# Chrome no abre (la carga nunca termina). En macOS/Linux no cambia nada.
+SITIO <- normalizePath("_site", winslash = "/", mustWork = TRUE)
 PAGINAS <- c("inicio.html", "poblacion.html", "economia.html", "pobreza.html",
              "bienestar.html", "cohesion.html", "metodologia.html", "fuentes.html",
              "creditos.html", "contacto.html")
@@ -39,7 +41,10 @@ fallar <- function(...) {
 }
 ok <- function(...) cli::cli_alert_success(paste0(...))
 
-url <- function(p) paste0("file://", utils::URLencode(file.path(SITIO, p)))
+# file:///H:/... en Windows; en macOS la ruta ya empieza con "/".
+url <- function(p) {
+  paste0("file://", if (!startsWith(SITIO, "/")) "/", utils::URLencode(file.path(SITIO, p)))
+}
 
 
 # ── 1. Enlaces internos ──────────────────────────────────────────────────────
@@ -400,6 +405,32 @@ for (ancho in c(1360, 390)) {
   if (length(exc)) fallar("index.html @", ancho, ": ", paste(exc, collapse = " | "))
   if (!isTRUE(desborde) && identical(destino, "inicio.html") && !length(exc))
     ok("index.html @", ancho, "px: Entrar lleva a inicio.html")
+
+  # El aviso de version de prueba (solo mientras .PROTOTIPO): se abre sobre la
+  # portada, cabe en la pantalla, el boton lo cierra y no vuelve en la sesion.
+  if (isTRUE(js(b, "!!document.getElementById('aviso-desarrollo')"))) {
+    # Se abre recien cuando la banda termino de retirarse: a 1360 px el nombre
+    # viaja a la barra y eso toma mas que a 390.
+    for (i in 1:20) {
+      if (isTRUE(js(b, "document.getElementById('aviso-desarrollo').open"))) break
+      Sys.sleep(0.2)
+    }
+    aviso <- jsonlite::fromJSON(js(b, paste0(
+      "(function(){var a=document.getElementById('aviso-desarrollo'),r=a.getBoundingClientRect();",
+      "return JSON.stringify({abierto:a.open, cabe:r.right<=innerWidth&&r.left>=0,",
+      " desborde:document.documentElement.scrollWidth>innerWidth})})()")))
+    js(b, "document.querySelector('.aviso-boton').click(); 1"); Sys.sleep(0.3)
+    cerrado <- !js(b, "document.getElementById('aviso-desarrollo').open")
+    invisible(b$Page$reload()); invisible(b$Page$loadEventFired()); Sys.sleep(1)
+    vuelve <- js(b, "document.getElementById('aviso-desarrollo').open")
+    if (!isTRUE(aviso$abierto)) {
+      fallar("inicio.html @", ancho, ": el aviso de prueba no se abrio al entrar")
+    } else if (!isTRUE(aviso$cabe) || isTRUE(aviso$desborde)) {
+      fallar("inicio.html @", ancho, ": el aviso de prueba no cabe en la pantalla")
+    } else if (!cerrado || isTRUE(vuelve)) {
+      fallar("inicio.html @", ancho, ": el aviso no se cierra o vuelve a abrirse en la sesion")
+    } else ok("inicio.html @", ancho, "px: aviso de prueba al entrar, se cierra y no vuelve")
+  }
   b$close()
 }
 

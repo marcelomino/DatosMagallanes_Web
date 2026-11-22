@@ -1,7 +1,8 @@
 // ═════════════════════════════════════════════════════════════════════════════
 // js/sitio.js — El comportamiento de las paginas
 //
-// Cinco tareas (en el dashboard Shiny las cumplian los mod_*_server):
+// Seis tareas (las cinco primeras las cumplian en el dashboard Shiny los
+// mod_*_server):
 //
 //   1. Montar cada lamina cuando el lector abre su entrada, y no antes: un
 //      grafico dentro de un panel cerrado mide cero.
@@ -16,6 +17,8 @@
 //      Los enlaces ya traen su href real desde R; aqui solo se despliega la
 //      entrada y se desplaza hasta ella. Abrir una pieza a mano la acomoda
 //      igual y deja su direccion en la URL.
+//   6. El aviso de version de prueba de la portada (aviso_desarrollo() en R):
+//      se abre una vez por sesion, cuando la banda de la entrada se retiro.
 //
 // NINGUNA CIFRA SE CALCULA AQUI. Cada dibujo viene hecho desde R (ver lienzo()
 // en R/30_ui_components.R); este archivo solo elige cual mostrar.
@@ -357,9 +360,27 @@
     });
   }
 
+  // ── 6. El aviso de version de prueba ───────────────────────────────────────
+  // Solo lo trae la portada (aviso_desarrollo() en R). Se abre una vez por
+  // sesion, cuando la banda de la entrada ya descubrio la pagina
+  // (window.DMllegada, R/50_sitio.R). Cerrarlo, con el boton o con Esc, deja
+  // la marca.
+  var AVISO_VISTO = 'dm-aviso-visto';
+  function abrirAviso() {
+    var aviso = document.getElementById('aviso-desarrollo');
+    if (!aviso || typeof aviso.showModal !== 'function') return;
+    try { if (sessionStorage.getItem(AVISO_VISTO)) return; } catch (e) { /* sin almacenamiento */ }
+    aviso.addEventListener('close', function () {
+      try { sessionStorage.setItem(AVISO_VISTO, '1'); } catch (e) { /* sin almacenamiento */ }
+    });
+    var abrir = function () { if (!aviso.open) aviso.showModal(); };
+    (window.DMllegada || Promise.resolve()).then(abrir, abrir);
+  }
+
   function iniciar() {
     // ECharts carga diferido, igual que este archivo y antes que el: cuando
     // DOMContentLoaded dispara, los dos ya corrieron.
+    abrirAviso();
     dibujarVisibles();
     anclarPestanaActiva();
     enlazarIndices();

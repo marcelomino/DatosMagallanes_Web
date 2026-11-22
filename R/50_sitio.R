@@ -124,13 +124,24 @@
 # documentos (Firefox): la entrada deja una marca en sessionStorage y la
 # portada, si no recibe la transicion nativa, retira la banda con CSS. Va en
 # linea y antes de dibujar: pagereveal se dispara antes del primer cuadro.
+#
+# Deja ademas window.DMllegada: una promesa que se cumple cuando la portada
+# quedo descubierta (la banda termino de retirarse, o no hubo banda). La
+# espera js/sitio.js para abrir el aviso de version de prueba encima de la
+# portada y no debajo de la banda. Con la portada prerenderizada, pagereveal
+# recien llega al activarla: el aviso no se abre en una pagina que nadie ve.
 .script_llegada <- function() {
   tags$script(HTML(
-    '(function(){var d=document.documentElement;function llega(){var f=null;',
+    '(function(){var d=document.documentElement,listo;',
+    'window.DMllegada=new Promise(function(r){listo=r});',
+    'function llega(){var f=null;',
     'try{f=sessionStorage.getItem("dm-entrada");sessionStorage.removeItem("dm-entrada")}catch(e){}',
-    'return f}if("onpagereveal" in window){addEventListener("pagereveal",function(e){',
-    'if(llega()&&!e.viewTransition)d.classList.add("llega-banda")},{once:true})}',
-    'else if(llega())d.classList.add("llega-banda")})();'
+    'return f}function banda(){d.classList.add("llega-banda");',
+    'setTimeout(listo,matchMedia("(prefers-reduced-motion: reduce)").matches?0:850)}',
+    'if("onpagereveal" in window){addEventListener("pagereveal",function(e){',
+    'if(!llega())listo();else if(e.viewTransition)e.viewTransition.finished.then(listo,listo);',
+    'else banda()},{once:true})}',
+    'else if(llega())banda();else listo()})();'
   ))
 }
 
@@ -235,7 +246,9 @@ pagina <- function(actual) {
       # js/sitio.js lo posiciona al abrirlo. Sale de LAM: una pieza nueva entra
       # al menu por el solo hecho de tener su grafico.R.
       header = tagList(.cabecera(titulo, transicion = portada), menu_indices(.CAPITULOS)),
-      footer = if (en_barra) .colofon()
+      # La portada, que es adonde lleva la entrada, trae ademas el aviso de
+      # version de prueba (aviso_desarrollo(), R/30_ui_components.R).
+      footer = if (en_barra) tagList(.colofon(), if (portada) aviso_desarrollo())
                else tagList(.contenido(actual$dibujo()), .colofon())
     ),
     entradas

@@ -556,6 +556,39 @@ marca_estado <- function(tipo, texto = NULL) {
   span(class = paste0("marca-estado es-", tipo), texto)
 }
 
+# ── Aviso de version de prueba ───────────────────────────────────────────────
+# La ventana que recibe al lector en la portada, recien cruzada la entrada:
+# el sitio esta en su etapa final de desarrollo, se puede recorrer entero,
+# pero sus cifras no sirven para usarse. Cuelga del mismo interruptor que la
+# marca de cada cuadro (.PROTOTIPO): cuando los datos sean oficiales, se va
+# sola. Un <dialog> nativo: js/sitio.js lo abre una vez por sesion, despues de
+# que la banda de la entrada se retira; el boton lo cierra sin JS (method =
+# "dialog") y Esc tambien. Sin JS nunca se abre, y las marcas de cada cuadro
+# siguen diciendo lo mismo.
+aviso_desarrollo <- function() {
+  if (!isTRUE(.PROTOTIPO)) return(NULL)
+  tags$dialog(
+    id = "aviso-desarrollo", class = "aviso-desarrollo",
+    `aria-labelledby` = "aviso-desarrollo-titulo",
+    `aria-describedby` = "aviso-desarrollo-texto",
+    marca_estado("ilustrativo", "Versión de prueba"),
+    h2(id = "aviso-desarrollo-titulo", class = "aviso-titulo",
+       "Sitio en etapa final de ", span(class = "banda", "desarrollo")),
+    div(
+      id = "aviso-desarrollo-texto", class = "aviso-texto",
+      p("Datos Magallanes se encuentra en su etapa final de desarrollo. En esta",
+        "versión de prueba puede explorar todas sus funcionalidades: los cuadros,",
+        "los gráficos, los rangos de años, las fichas y las descargas."),
+      p(class = "aviso-clave",
+        "Las cifras que se muestran son series de prototipo y no son válidas para",
+        "su uso. No las cite, no las reproduzca ni las use para tomar decisiones.")
+    ),
+    tags$form(method = "dialog", class = "aviso-accion",
+              tags$button(type = "submit", class = "aviso-boton", autofocus = NA,
+                          "Entendido, explorar el sitio"))
+  )
+}
+
 # ── Nota de aparato: advertencia metodologica dentro del cuerpo ─────────────
 # Se distingue de la nota al pie del cuadro: esta va junto al dato porque el
 # lector necesita leerla ANTES de interpretar lo que ve.
